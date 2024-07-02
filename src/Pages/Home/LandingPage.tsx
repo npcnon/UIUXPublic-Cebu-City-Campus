@@ -1,4 +1,4 @@
-import * as React from 'react';
+
 import CssBaseline from '@mui/material/CssBaseline';
 import AppAppBar from './components/AppAppbar';
 import Hero from './components/Hero';
