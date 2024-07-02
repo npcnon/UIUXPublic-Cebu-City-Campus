@@ -7,6 +7,8 @@ import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
+
+
 export default function Hero() {
   return (
     <Box
@@ -15,8 +17,9 @@ export default function Hero() {
     width: '100%',
     backgroundImage:
       theme.palette.mode === 'light'
-        ? 'linear-gradient(180deg, #CEE5FD, #FFF), url(/path/to/your/image.jpg)'
-        : `linear-gradient(#02294F, ${alpha('#090E10', 0.0)}), url(../../../StaticFiles/benedicto_background.jpg)`,
+        ? 'linear-gradient(180deg, #CEE5FD, #FFF)'
+        : `linear-gradient(#02294F, ${alpha('#090E10', 0.0)})`,
+        
     backgroundSize: 'cover, 100% 20%',
     backgroundRepeat: 'no-repeat, no-repeat',
     backgroundPosition: 'center, center',
@@ -69,10 +72,16 @@ export default function Hero() {
             useFlexGap
             sx={{ pt: 2, width: { xs: '100%', sm: 'auto' } }}
           >
-           
-            <Button variant="contained" color="primary" size='large'>
-              Enroll Now
-            </Button>
+            <Button
+                color="primary"
+                variant="contained"
+                size="large"
+                component="a"
+                href="/Enrollment"
+                target="_self"
+              >
+                Enroll Now
+              </Button>
           </Stack>
           <Typography variant="caption" textAlign="center" sx={{ opacity: 0.8 }}>
             By clicking &quot;Start now&quot; you agree to our&nbsp;
@@ -82,7 +91,6 @@ export default function Hero() {
             .
           </Typography>
         </Stack>
-        
       </Container>
     </Box>
   );

@@ -89,11 +89,36 @@ function AppAppBar() {
                 style={logoStyle}
                 alt="logo of sitemark"
               />
+               <Typography
+                    variant="h1"
+                    sx={{
+                      display: 'flex',
+                      flexDirection: { xs: 'column', md: 'row' },
+                      alignSelf: 'center',
+                      textAlign: 'center',
+                      fontSize: 'large',
+                      color: '#0235AE'
+                    }}
+                  >
+                    BENEDICTO&nbsp;
+                    <Typography
+                      component="span"
+                      variant="h1"
+                      sx={{
+                        fontSize: 'large',
+                        color: '#FE5A02'
+                      }}
+                    >
+                      COLLEGE
+                    </Typography>
+                  </Typography>
               <Box sx={{ display: { xs: 'none', md: 'flex', justifyContent:'center'} }}>
                 <MenuItem
                   onClick={() => scrollToSection('features')}
                   sx={{ py: '6px', px: '12px' }}
                 >
+                 
+
                   <Typography variant="body2" color="text.primary">
                     Home
                   </Typography>
@@ -145,7 +170,7 @@ function AppAppBar() {
                 variant="contained"
                 size="small"
                 component="a"
-                href="/material-ui/getting-started/templates/sign-up/"
+                href="/qwe"
                 target="_blank"
               >
                 Sign in
