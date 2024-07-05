@@ -2,7 +2,7 @@
 import CssBaseline from '@mui/material/CssBaseline';
 import AppAppBar from './components/AppAppbar';
 import Hero from './components/Hero';
-import EnrollmentForm from '../Enrollment/EnrollmentForm';
+import Checkout from '../Enrollment/Checkout';
 
 // import LogoCollection from './components/LogoCollection';
 // import Highlights from './components/Highlights';
@@ -36,7 +36,7 @@ export default function LandingPage() {
     createRoutesFromElements(
       <Route  element={<Layout/>}>
         <Route path="/" element={<Hero />}/>
-        <Route path="/Enrollment" element={<EnrollmentForm/>}/>
+        <Route path="/Enrollment" element={<Checkout/>}/>
 
       </Route>
     )

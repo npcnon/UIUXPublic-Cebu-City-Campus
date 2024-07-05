@@ -9,7 +9,7 @@ import Typography from '@mui/material/Typography';
 import MenuItem from '@mui/material/MenuItem';
 import Drawer from '@mui/material/Drawer';
 import MenuIcon from '@mui/icons-material/Menu';
-
+import { Link } from 'react-router-dom';
 import logo from "../../../StaticFiles/logo.png"
 
 const logoStyle = {
@@ -17,8 +17,6 @@ const logoStyle = {
   height: 'auto',
   cursor: 'pointer',
 };
-
-
 
 function AppAppBar() {
   const [open, setOpen] = React.useState(false);
@@ -84,11 +82,13 @@ function AppAppBar() {
                 px: 0,
               }}
             >
+              <Link to="/" style={{ textDecoration: 'none' }}>
               <img
                 src={logo}
                 style={logoStyle}
                 alt="logo of sitemark"
               />
+              </Link>
                <Typography
                     variant="h1"
                     sx={{
@@ -100,7 +100,7 @@ function AppAppBar() {
                       color: '#0235AE'
                     }}
                   >
-                    BENEDICTO&nbsp;
+                    &nbsp;&nbsp;BENEDICTO&nbsp;
                     <Typography
                       component="span"
                       variant="h1"
@@ -109,19 +109,18 @@ function AppAppBar() {
                         color: '#FE5A02'
                       }}
                     >
-                      COLLEGE
+                      COLLEGE&nbsp;&nbsp;
                     </Typography>
                   </Typography>
               <Box sx={{ display: { xs: 'none', md: 'flex', justifyContent:'center'} }}>
                 <MenuItem
-                  onClick={() => scrollToSection('features')}
                   sx={{ py: '6px', px: '12px' }}
                 >
-                 
-
-                  <Typography variant="body2" color="text.primary">
-                    Home
-                  </Typography>
+                  <Link to="/" style={{ textDecoration: 'none' }}>
+                    <Typography variant="body2" color="text.primary">
+                      Home
+                    </Typography>
+                  </Link>
                 </MenuItem>
                 <MenuItem
                   onClick={() => scrollToSection('testimonials')}
@@ -205,16 +204,16 @@ function AppAppBar() {
                   >
                   </Box>
                   <MenuItem onClick={() => scrollToSection('features')}>
-                    Features
+                    Home
                   </MenuItem>
                   <MenuItem onClick={() => scrollToSection('testimonials')}>
-                    Testimonials
+                    Courses
                   </MenuItem>
                   <MenuItem onClick={() => scrollToSection('highlights')}>
-                    Highlights
+                    Facilities
                   </MenuItem>
                   <MenuItem onClick={() => scrollToSection('pricing')}>
-                    Pricing
+                    Location
                   </MenuItem>
                   <MenuItem onClick={() => scrollToSection('faq')}>FAQ</MenuItem>
                   <Divider />

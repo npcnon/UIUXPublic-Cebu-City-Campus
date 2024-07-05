@@ -46,7 +46,7 @@ export default function Hero() {
               color: '#0235AE'
             }}
           >
-            Benedicto&nbsp;
+            &nbsp;&nbsp;Benedicto
             <Typography
               component="span"
               variant="h1"
