@@ -31,10 +31,12 @@ const Layout = () => (
 );
 
 export default function LandingPage() {
- 
+ // combination
   const router = createBrowserRouter(
     createRoutesFromElements(
-      <Route  element={<Layout/>}>
+      //app bar - layout
+      //hero - background 
+      <Route  element={<Layout/>}> 
         <Route path="/" element={<Hero />}/>
         <Route path="/Enrollment" element={<Checkout/>}/>
 

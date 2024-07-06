@@ -10,7 +10,7 @@ import Stepper from '@mui/material/Stepper';
 import Typography from '@mui/material/Typography';
 import ChevronLeftRoundedIcon from '@mui/icons-material/ChevronLeftRounded';
 import ChevronRightRoundedIcon from '@mui/icons-material/ChevronRightRounded';
-import AddressForm from './AddressForm';
+import PersonalData from './PersonaData'; //personal data component
 import PaymentForm from './PaymentForm';
 import Review from './Review';
 
@@ -25,7 +25,7 @@ const steps = [
 function getStepContent(step: number) {
   switch (step) {
     case 0:
-      return <AddressForm />;
+      return <PersonalData/>; //personal data component
     case 1:
       return <PaymentForm />;
     case 2:
@@ -57,7 +57,7 @@ export default function Checkout() {
           minHeight: { xs: '100dvh', sm: '100dvh' },
           alignItems: 'center',
           justifyContent: 'center',
-          mt: 4,
+          mt: 15,
           px: { xs: 2, sm: 4 },
           py: { xs: 2, sm: 4 }, // Add padding to ensure spacing around the card
         }}
@@ -116,7 +116,7 @@ export default function Checkout() {
               endIcon={<ChevronRightRoundedIcon />}
               sx={{ width: { xs: '100%', sm: 'auto' } }}
             >
-              {activeStep === steps.length - 1 ? 'Place Order' : 'Next'}
+              {activeStep === steps.length - 1 ? 'Place Order' : 'Proceed'}
             </Button>
           </Box>
         </Grid>
