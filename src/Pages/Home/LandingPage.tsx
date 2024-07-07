@@ -1,8 +1,8 @@
-
 import CssBaseline from '@mui/material/CssBaseline';
 import AppAppBar from './components/AppAppbar';
 import Hero from './components/Hero';
 import Checkout from '../Enrollment/Checkout';
+import SignInSide from '../Login/SignInSide';
 
 // import LogoCollection from './components/LogoCollection';
 // import Highlights from './components/Highlights';
@@ -20,9 +20,8 @@ import {
   Outlet
 } from 'react-router-dom';
 
-
-
-const Layout = () => (
+// Layout with AppAppBar
+const LayoutWithAppBar = () => (
   <>
     <CssBaseline />
     <AppAppBar />
@@ -30,23 +29,30 @@ const Layout = () => (
   </>
 );
 
+// Layout without AppAppBar
+const LayoutWithoutAppBar = () => (
+  <>
+    <CssBaseline />
+    <Outlet /> {/* This will render the nested route components */}
+  </>
+);
+
 export default function LandingPage() {
- 
   const router = createBrowserRouter(
     createRoutesFromElements(
-      <Route  element={<Layout/>}>
-        <Route path="/" element={<Hero />}/>
-        <Route path="/Enrollment" element={<Checkout/>}/>
-
-      </Route>
+      <>
+        <Route element={<LayoutWithAppBar />}>
+          <Route path="/" element={<Hero />} />
+          <Route path="/Enrollment" element={<Checkout />} />
+        </Route>
+        <Route element={<LayoutWithoutAppBar />}>
+          <Route path="/Sign-in" element={<SignInSide />} />
+        </Route>
+      </>
     )
   );
-  
-
-
 
   return (
     <RouterProvider router={router} />
- 
   );
 }

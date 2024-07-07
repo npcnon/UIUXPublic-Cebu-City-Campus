@@ -169,8 +169,8 @@ function AppAppBar() {
                 variant="contained"
                 size="small"
                 component="a"
-                href="/qwe"
-                target="_blank"
+                href="/sign-in/"
+                target="_self"
               >
                 Sign in
               </Button>
@@ -223,8 +223,8 @@ function AppAppBar() {
                       color="primary"
                       variant="outlined"
                       component="a"
-                      href="/material-ui/getting-started/templates/sign-in/"
-                      target="_blank"
+                      href="c"
+                      target="_self"
                       sx={{ width: '100%' }}
                     >
                       Sign in
