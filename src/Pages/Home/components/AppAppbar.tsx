@@ -13,8 +13,8 @@ import { Link } from 'react-router-dom';
 import logo from "../../../StaticFiles/logo.png"
 
 const logoStyle = {
-  width: '60px',
-  height: 'auto',
+  width: '50px',
+  height: '50px',
   cursor: 'pointer',
 };
 
