@@ -3,7 +3,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import AppAppBar from './components/AppAppbar';
 import Hero from './components/Hero';
 import Checkout from '../Enrollment/Checkout';
-
+import Dashboard from '../Dashboard/Dashboard';
 // import LogoCollection from './components/LogoCollection';
 // import Highlights from './components/Highlights';
 // import Pricing from './components/Pricing';
@@ -19,6 +19,7 @@ import {
   RouterProvider,
   Outlet
 } from 'react-router-dom';
+
 
 
 
@@ -39,6 +40,8 @@ export default function LandingPage() {
       <Route  element={<Layout/>}> 
         <Route path="/" element={<Hero />}/>
         <Route path="/Enrollment" element={<Checkout/>}/>
+       
+        
 
       </Route>
     )

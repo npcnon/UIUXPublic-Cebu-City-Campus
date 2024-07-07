@@ -113,6 +113,8 @@ export default function SignInSide() {
                 type="submit"
                 fullWidth
                 variant="contained"
+                href="/Dashboard"
+                target="_self"
                 sx={{ mt: 3, mb: 2 }}
               >
                 Sign In
