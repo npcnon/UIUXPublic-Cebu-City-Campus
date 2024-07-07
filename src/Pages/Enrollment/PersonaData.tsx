@@ -1,9 +1,5 @@
 import * as React from 'react';
-import Checkbox from '@mui/material/Checkbox';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormLabel from '@mui/material/FormLabel';
 import Grid from '@mui/material/Grid';
-import OutlinedInput from '@mui/material/OutlinedInput';
 import { styled } from '@mui/system';
 //imports
 import Box from '@mui/material/Box';
@@ -47,11 +43,16 @@ export default function PersonaData() {
 
   return (
     
+    <>
+    <Typography variant="h6" gutterBottom>
+    I. Personal Information
+    </Typography>
+    
     <Grid container spacing={3} 
       sx={{
-        mt: 2
+        mb: 3
       }}>
-        
+      
       <FormGrid item xs={12} md={6} lg={4}>
       <Box sx={{ minWidth: 120 }}
         component="form"
@@ -87,6 +88,7 @@ export default function PersonaData() {
        </FormControl>
         </Box>
       </FormGrid>
+    
 
       <FormGrid item xs={12} md={6} lg={4}>
       <Box sx={{ minWidth: 120 }}>
@@ -142,31 +144,12 @@ export default function PersonaData() {
           
         </Select>
       </FormControl>
-    </Box>
-    </FormGrid>
+      </Box>
+       </FormGrid>
 
-    <FormGrid item xs={12} md={6} lg={4}>
-      <Box sx={{ minWidth: 120 }}>
-      <FormControl fullWidth>
-        <InputLabel id="demo-simple-select-label">Country</InputLabel>
-        <Select
-          labelId="demo-simple-select-label"
-          id="country"
-          value={country}
-          label="Country"
-          onChange={handleCountryChange}
-        >
-          <MenuItem value={1}>Philippines</MenuItem>
-          <MenuItem value={2}>China</MenuItem>
-          <MenuItem value={3}>Japan</MenuItem>
-          <MenuItem value={4}>Malaysia</MenuItem>
-          <MenuItem value={5}>Korea</MenuItem>
-        </Select>
-      </FormControl>
-    </Box>
-    </FormGrid>
+    
 
-    <FormGrid item xs={12} md={6} lg={4}>
+      <FormGrid item xs={12} md={6} lg={4}>
       <Box sx={{ minWidth: 120 }}>
       <FormControl fullWidth>
         <InputLabel id="demo-simple-select-label">Religion</InputLabel>
@@ -184,10 +167,66 @@ export default function PersonaData() {
           <MenuItem value={5}>Satanist</MenuItem>
         </Select>
       </FormControl>
-    </Box>
-    </FormGrid>
+      </Box>
+      </FormGrid> 
+      </Grid>
 
-    <FormGrid item xs={12} md={6} lg={4}>
+
+      <Typography variant="h6" gutterBottom>
+      II. Address Information
+      </Typography>
+      <Grid container spacing={3}
+        sx={{
+          
+          mb: 3
+      }}>
+
+      <FormGrid item xs={12}>
+      <Box sx={{ minWidth: 120}}
+        component="form"
+        noValidate
+        autoComplete="off" 
+      >
+      <FormControl fullWidth>
+       <TextField id="address" label="Address" variant="outlined" />
+       </FormControl>
+        </Box>
+      </FormGrid>
+    
+      <FormGrid item xs={12}>
+      <Box sx={{ minWidth: 120 }}
+        component="form"
+        noValidate
+        autoComplete="off" 
+      >
+      <FormControl fullWidth>
+       <TextField id="paddress" label="Province Address" variant="outlined" />
+       </FormControl>
+        </Box>
+      </FormGrid>
+
+      <FormGrid item xs={12} md={6} lg={4}>
+      <Box sx={{ minWidth: 120 }}>
+      <FormControl fullWidth>
+        <InputLabel id="demo-simple-select-label">Country</InputLabel>
+        <Select
+          labelId="demo-simple-select-label"
+          id="country"
+          value={country}
+          label="Country"
+          onChange={handleCountryChange}
+        >
+          <MenuItem value={1}>Philippines</MenuItem>
+          <MenuItem value={2}>China</MenuItem>
+          <MenuItem value={3}>Japan</MenuItem>
+          <MenuItem value={4}>Malaysia</MenuItem>
+          <MenuItem value={5}>Korea</MenuItem>
+        </Select>
+      </FormControl>
+      </Box>
+      </FormGrid>
+
+      <FormGrid item xs={12} md={6} lg={4}>
       <Box sx={{ minWidth: 120 }}
         component="form"
         noValidate
@@ -198,27 +237,36 @@ export default function PersonaData() {
        </FormControl>
         </Box>
       </FormGrid>
+      </Grid>
 
-      <FormGrid item xs={12}>
+      <Typography variant="h6" gutterBottom>
+      III. Contact Information
+      </Typography>
+      <Grid container spacing={3}
+        sx={{
+          mb: 3
+      }}>
+
+      <FormGrid item xs={12} md={8}>
       <Box sx={{ minWidth: 120 }}
         component="form"
         noValidate
         autoComplete="off" 
       >
       <FormControl fullWidth>
-       <TextField id="address" label="Address" variant="outlined" />
+       <TextField id="email" label="Email" variant="outlined" />
        </FormControl>
         </Box>
       </FormGrid>
 
-      <FormGrid item xs={12}>
+      <FormGrid item xs={12} md={4}>
       <Box sx={{ minWidth: 120 }}
         component="form"
         noValidate
         autoComplete="off" 
       >
       <FormControl fullWidth>
-       <TextField id="paddress" label="Province Address" variant="outlined" />
+       <TextField id="contactno" label="Contact No." variant="outlined" />
        </FormControl>
         </Box>
       </FormGrid>
@@ -246,32 +294,12 @@ export default function PersonaData() {
        </FormControl>
         </Box>
       </FormGrid>
+      </Grid>
+      
 
-      <FormGrid item xs={12} md={8}>
-      <Box sx={{ minWidth: 120 }}
-        component="form"
-        noValidate
-        autoComplete="off" 
-      >
-      <FormControl fullWidth>
-       <TextField id="email" label="Email" variant="outlined" />
-       </FormControl>
-        </Box>
-      </FormGrid>
-
-      <FormGrid item xs={12} md={4}>
-      <Box sx={{ minWidth: 120 }}
-        component="form"
-        noValidate
-        autoComplete="off" 
-      >
-      <FormControl fullWidth>
-       <TextField id="contactno" label="Contact No." variant="outlined" />
-       </FormControl>
-        </Box>
-      </FormGrid>
-
-    </Grid>
+   
+  </>
+    
   );
 
 }

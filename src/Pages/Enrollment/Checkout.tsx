@@ -11,8 +11,9 @@ import Typography from '@mui/material/Typography';
 import ChevronLeftRoundedIcon from '@mui/icons-material/ChevronLeftRounded';
 import ChevronRightRoundedIcon from '@mui/icons-material/ChevronRightRounded';
 import PersonalData from './PersonaData'; //personal data component
-import PaymentForm from './PaymentForm';
-import Review from './Review';
+import FamilyBackground from './FamilyBackground';
+import AcademicBackground from './AcademicBg';
+import AcademicHist from './AcademicHist';
 
 const steps = [
   'Personal Data',
@@ -27,9 +28,11 @@ function getStepContent(step: number) {
     case 0:
       return <PersonalData/>; //personal data component
     case 1:
-      return <PaymentForm />;
+      return <FamilyBackground />;
     case 2:
-      return <Review />;
+      return <AcademicBackground />;
+    case 3:
+        return <AcademicHist />;
     default:
       throw new Error('Unknown step');
   }
@@ -57,7 +60,7 @@ export default function Checkout() {
           minHeight: { xs: '100dvh', sm: '100dvh' },
           alignItems: 'center',
           justifyContent: 'center',
-          mt: 15,
+          mt: 10,
           px: { xs: 2, sm: 4 },
           py: { xs: 2, sm: 4 }, // Add padding to ensure spacing around the card
         }}
