@@ -24,6 +24,7 @@ export default function PersonaData() {
   const [country, setCountry] = React.useState('');
   const [religion, setReligion] = React.useState('');
 
+
   const handleGenderChange = (event: SelectChangeEvent) => {
     setGender(event.target.value as string);
   };
@@ -40,6 +41,7 @@ export default function PersonaData() {
   const handleReligionChange = (event: SelectChangeEvent) => {
     setReligion(event.target.value as string);
   }
+ 
 
   return (
     
@@ -127,7 +129,7 @@ export default function PersonaData() {
       </FormControl>
     </Box>
     </FormGrid>
-
+    
     <FormGrid item xs={12} md={6} lg={4}>
       <Box sx={{ minWidth: 120 }}>
       <FormControl fullWidth>
@@ -188,10 +190,10 @@ export default function PersonaData() {
         autoComplete="off" 
       >
       <FormControl fullWidth>
-       <TextField id="address" label="Address" variant="outlined" />
+       <TextField id="haddress" label="Home Address" variant="outlined" />
        </FormControl>
         </Box>
-      </FormGrid>
+      </FormGrid> 
     
       <FormGrid item xs={12}>
       <Box sx={{ minWidth: 120 }}
@@ -200,7 +202,7 @@ export default function PersonaData() {
         autoComplete="off" 
       >
       <FormControl fullWidth>
-       <TextField id="paddress" label="Province Address" variant="outlined" />
+       <TextField id="paddress" label="Province Address (Optional)"  variant="outlined" />
        </FormControl>
         </Box>
       </FormGrid>
@@ -290,7 +292,7 @@ export default function PersonaData() {
         autoComplete="off" 
       >
       <FormControl fullWidth>
-       <TextField id="pcontact" label="Province Contact No." variant="outlined" />
+       <TextField id="pcontact" label="Province Contact No. (Optional)" variant="outlined" />
        </FormControl>
         </Box>
       </FormGrid>
