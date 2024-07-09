@@ -1,4 +1,6 @@
 import * as React from 'react';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import MuiDrawer from '@mui/material/Drawer';
@@ -9,25 +11,39 @@ import List from '@mui/material/List';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
-import Badge from '@mui/material/Badge';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import Link from '@mui/material/Link';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import NotificationsIcon from '@mui/icons-material/Notifications';
-import { mainListItems, secondaryListItems } from './listItems';
+import UserAvatar from './UserAvatar'; // Import your UserAvatar component here
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import ListSubheader from '@mui/material/ListSubheader';
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import GroupIcon from '@mui/icons-material/Group';
 import Chart from './Chart';
 import Deposits from './Deposits';
 import Orders from './Orders';
+import axios from 'axios'; // Import Axios
+import Subjects from './Subjects';
+
+function truncateText(text: string, maxLength: number) {
+  if (text.length > maxLength) {
+    return text.substring(0, maxLength) + '...';
+  } else {
+    return text;
+  }
+}
 
 function Copyright(props: any) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © '}
       <Link color="inherit" href="https://mui.com/">
-        Your Website
+        Benedicto College
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -90,11 +106,61 @@ const defaultTheme = createTheme();
 
 export default function Dashboard() {
   const [open, setOpen] = React.useState(true);
+  const [showSubItems, setShowSubItems] = React.useState(false); // State for sub-items visibility
+  const [currentUser, setCurrentUser] = useState<boolean>(false); // State for current user authentication
+  const [studentMode, setStudentMode] = useState<boolean>(false); // State for student mode
+  const [showChartAndDeposits, setShowChartAndDeposits] = useState(true); // State for showing Chart and Deposits
+
+  const history = useNavigate(); // Get history object from useHistory
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        const response = await axios.get('/api/user', { withCredentials: true }); // Adjust URL as needed
+        if (response.status === 200) {
+          setCurrentUser(true);
+        } else {
+          setCurrentUser(false);
+          history('/Sign-in'); // Redirect to login if not authenticated
+        }
+      } catch (error) {
+        setCurrentUser(false);
+        history('/Sign-in'); // Redirect to login if an error occurs
+      }
+    };
+
+    checkAuth();
+  }, [history]);
+
   const toggleDrawer = () => {
     setOpen(!open);
+    setShowSubItems(false); // Close sub-items when drawer is toggled
+    setShowChartAndDeposits(true); // Reset to show Chart and Deposits
   };
 
-  return (
+  const toggleSubItems = () => {
+    setShowSubItems(!showSubItems);
+    setShowChartAndDeposits(true); // Reset to show Chart and Deposits
+  };
+
+  const toggleStudentMode = () => {
+    setStudentMode(!studentMode);
+    if (!studentMode) {
+      setShowChartAndDeposits(false); // Hide Chart and Deposits in student mode
+    } else {
+      setShowChartAndDeposits(true); // Show Chart and Deposits when student mode is off
+    }
+  };
+
+  const handleDepartmentClick = () => {
+    setShowChartAndDeposits(false);
+  };
+
+  // Example user image URL (replace with your actual URL)
+  const userImageUrl = 'https://example.com/user-avatar.jpg';
+
+  // Render dashboard if user is authenticated
+  return currentUser ? (
     <ThemeProvider theme={defaultTheme}>
       <Box sx={{ display: 'flex' }}>
         <CssBaseline />
@@ -122,13 +188,18 @@ export default function Dashboard() {
               color="inherit"
               noWrap
               sx={{ flexGrow: 1 }}
+              onClick={toggleSubItems} // Toggle sub-items visibility on clicking "Dashboard"
             >
               Dashboard
             </Typography>
-            <IconButton color="inherit">
-              <Badge badgeContent={4} color="secondary">
-                <NotificationsIcon />
-              </Badge>
+            {/* Replace IconButton with UserAvatar */}
+            <UserAvatar imageUrl={userImageUrl} />
+            {/* Toggle button for student mode */}
+            <IconButton
+              color="inherit"
+              onClick={toggleStudentMode}
+            >
+              {studentMode ? 'Student Mode Off' : 'Student Mode On'}
             </IconButton>
           </Toolbar>
         </AppBar>
@@ -147,9 +218,65 @@ export default function Dashboard() {
           </Toolbar>
           <Divider />
           <List component="nav">
-            {mainListItems}
+            {/* Render main list items */}
+            <ListItemButton onClick={toggleSubItems}>
+              <ListItemIcon>
+                <DashboardIcon />
+              </ListItemIcon>
+              <ListItemText primary="Dashboard" />
+            </ListItemButton>
+            <ListItemButton onClick={toggleSubItems}>
+              <ListItemIcon>
+                <GroupIcon/>
+              </ListItemIcon>
+              <ListItemText primary="Enrollee List" />
+            </ListItemButton>
+            {/* Conditional rendering of sub-items */}
+            {showSubItems && (
+              <React.Fragment>
+                <ListSubheader inset>Departments</ListSubheader>
+                <ListItemButton onClick={handleDepartmentClick}>
+                  <ListItemText primary="Bachelor of Arts in Mass Communication" />
+                </ListItemButton>
+                <ListItemButton onClick={handleDepartmentClick}>
+                  <ListItemText primary="Bachelor of Science in Accountancy (BSA)" />
+                </ListItemButton>
+                <ListItemButton onClick={handleDepartmentClick}>
+                  <ListItemText primary="Bachelor of Science in Business Administration (BSBA)" />
+                </ListItemButton>
+                <ListItemButton onClick={handleDepartmentClick}>
+                  <ListItemText primary="Bachelor of Science in Information Technology (BSIT)" />
+                </ListItemButton>
+                <ListItemButton onClick={handleDepartmentClick}>
+                  <ListItemText primary="Associate in Computer Technology (ACT)" />
+                </ListItemButton>
+                <ListItemButton onClick={handleDepartmentClick}>
+                  <ListItemText primary="Bachelor of Science in Elementary Education" />
+                </ListItemButton>
+                <ListItemButton onClick={handleDepartmentClick}>
+                  <ListItemText primary="Bachelor of Science in Secondary Education" />
+                </ListItemButton>
+                <ListItemButton onClick={handleDepartmentClick}>
+                  <ListItemText primary="Bachelor of Science in Industrial Engineering (BSIE)" />
+                </ListItemButton>
+                <ListItemButton onClick={handleDepartmentClick}>
+                  <ListItemText primary="Bachelor of Science in Electronics and Communications Engineering (BSECE)" />
+                </ListItemButton>
+                <ListItemButton onClick={handleDepartmentClick}>
+                  <ListItemText primary="Bachelor of Science in Electrical Engineering (BSEE)" />
+                </ListItemButton>
+                <ListItemButton onClick={handleDepartmentClick}>
+                  <ListItemText primary="Bachelor of Science in Mechanical Engineering (BSME)" />
+                </ListItemButton>
+                <ListItemButton onClick={handleDepartmentClick}>
+                  <ListItemText primary="Bachelor of Science in Civil Engineering (BSCE)" />
+                </ListItemButton>
+                <ListItemButton onClick={handleDepartmentClick}>
+                  <ListItemText primary="Bachelor of Science in Industrial Technology (BSIT)" />
+                </ListItemButton>
+              </React.Fragment>
+            )}
             <Divider sx={{ my: 1 }} />
-            {secondaryListItems}
           </List>
         </Drawer>
         <Box
@@ -167,43 +294,54 @@ export default function Dashboard() {
           <Toolbar />
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
             <Grid container spacing={3}>
-              {/* Chart */}
-              <Grid item xs={12} md={8} lg={9}>
-                <Paper
-                  sx={{
-                    p: 2,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    height: 240,
-                  }}
-                >
-                  <Chart />
-                </Paper>
-              </Grid>
-              {/* Recent Deposits */}
-              <Grid item xs={12} md={4} lg={3}>
-                <Paper
-                  sx={{
-                    p: 2,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    height: 240,
-                  }}
-                >
-                  <Deposits />
-                </Paper>
-              </Grid>
-              {/* Recent Orders */}
-              <Grid item xs={12}>
-                <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-                  <Orders />
-                </Paper>
-              </Grid>
+              {showChartAndDeposits && (
+                <>
+                  {/* Chart */}
+                  <Grid item xs={12} md={8} lg={9}>
+                    <Paper
+                      sx={{
+                        p: 2,
+                        display: 'flex',
+                        flexDirection: 'column',
+                        height: 240,
+                      }}
+                    >
+                      <Chart />
+                    </Paper>
+                  </Grid>
+                  {/* Recent Deposits */}
+                  <Grid item xs={12} md={4} lg={3}>
+                    <Paper
+                      sx={{
+                        p: 2,
+                        display: 'flex',
+                        flexDirection: 'column',
+                        height: 240,
+                      }}
+                    >
+                      <Deposits />
+                    </Paper>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
+                      <Orders />
+                    </Paper>
+                  </Grid>
+                </>
+              )}
+              {/* Conditional rendering of Subjects */}
+              {studentMode && (
+                <Grid item xs={12}>
+                  <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
+                    <Subjects />
+                  </Paper>
+                </Grid>
+              )}
             </Grid>
             <Copyright sx={{ pt: 4 }} />
           </Container>
         </Box>
       </Box>
     </ThemeProvider>
-  );
+  ) : null;
 }

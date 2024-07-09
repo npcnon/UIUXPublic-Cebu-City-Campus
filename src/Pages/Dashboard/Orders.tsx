@@ -1,93 +1,65 @@
 import * as React from 'react';
-import Link from '@mui/material/Link';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Title from './Title';
+import { useState } from 'react';
+import { Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
 
-// Generate Order Data
-function createData(
-  id: number,
-  date: string,
-  name: string,
-  shipTo: string,
-  paymentMethod: string,
-  amount: number,
-) {
-  return { id, date, name, shipTo, paymentMethod, amount };
-}
-
-const rows = [
-  createData(
-    0,
-    '16 Mar, 2019',
-    'Elvis Presley',
-    'Tupelo, MS',
-    'VISA ⠀•••• 3719',
-    312.44,
-  ),
-  createData(
-    1,
-    '16 Mar, 2019',
-    'Paul McCartney',
-    'London, UK',
-    'VISA ⠀•••• 2574',
-    866.99,
-  ),
-  createData(2, '16 Mar, 2019', 'Tom Scholz', 'Boston, MA', 'MC ⠀•••• 1253', 100.81),
-  createData(
-    3,
-    '16 Mar, 2019',
-    'Michael Jackson',
-    'Gary, IN',
-    'AMEX ⠀•••• 2000',
-    654.39,
-  ),
-  createData(
-    4,
-    '15 Mar, 2019',
-    'Bruce Springsteen',
-    'Long Branch, NJ',
-    'VISA ⠀•••• 5919',
-    212.79,
-  ),
-];
-
-function preventDefault(event: React.MouseEvent) {
-  event.preventDefault();
+interface Enrollee {
+  id: number;
+  name: string;
+  department: string;
+  status: string;
 }
 
 export default function Orders() {
+  const [enrollees, setEnrollees] = useState<Enrollee[]>([
+    { id: 1, name: 'John Doe', department: 'Bachelor of Science in Computer Science', status: 'Pending' },
+    { id: 2, name: 'Jane Smith', department: 'Bachelor of Arts in English Literature', status: 'Pending' },
+    { id: 3, name: 'Alice Johnson', department: 'Bachelor of Science in Mechanical Engineering', status: 'Pending' },
+    { id: 4, name: 'Bob Brown', department: 'Bachelor of Business Administration', status: 'Pending' },
+  ]);
+
+  const handleAccept = (id: number) => {
+    // Simulate acceptance by updating status locally
+    const updatedEnrollees = enrollees.map(enrollee =>
+      enrollee.id === id ? { ...enrollee, status: 'Accepted' } : enrollee
+    );
+    setEnrollees(updatedEnrollees);
+
+    // In a real application, you would send a PUT request to update the enrollee status in the backend
+    console.log(`Accepted enrollee with ID: ${id}`);
+  };
+
   return (
-    <React.Fragment>
-      <Title>Recent Orders</Title>
-      <Table size="small">
+    <TableContainer component={Paper}>
+      <Table>
         <TableHead>
           <TableRow>
-            <TableCell>Date</TableCell>
             <TableCell>Name</TableCell>
-            <TableCell>Ship To</TableCell>
-            <TableCell>Payment Method</TableCell>
-            <TableCell align="right">Sale Amount</TableCell>
+            <TableCell>Department</TableCell>
+            <TableCell>Status</TableCell>
+            <TableCell>Action</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
-            <TableRow key={row.id}>
-              <TableCell>{row.date}</TableCell>
-              <TableCell>{row.name}</TableCell>
-              <TableCell>{row.shipTo}</TableCell>
-              <TableCell>{row.paymentMethod}</TableCell>
-              <TableCell align="right">{`$${row.amount}`}</TableCell>
+          {enrollees.map((enrollee) => (
+            <TableRow key={enrollee.id}>
+              <TableCell>{enrollee.name}</TableCell>
+              <TableCell>{enrollee.department}</TableCell>
+              <TableCell>{enrollee.status}</TableCell>
+              <TableCell>
+                {enrollee.status !== 'Accepted' && (
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={() => handleAccept(enrollee.id)}
+                  >
+                    Accept
+                  </Button>
+                )}
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
-      <Link color="primary" href="#" onClick={preventDefault} sx={{ mt: 3 }}>
-        See more orders
-      </Link>
-    </React.Fragment>
+    </TableContainer>
   );
 }
