@@ -249,7 +249,7 @@ export default function AcademicHist() {
         <Select
           labelId="demo-simple-select-label"
           id="current-course"
-          value={year}
+          value={course}
           label="course"
           onChange={handleCourseChange}
         >

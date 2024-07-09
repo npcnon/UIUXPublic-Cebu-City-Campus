@@ -3,17 +3,16 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import Grid from '@mui/material/Grid';
-import Stack from '@mui/material/Stack';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import Stepper from '@mui/material/Stepper';
-import Typography from '@mui/material/Typography';
 import ChevronLeftRoundedIcon from '@mui/icons-material/ChevronLeftRounded';
 import ChevronRightRoundedIcon from '@mui/icons-material/ChevronRightRounded';
 import PersonalData from './PersonaData'; //personal data component
 import FamilyBackground from './FamilyBackground';
 import AcademicBackground from './AcademicBg';
 import AcademicHist from './AcademicHist';
+import AdditionalDocs from './AdditionalDocs';
 
 const steps = [
   'Personal Data',
@@ -33,6 +32,8 @@ function getStepContent(step: number) {
       return <AcademicBackground />;
     case 3:
         return <AcademicHist />;
+    case 4:
+          return <AdditionalDocs />;
     default:
       throw new Error('Unknown step');
   }
@@ -62,7 +63,7 @@ export default function Checkout() {
           justifyContent: 'center',
           mt: 10,
           px: { xs: 2, sm: 4 },
-          py: { xs: 2, sm: 4 }, // Add padding to ensure spacing around the card
+          py: { xs: 1, sm: 3 }, // Add padding to ensure spacing around the card
         }}
       >
         <Grid
@@ -119,7 +120,7 @@ export default function Checkout() {
               endIcon={<ChevronRightRoundedIcon />}
               sx={{ width: { xs: '100%', sm: 'auto' } }}
             >
-              {activeStep === steps.length - 1 ? 'Place Order' : 'Proceed'}
+              {activeStep === steps.length - 1 ? 'Submit' : 'Proceed'}
             </Button>
           </Box>
         </Grid>
