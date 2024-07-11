@@ -9,6 +9,12 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
 import Typography from '@mui/material/Typography';
+
+import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+
 //end of imports
 
 const FormGrid = styled(Grid)(() => ({
@@ -107,6 +113,18 @@ export default function PersonaData() {
           <MenuItem value={2}>Married</MenuItem>
           
         </Select>
+      </FormControl>
+    </Box>
+    </FormGrid>
+
+    <FormGrid item xs={12} md={6} lg={4}>
+      <Box sx={{ minWidth: 120 }}>
+      <FormControl fullWidth>
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <DemoContainer components={['DatePicker']}>
+        <DatePicker label="Birth date" />
+      </DemoContainer>
+      </LocalizationProvider>
       </FormControl>
     </Box>
     </FormGrid>
