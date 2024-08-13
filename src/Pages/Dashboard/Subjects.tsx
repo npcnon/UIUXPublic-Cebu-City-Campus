@@ -1,48 +1,87 @@
 import * as React from 'react';
-import Button from '@mui/material/Button';
-import Link from '@mui/material/Link';
+import axios from 'axios';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Title from './Title';
+import { Snackbar, Alert, Modal, Box, Button, Typography } from '@mui/material';
 
 interface Subject {
+  offercode: string;
+  Description: string;
+  subject_code: string;
+  unit: number;
+  course_id: number; 
+  active: boolean;
+}
+
+interface Schedule {
   id: number;
-  subjectName: string;
-  teacher: string;
-  schedule: string;
+  class_day: string;
+  class_hour_start: string;
+  class_hour_end: string;
+  staff: number; // Adjust based on your API response
+  offercode: string;
+  room: number; // Adjust based on your API response
+  active: boolean;
 }
-
-// Generate Subject Data
-function createSubjectData(
-  id: number,
-  subjectName: string,
-  teacher: string,
-  schedule: string
-): Subject {
-  return { id, subjectName, teacher, schedule };
-}
-
-const subjects: Subject[] = [
-  createSubjectData(0, 'Mathematics', 'Mr. Smith', 'Mon & Wed 9:00-10:30 AM'),
-  createSubjectData(1, 'Physics', 'Dr. Johnson', 'Tue & Thu 10:00-11:30 AM'),
-  createSubjectData(2, 'Chemistry', 'Ms. Lee', 'Mon & Wed 11:00-12:30 PM'),
-  createSubjectData(3, 'Biology', 'Mr. Brown', 'Tue & Thu 1:00-2:30 PM'),
-  createSubjectData(4, 'History', 'Ms. Davis', 'Fri 9:00-11:00 AM'),
-];
 
 export default function Subjects() {
-  const [addedSubjects, setAddedSubjects] = React.useState<Subject[]>([]);
+  const [subjects, setSubjects] = React.useState<Subject[]>([]);
+  const [selectedSubject, setSelectedSubject] = React.useState<Subject | null>(null);
+  const [schedules, setSchedules] = React.useState<Schedule[]>([]);
+  const [openSnackbar, setOpenSnackbar] = React.useState<boolean>(false);
+  const [snackbarMessage, setSnackbarMessage] = React.useState<string>('');
+  const [snackbarSeverity, setSnackbarSeverity] = React.useState<'success' | 'error'>('success');
+  const [openModal, setOpenModal] = React.useState<boolean>(false);
 
-  const handleAddSubject = (subject: Subject) => {
-    setAddedSubjects((prevSubjects) => [...prevSubjects, subject]);
+  // Fetch subjects from the backend on component mount
+  React.useEffect(() => {   
+    axios.get<Subject[]>('http://127.0.0.1:8000/api/subject/')
+      .then((response) => {
+        setSubjects(response.data);
+        console.log('Fetched subjects successfully:', response.data);
+      })
+      .catch((error) => {
+        console.error('Error fetching subjects:', error);
+        setSnackbarMessage('Error fetching subjects.');
+        setSnackbarSeverity('error');
+        setOpenSnackbar(true);
+      });
+  }, []);
+
+  // Fetch schedules for a subject
+  const fetchSchedules = (subjectCode: string) => {
+    axios.get<Schedule[]>(`http://127.0.0.1:8000/api/schedule/`)
+      .then((response) => {
+        setSchedules(response.data.filter(schedule => schedule.offercode === subjectCode));
+        console.log('Fetched schedules successfully:', response.data);
+      })
+      .catch((error) => {
+        console.error('Error fetching schedules:', error);
+        setSnackbarMessage('Error fetching schedules.');
+        setSnackbarSeverity('error');
+        setOpenSnackbar(true);
+      });
   };
 
-  const handleSubmitSubjects = () => {
-    // Implement the submit logic here
-    console.log('Submitted Subjects:', addedSubjects);
+  // Handle subject row click
+  const handleSubjectClick = (subject: Subject) => {
+    setSelectedSubject(subject);
+    fetchSchedules(subject.subject_code);
+    setOpenModal(true);
+  };
+
+  // Close the Snackbar
+  const handleCloseSnackbar = () => {
+    setOpenSnackbar(false);
+  };
+
+  // Close the modal
+  const handleCloseModal = () => {
+    setOpenModal(false);
   };
 
   return (
@@ -51,59 +90,82 @@ export default function Subjects() {
       <Table size="small">
         <TableHead>
           <TableRow>
-            <TableCell>Subject Name</TableCell>
-            <TableCell>Teacher</TableCell>
-            <TableCell>Schedule</TableCell>
-            <TableCell></TableCell>
+            <TableCell>Subject Code</TableCell>
+            <TableCell>Description</TableCell>
+            <TableCell>Units</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {subjects.map((subject) => (
-            <TableRow key={subject.id}>
-              <TableCell>{subject.subjectName}</TableCell>
-              <TableCell>{subject.teacher}</TableCell>
-              <TableCell>{subject.schedule}</TableCell>
-              <TableCell>
-                <Button 
-                  variant="contained" 
-                  onClick={() => handleAddSubject(subject)}
-                >
-                  ADD
-                </Button>
-              </TableCell>
+            <TableRow key={subject.offercode} onClick={() => handleSubjectClick(subject)}>
+              <TableCell>{subject.subject_code}</TableCell>
+              <TableCell>{subject.Description}</TableCell>
+              <TableCell>{subject.unit}</TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
 
-      <Title>Added Subjects</Title>
-      <Table size="small">
-        <TableHead>
-          <TableRow>
-            <TableCell>Subject Name</TableCell>
-            <TableCell>Teacher</TableCell>
-            <TableCell>Schedule</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {addedSubjects.map((subject, index) => (
-            <TableRow key={index}>
-              <TableCell>{subject.subjectName}</TableCell>
-              <TableCell>{subject.teacher}</TableCell>
-              <TableCell>{subject.schedule}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-
-      <Button 
-        variant="contained" 
-        color="primary" 
-        onClick={handleSubmitSubjects} 
-        sx={{ mt: 3 }}
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={6000}
+        onClose={handleCloseSnackbar}
       >
-        Submit Subjects
-      </Button>
+        <Alert
+          onClose={handleCloseSnackbar}
+          severity={snackbarSeverity}
+          sx={{ width: '100%' }}
+        >
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
+
+      {/* Modal for showing schedules */}
+      <Modal
+        open={openModal}
+        onClose={handleCloseModal}
+      >
+        <Box sx={{ 
+          position: 'absolute', 
+          top: '50%', 
+          left: '50%', 
+          transform: 'translate(-50%, -50%)', 
+          width: 400, 
+          bgcolor: 'background.paper', 
+          border: '2px solid #000', 
+          boxShadow: 24, 
+          p: 4 
+        }}>
+          <Typography variant="h6" component="h2">
+            Schedules for {selectedSubject?.subject_code}
+          </Typography>
+          <Table size="small">
+            <TableHead>
+              <TableRow>
+                <TableCell>Day</TableCell>
+                <TableCell>Start Time</TableCell>
+                <TableCell>End Time</TableCell>
+                <TableCell>Staff</TableCell>
+                <TableCell>Room</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {schedules.map((schedule) => (
+                <TableRow key={schedule.id}>
+                  <TableCell>{schedule.class_day}</TableCell>
+                  <TableCell>{schedule.class_hour_start}</TableCell>
+                  <TableCell>{schedule.class_hour_end}</TableCell>
+                  <TableCell>{`${schedule.staff}`}</TableCell>
+                  <TableCell>{`${schedule.room}`}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+          <Button onClick={handleCloseModal} variant="outlined" color="primary" sx={{ mt: 2 }}>
+            Close
+          </Button>
+        </Box>
+      </Modal>
     </React.Fragment>
   );
 }

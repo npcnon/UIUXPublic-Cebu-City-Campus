@@ -152,8 +152,7 @@ import Link from '@mui/material/Link';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import Typography from '@mui/material/Typography';    
 import library_gif from '../../StaticFiles/benedicto_background.jpg';
 import logo from '../../StaticFiles/logo.png';
 import axios from 'axios';  // Import Axios
@@ -177,8 +176,6 @@ function Copyright(props: any) {
   );
 }
 
-// TODO remove, this demo shouldn't need to reset the theme.
-const defaultTheme = createTheme();
 
 export default function SignInSide() {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -209,7 +206,6 @@ export default function SignInSide() {
   };
 
   return (
-    <ThemeProvider theme={defaultTheme}>
       <Grid container component="main" sx={{ height: '100vh' }}>
         <CssBaseline />
         <Grid
@@ -295,6 +291,5 @@ export default function SignInSide() {
           </Box>
         </Grid>
       </Grid>
-    </ThemeProvider>
   );
 }
