@@ -1,3 +1,5 @@
+//Subjects.tsx
+
 import * as React from 'react';
 import axios from 'axios';
 import Table from '@mui/material/Table';
@@ -35,13 +37,14 @@ export interface Schedule {
   staff: number;
   offercode: string;
   room: number;
+  subject_code: string;
+  unit: number;
   active: boolean;
   staffName?: string;
   conflict?: boolean;
 }
 
 export default function Subjects() {
-  // State management
   const [subjects, setSubjects] = React.useState<Subject[]>([]);
   const [selectedSubject, setSelectedSubject] = React.useState<Subject | null>(null);
   const [schedules, setSchedules] = React.useState<Schedule[]>([]);
@@ -72,6 +75,7 @@ export default function Subjects() {
   const checkForConflicts = (schedules: Schedule[]) => {
     const conflicts = new Map<number, boolean>();
     const conflictSchedules: Schedule[] = [];
+
     schedules.forEach(schedule => {
       const isSameAsAdded = addedSubjectIds.has(schedule.id);
 
@@ -87,6 +91,7 @@ export default function Subjects() {
         conflictSchedules.push(schedule);
       }
     });
+
     setConflictingSchedules(conflictSchedules);
     return conflicts;
   };
@@ -96,8 +101,6 @@ export default function Subjects() {
     try {
       const schedulesResponse = await axios.get<Schedule[]>(`http://127.0.0.1:8000/api/schedule/`);
       const filteredSchedules = schedulesResponse.data.filter(schedule => schedule.offercode === subject.offercode);
-      setSchedules(filteredSchedules);
-      console.log('Fetched schedules successfully:', filteredSchedules);
 
       const staffIds = Array.from(new Set(filteredSchedules.map(schedule => schedule.staff)));
 
@@ -109,7 +112,9 @@ export default function Subjects() {
 
       const schedulesWithStaff = filteredSchedules.map(schedule => ({
         ...schedule,
-        staffName: staffMap.get(schedule.staff)?.f_name + ' ' + staffMap.get(schedule.staff)?.l_name || 'Unknown'
+        staffName: staffMap.get(schedule.staff)?.f_name + ' ' + staffMap.get(schedule.staff)?.l_name || 'Unknown',
+        subject_code: subject.subject_code, 
+        unit: subject.unit, 
       }));
 
       const conflictMap = checkForConflicts(schedulesWithStaff);
@@ -132,8 +137,14 @@ export default function Subjects() {
       return;
     }
 
-    if (conflictMap.get(schedule.id)) {
-      setSnackbarMessage('Cannot add subject due to conflict.');
+    const hasConflictWithExisting = myAddedSubjects.some(addedSubject =>
+      schedule.class_day === addedSubject.class_day &&
+      ((schedule.class_hour_start < addedSubject.class_hour_end && schedule.class_hour_end > addedSubject.class_hour_start) ||
+        (addedSubject.class_hour_start < schedule.class_hour_end && addedSubject.class_hour_end > schedule.class_hour_start))
+    );
+
+    if (hasConflictWithExisting) {
+      setSnackbarMessage('Cannot add subject due to conflict with an already added subject.');
       setSnackbarSeverity('error');
       setOpenSnackbar(true);
       return;
@@ -162,7 +173,7 @@ export default function Subjects() {
 
   const handleCloseModal = () => {
     setOpenModal(false);
-    setOpenConflictModal(false); // Close conflict modal when schedule modal closes
+    setOpenConflictModal(false);
   };
 
   const handleOpenConflictModal = () => {
@@ -251,7 +262,14 @@ export default function Subjects() {
             </TableHead>
             <TableBody>
               {schedules.map((schedule) => (
-                <TableRow key={schedule.id} sx={{ bgcolor: conflictMap.get(schedule.id) ? 'rgba(255, 0, 0, 0.1)' : 'inherit' }}>
+                <TableRow
+                  key={schedule.id}
+                  sx={{
+                    bgcolor: conflictMap.get(schedule.id)
+                      ? 'rgba(255, 0, 0, 0.1)' // Apply light red background if there’s a conflict
+                      : 'inherit',
+                  }}
+                >
                   <TableCell>{schedule.class_day}</TableCell>
                   <TableCell>{schedule.class_hour_start}</TableCell>
                   <TableCell>{schedule.class_hour_end}</TableCell>
@@ -267,8 +285,7 @@ export default function Subjects() {
                   </TableCell>
                 </TableRow>
               ))}
-          </TableBody>
-
+            </TableBody>
           </Table>
 
           <Button onClick={handleOpenConflictModal} variant="contained" sx={{ mt: 2 }} disabled={conflictingSchedules.length === 0}>

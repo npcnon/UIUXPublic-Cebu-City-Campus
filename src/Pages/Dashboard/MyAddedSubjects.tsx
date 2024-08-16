@@ -34,31 +34,28 @@ const MyAddedSubjects: React.FC<MyAddedSubjectsProps> = ({ myAddedSubjects, sele
             <TableCell>End Time</TableCell>
             <TableCell>Instructor</TableCell>
             <TableCell>Room</TableCell>
-            <TableCell>Actions</TableCell> {/* New column for actions */}
+            <TableCell>Actions</TableCell> 
           </TableRow>
         </TableHead>
         <TableBody>
           {myAddedSubjects.map((schedule) => (
             <TableRow key={schedule.id}>
-              <TableCell>{selectedSubject?.subject_code || 'N/A'}</TableCell>
-              <TableCell>{selectedSubject?.unit || 'N/A'}</TableCell>
+              <TableCell>{schedule.subject_code}</TableCell>
+              <TableCell>{schedule.unit}</TableCell>
               <TableCell>{schedule.class_day}</TableCell>
               <TableCell>{schedule.class_hour_start}</TableCell>
               <TableCell>{schedule.class_hour_end}</TableCell>
               <TableCell>{schedule.staffName}</TableCell>
               <TableCell>{schedule.room}</TableCell>
               <TableCell>
-                <Button 
-                  onClick={() => onRemoveSubject(schedule.id)} 
-                  variant="outlined" 
-                  color="secondary"
-                >
+                <Button onClick={() => onRemoveSubject(schedule.id)} variant="outlined" color="secondary">
                   Remove
                 </Button>
               </TableCell>
             </TableRow>
           ))}
         </TableBody>
+
       </Table>
     </>
   );
