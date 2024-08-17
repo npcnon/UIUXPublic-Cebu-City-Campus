@@ -5,15 +5,24 @@ import Container from "@mui/material/Container";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import background from "../../StaticFiles/benedicto_background.jpg";
-
+//modal imports
 import { useState } from "react";
 import Modal from "@mui/material/Modal";
+//grid imports
+import { styled } from "@mui/material/styles";
+import Grid from "@mui/material/Grid";
+import Paper from "@mui/material/Paper";
+
+const FormGrid = styled(Grid)(() => ({
+  display: "flex",
+  flexDirection: "column",
+}));
 
 export default function Hero() {
   const [open, setOpen] = useState(false);
-
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
   return (
     <Box
       id="hero"
@@ -100,35 +109,83 @@ export default function Hero() {
             transform: "translate(-50%, -50%)",
             width: 400,
             bgcolor: "background.paper",
-            border: "2px solid #000",
+            border: "8px",
+            borderRadius: "16px",
             boxShadow: 24,
             p: 4,
           }}
         >
-          <Typography id="enroll-modal-title" variant="h6" component="h2">
+          <Typography
+            id="enroll-modal-title"
+            variant="subtitle1"
+            component="h2"
+            textAlign="center"
+          >
             Select School Campus
           </Typography>
 
-          <Button
-            onClick={handleClose}
-            sx={{ mt: 2 }}
-            variant="contained"
-            color="primary"
-            component="a"
-            href="/Enrollment"
+          <Grid
+            container
+            spacing={3}
+            sx={{
+              mt: 1,
+              mb: 3,
+            }}
           >
-            Mandaue Campus
-          </Button>
-          <Button
-            onClick={handleClose}
-            sx={{ mt: 2 }}
-            variant="contained"
-            color="primary"
-            component="a"
-            href="/Enrollment"
-          >
-            Cebu Campus
-          </Button>
+            {/* Mandaue City */}
+            <FormGrid item xs={12} md={6} lg={6}>
+              <Typography
+                textAlign="center"
+                color="text.secondary"
+                variant="subtitle2"
+                mb={2}
+              >
+                MANDAUE CITY
+              </Typography>
+
+              <Button
+                sx={{
+                  mb: 2,
+                  minWidth: 120,
+                }}
+                component="label"
+                variant="contained"
+              >
+                NEW STUDENT
+              </Button>
+
+              <Button component="label" variant="contained">
+                OLD STUDENT
+              </Button>
+            </FormGrid>
+
+            {/* Cebu City */}
+            <FormGrid item xs={12} md={6} lg={6}>
+              <Typography
+                textAlign="center"
+                color="text.secondary"
+                variant="subtitle2"
+                mb={2}
+              >
+                CEBU CITY
+              </Typography>
+
+              <Button
+                sx={{
+                  mb: 2,
+                  minWidth: 120,
+                }}
+                component="label"
+                variant="contained"
+              >
+                NEW STUDENT
+              </Button>
+
+              <Button component="label" variant="contained">
+                OLD STUDENT
+              </Button>
+            </FormGrid>
+          </Grid>
         </Box>
       </Modal>
     </Box>
