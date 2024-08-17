@@ -2,7 +2,6 @@ import { alpha } from "@mui/material";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
-import Link from "@mui/material/Link";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import background from "../../StaticFiles/benedicto_background.jpg";
@@ -37,44 +36,22 @@ export default function Hero() {
           pb: { xs: 8, sm: 12 },
         }}
       >
-        <Stack spacing={2} useFlexGap sx={{ width: { xs: "100%", sm: "70%" } }}>
-          <Typography
-            variant="h1"
-            sx={{
-              display: "flex",
-              flexDirection: { xs: "column", md: "row" },
-              alignSelf: "center",
-              textAlign: "center",
-              fontSize: "clamp(3.5rem, 10vw, 4rem)",
-              color: "#0235AE",
-            }}
-          >
-            &nbsp;&nbsp;Benedicto
-            <Typography
-              component="span"
-              variant="h1"
-              sx={{
-                fontSize: "clamp(3rem, 10vw, 4rem)",
-                color: "#FE5A02",
-              }}
-            >
-              College
-            </Typography>
-          </Typography>
+        <Stack spacing={1} useFlexGap sx={{ width: { xs: "100%", sm: "70%" } }}>
           <Typography
             textAlign="center"
             color="text.secondary"
+            variant="h2"
+            mb={2}
             sx={{ alignSelf: "center", width: { sm: "100%", md: "80%" } }}
           >
-            As the preferred higher educational institution in the Asia-Pacific,
-            Benedicto College will be a globally competitive institution and a
-            catalyst in nation-building, creating a better quality of life and
-            developing productive members of the society.
+            ONLINE ENROLLMENT IS NOW OPEN!
           </Typography>
+
           <Stack
             direction={{ xs: "column", sm: "row" }}
             alignSelf="center"
             spacing={1}
+            mb={5}
             useFlexGap
             sx={{ pt: 2, width: { xs: "100%", sm: "auto" } }}
           >
@@ -87,18 +64,25 @@ export default function Hero() {
               Enroll Now
             </Button>
           </Stack>
-          <Typography
-            variant="caption"
-            textAlign="center"
-            sx={{ opacity: 0.8 }}
-          >
-            By clicking &quot;Start now&quot; you agree to our&nbsp;
-            <Link href="#" color="primary">
-              Terms & Conditions
-            </Link>
-            .
-          </Typography>
         </Stack>
+
+        <Typography
+          textAlign="center"
+          color="text.secondary"
+          variant="h6"
+          sx={{ alignSelf: "center", width: { sm: "100%", md: "80%" } }}
+        >
+          BASIC EDUCATION | SENIOR HIGH | COLLEGE
+        </Typography>
+
+        <Typography
+          textAlign="center"
+          color="text.secondary"
+          variant="subtitle2"
+          sx={{ alignSelf: "center", width: { sm: "100%", md: "80%" } }}
+        >
+          MANDAUE CITY CAMPUS | CEBU CITY CAMPUS
+        </Typography>
       </Container>
 
       {/* Modal */}
