@@ -1,8 +1,8 @@
-import CssBaseline from '@mui/material/CssBaseline';
-import AppAppBar from './components/AppAppbar';
-import Hero from './components/Hero';
-import Checkout from '../Enrollment/Checkout';
-import SignInSide from '../Login/SignInSide';
+import CssBaseline from "@mui/material/CssBaseline";
+import AppAppBar from "./components/AppAppbar";
+import Hero from "./components/Hero";
+import Checkout from "../Enrollment/Checkout";
+import SignInSide from "../Login/SignInSide";
 
 // import LogoCollection from './components/LogoCollection';
 // import Highlights from './components/Highlights';
@@ -13,13 +13,13 @@ import SignInSide from '../Login/SignInSide';
 // import Footer from './components/Footer';
 
 import {
-  createBrowserRouter, 
+  createBrowserRouter,
   createRoutesFromElements,
-  Route, 
+  Route,
   RouterProvider,
-  Outlet
-} from 'react-router-dom';
-import Dashboard from '../Dashboard/Dashboard';
+  Outlet,
+} from "react-router-dom";
+import Dashboard from "../Dashboard/Dashboard";
 
 // Layout with AppAppBar
 const LayoutWithAppBar = () => (
@@ -44,18 +44,15 @@ export default function LandingPage() {
       <>
         <Route element={<LayoutWithAppBar />}>
           <Route path="/" element={<Hero />} />
-          
         </Route>
         <Route element={<LayoutWithoutAppBar />}>
           <Route path="/Enrollment" element={<Checkout />} />
           <Route path="/Sign-in" element={<SignInSide />} />
-          <Route path="/Dashboard" element={<Dashboard/>}/>
+          <Route path="/Dashboard" element={<Dashboard />} />
         </Route>
       </>
     )
   );
 
-  return (
-    <RouterProvider router={router} />
-  );
+  return <RouterProvider router={router} />;
 }
