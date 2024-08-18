@@ -11,7 +11,7 @@ import Modal from "@mui/material/Modal";
 //grid imports
 import { styled } from "@mui/material/styles";
 import Grid from "@mui/material/Grid";
-import Paper from "@mui/material/Paper";
+import { Link } from "react-router-dom";
 
 const FormGrid = styled(Grid)(() => ({
   display: "flex",
@@ -107,12 +107,11 @@ export default function Hero() {
             top: "50%",
             left: "50%",
             transform: "translate(-50%, -50%)",
-            width: 400,
+            width: { xs: "90%", sm: 400 },
             bgcolor: "background.paper",
-            border: "8px",
             borderRadius: "16px",
             boxShadow: 24,
-            p: 4,
+            p: { xs: 2, sm: 4 },
           }}
         >
           <Typography
@@ -126,64 +125,58 @@ export default function Hero() {
 
           <Grid
             container
-            spacing={3}
-            sx={{
-              mt: 1,
-              mb: 3,
-            }}
+            spacing={2}
+            justifyContent="center"
+            sx={{ mt: 1, mb: 3 }}
           >
             {/* Mandaue City */}
-            <FormGrid item xs={12} md={6} lg={6}>
-              <Typography
-                textAlign="center"
-                color="text.secondary"
-                variant="subtitle2"
-                mb={2}
-              >
-                MANDAUE CITY
+            <FormGrid
+              item
+              xs={12}
+              md={6}
+              lg={6}
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+            >
+              <Typography variant="subtitle2" textAlign="center">
+                Mandaue City
               </Typography>
-
-              <Button
-                sx={{
-                  mb: 2,
-                  minWidth: 120,
-                }}
-                component="label"
-                variant="contained"
-              >
-                NEW STUDENT
-              </Button>
-
-              <Button component="label" variant="contained">
-                OLD STUDENT
-              </Button>
+              <Link to="/Enrollment">
+                <Button
+                  sx={{ minWidth: { xs: 100, sm: 120 }, mt: 1 }}
+                  variant="contained"
+                >
+                  Click Here!
+                </Button>
+              </Link>
             </FormGrid>
 
             {/* Cebu City */}
-            <FormGrid item xs={12} md={6} lg={6}>
-              <Typography
-                textAlign="center"
-                color="text.secondary"
-                variant="subtitle2"
-                mb={2}
-              >
-                CEBU CITY
+            <FormGrid
+              item
+              xs={12}
+              md={6}
+              lg={6}
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+            >
+              <Typography variant="subtitle2" textAlign="center">
+                Cebu City
               </Typography>
-
-              <Button
-                sx={{
-                  mb: 2,
-                  minWidth: 120,
-                }}
-                component="label"
-                variant="contained"
-              >
-                NEW STUDENT
-              </Button>
-
-              <Button component="label" variant="contained">
-                OLD STUDENT
-              </Button>
+              <Link to="/Enrollment">
+                <Button
+                  sx={{ minWidth: { xs: 100, sm: 120 }, mt: 1 }}
+                  variant="contained"
+                >
+                  Click Here!
+                </Button>
+              </Link>
             </FormGrid>
           </Grid>
         </Box>
