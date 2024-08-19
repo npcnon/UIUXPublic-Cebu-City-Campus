@@ -12,6 +12,11 @@ import Modal from "@mui/material/Modal";
 import { styled } from "@mui/material/styles";
 import Grid from "@mui/material/Grid";
 import { Link } from "react-router-dom";
+//card
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import CardMedia from "@mui/material/CardMedia";
+import { CardActionArea } from "@mui/material";
 
 const FormGrid = styled(Grid)(() => ({
   display: "flex",
@@ -146,13 +151,22 @@ export default function Hero() {
                 alignItems: "center",
               }}
             >
-              <Link to="/Enrollment">
-                <Button
-                  sx={{ minWidth: { xs: 100, sm: 120 }, mt: 1 }}
-                  variant="contained"
-                >
-                  Mandaue City
-                </Button>
+              <Link to="/EnrollmentPage" style={{ textDecoration: "none" }}>
+                <Card sx={{ maxWidth: 345 }}>
+                  <CardActionArea>
+                    <CardMedia
+                      component="img"
+                      height="100"
+                      image={background}
+                      alt="school"
+                    />
+                    <CardContent>
+                      <Typography variant="body2" color="text.secondary">
+                        Benedicto College Mandaue Campus
+                      </Typography>
+                    </CardContent>
+                  </CardActionArea>
+                </Card>
               </Link>
             </FormGrid>
 
@@ -168,13 +182,22 @@ export default function Hero() {
                 alignItems: "center",
               }}
             >
-              <Link to="/Enrollment">
-                <Button
-                  sx={{ minWidth: { xs: 100, sm: 120 }, mt: 1 }}
-                  variant="contained"
-                >
-                  Cebu City
-                </Button>
+              <Link to="/EnrollmentPage" style={{ textDecoration: "none" }}>
+                <Card sx={{ maxWidth: 345 }}>
+                  <CardActionArea>
+                    <CardMedia
+                      component="img"
+                      height="100"
+                      image={background}
+                      alt="school"
+                    />
+                    <CardContent>
+                      <Typography variant="body2" color="text.secondary">
+                        Benedicto College Cebu Campus
+                      </Typography>
+                    </CardContent>
+                  </CardActionArea>
+                </Card>
               </Link>
             </FormGrid>
           </Grid>

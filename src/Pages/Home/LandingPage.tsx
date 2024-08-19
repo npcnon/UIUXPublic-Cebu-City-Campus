@@ -3,7 +3,7 @@ import AppAppBar from "./components/AppAppbar";
 import Hero from "./components/Hero";
 import Checkout from "../Enrollment/Checkout";
 import SignInSide from "../Login/SignInSide";
-
+import EnrollmentPage from "./components/EnrollmentPage";
 // import LogoCollection from './components/LogoCollection';
 // import Highlights from './components/Highlights';
 // import Pricing from './components/Pricing';
@@ -46,6 +46,7 @@ export default function LandingPage() {
           <Route path="/" element={<Hero />} />
         </Route>
         <Route element={<LayoutWithoutAppBar />}>
+          <Route path="/EnrollmentPage" element={<EnrollmentPage />} />
           <Route path="/Enrollment" element={<Checkout />} />
           <Route path="/Sign-in" element={<SignInSide />} />
           <Route path="/Dashboard" element={<Dashboard />} />
