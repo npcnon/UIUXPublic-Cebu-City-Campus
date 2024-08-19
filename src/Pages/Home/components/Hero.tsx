@@ -4,7 +4,7 @@ import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
-import background from "../../StaticFiles/benedicto_background.jpg";
+import background from "../../../StaticFiles/benedicto_background.jpg";
 //modal imports
 import { useState } from "react";
 import Modal from "@mui/material/Modal";
@@ -28,12 +28,16 @@ export default function Hero() {
       id="hero"
       sx={(theme) => ({
         width: "100%",
-        backgroundImage:
+        height: "607px",
+        /* backgroundImage: `url(${background})`, // Add background image
+        backgroundSize: "cover", // Cover the entire box
+        backgroundPosition: "center", // Center the image
+        backgroundRepeat: "no-repeat", // Prevent repeating
+        backgroundAttachment: "fixed", // Optional: fixed background for parallax effect */
+        backgroundColor:
           theme.palette.mode === "light"
-            ? "linear-gradient(180deg, #CEE5FD, #FFF)"
-            : `linear-gradient(#02294F, ${alpha("#090E10", 0.0)})`,
-        backgroundSize: "100% 20%",
-        backgroundRepeat: "no-repeat",
+            ? "rgba(206, 229, 253, 0.9)"
+            : `rgba(9, 14, 16, 0.9)`, // Fallback background color with transparency
       })}
     >
       <Container
@@ -43,6 +47,7 @@ export default function Hero() {
           alignItems: "center",
           pt: { xs: 14, sm: 20 },
           pb: { xs: 8, sm: 12 },
+          color: "#fff", // Set text color to white or light color for better contrast
         }}
       >
         <Stack spacing={1} useFlexGap sx={{ width: { xs: "100%", sm: "70%" } }}>
@@ -141,15 +146,12 @@ export default function Hero() {
                 alignItems: "center",
               }}
             >
-              <Typography variant="subtitle2" textAlign="center">
-                Mandaue City
-              </Typography>
               <Link to="/Enrollment">
                 <Button
                   sx={{ minWidth: { xs: 100, sm: 120 }, mt: 1 }}
                   variant="contained"
                 >
-                  Click Here!
+                  Mandaue City
                 </Button>
               </Link>
             </FormGrid>
@@ -166,15 +168,12 @@ export default function Hero() {
                 alignItems: "center",
               }}
             >
-              <Typography variant="subtitle2" textAlign="center">
-                Cebu City
-              </Typography>
               <Link to="/Enrollment">
                 <Button
                   sx={{ minWidth: { xs: 100, sm: 120 }, mt: 1 }}
                   variant="contained"
                 >
-                  Click Here!
+                  Cebu City
                 </Button>
               </Link>
             </FormGrid>
