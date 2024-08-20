@@ -1,3 +1,6 @@
+//personaldata.tsx
+
+
 import * as React from 'react';
 import Grid from '@mui/material/Grid';
 import { styled } from '@mui/system';
@@ -117,18 +120,30 @@ export default function PersonaData() {
     </Box>
     </FormGrid>
 
-    <FormGrid item xs={12} md={6} lg={4}>
-      <Box sx={{ minWidth: 120 }}>
-      <FormControl fullWidth>
+    <FormGrid item xs={12} >
+    
+      <FormControl>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DemoContainer components={['DatePicker']}>
         <DatePicker label="Birth date" />
       </DemoContainer>
       </LocalizationProvider>
       </FormControl>
-    </Box>
+  
     </FormGrid>
-      
+
+    <FormGrid item xs={12} md={6} lg={4}>
+      <Box sx={{ minWidth: 120 }}
+        component="form"
+        noValidate
+        autoComplete="off" 
+      >
+      <FormControl fullWidth>
+       <TextField id="birthPlace" label="Birth Place" variant="outlined" />
+       </FormControl>
+        </Box>
+      </FormGrid>
+
       <FormGrid item xs={12} md={6} lg={4}>
       <Box sx={{ minWidth: 120 }}>
       <FormControl fullWidth>
@@ -167,6 +182,26 @@ export default function PersonaData() {
       </Box>
        </FormGrid>
 
+      
+       <FormGrid item xs={12} md={6} lg={4}>
+      <Box sx={{ minWidth: 120 }}>
+      <FormControl fullWidth>
+        <InputLabel id="demo-simple-select-label">Country</InputLabel>
+        <Select
+          labelId="demo-simple-select-label"
+          id="citizenship"
+          value={citizenship}
+          label="Citizenship"
+          onChange={handleCitizenshipChange}
+        >
+          <MenuItem value={1}>Filipino</MenuItem>
+          <MenuItem value={2}>Chinese</MenuItem>
+          
+        </Select>
+      </FormControl>
+      </Box>
+       </FormGrid>
+
     
 
       <FormGrid item xs={12} md={6} lg={4}>
@@ -188,9 +223,21 @@ export default function PersonaData() {
         </Select>
       </FormControl>
       </Box>
+
+      
       </FormGrid> 
       </Grid>
-
+      <FormGrid item xs={12} md={8}>
+      <Box sx={{ minWidth: 120 }}
+        component="form"
+        noValidate
+        autoComplete="off" 
+      >
+      <FormControl fullWidth>
+       <TextField id="acr" label="ACR (for foreign students)" variant="outlined" />
+       </FormControl>
+        </Box>
+      </FormGrid>
 
       <Typography variant="h6" gutterBottom>
       II. Address Information
@@ -212,7 +259,8 @@ export default function PersonaData() {
        </FormControl>
         </Box>
       </FormGrid> 
-    
+      
+
       <FormGrid item xs={12}>
       <Box sx={{ minWidth: 120 }}
         component="form"
@@ -225,38 +273,8 @@ export default function PersonaData() {
         </Box>
       </FormGrid>
 
-      <FormGrid item xs={12} md={6} lg={4}>
-      <Box sx={{ minWidth: 120 }}>
-      <FormControl fullWidth>
-        <InputLabel id="demo-simple-select-label">Country</InputLabel>
-        <Select
-          labelId="demo-simple-select-label"
-          id="country"
-          value={country}
-          label="Country"
-          onChange={handleCountryChange}
-        >
-          <MenuItem value={1}>Philippines</MenuItem>
-          <MenuItem value={2}>China</MenuItem>
-          <MenuItem value={3}>Japan</MenuItem>
-          <MenuItem value={4}>Malaysia</MenuItem>
-          <MenuItem value={5}>Korea</MenuItem>
-        </Select>
-      </FormControl>
-      </Box>
-      </FormGrid>
 
-      <FormGrid item xs={12} md={6} lg={4}>
-      <Box sx={{ minWidth: 120 }}
-        component="form"
-        noValidate
-        autoComplete="off"
-      >
-      <FormControl fullWidth>
-       <TextField id="zipcode" label="Zip code" variant="outlined" />
-       </FormControl>
-        </Box>
-      </FormGrid>
+      
       </Grid>
 
       <Typography variant="h6" gutterBottom>
