@@ -4,7 +4,8 @@ import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
-import background from "../../../StaticFiles/benedicto_background.jpg";
+import bcCebu from "../../../StaticFiles/benedicto_background.jpg";
+import bcmain from "../../../StaticFiles/bcmain.jpg";
 //modal imports
 import { useState } from "react";
 import Modal from "@mui/material/Modal";
@@ -33,16 +34,16 @@ export default function Hero() {
       id="hero"
       sx={(theme) => ({
         width: "100%",
-        height: "607px",
-        /* backgroundImage: `url(${background})`, // Add background image
+        /* height: "607px",
+         backgroundImage: `url(${background})`, // Add background image
         backgroundSize: "cover", // Cover the entire box
         backgroundPosition: "center", // Center the image
         backgroundRepeat: "no-repeat", // Prevent repeating
-        backgroundAttachment: "fixed", // Optional: fixed background for parallax effect */
+        backgroundAttachment: "fixed", // Optional: fixed background for parallax effect 
         backgroundColor:
           theme.palette.mode === "light"
             ? "rgba(206, 229, 253, 0.9)"
-            : `rgba(9, 14, 16, 0.9)`, // Fallback background color with transparency
+            : `rgba(9, 14, 16, 0.9)`, */
       })}
     >
       <Container
@@ -78,6 +79,13 @@ export default function Hero() {
               color="primary"
               variant="contained"
               size="large"
+              sx={{
+                backgroundColor: "#FF5F15", // Custom background color
+                color: "#FFFFFF", // Custom text color
+                "&:hover": {
+                  backgroundColor: "#FFA500", // Custom hover color
+                },
+              }}
               onClick={handleOpen}
             >
               Enroll Now
@@ -118,7 +126,7 @@ export default function Hero() {
             left: "50%",
             transform: "translate(-50%, -50%)",
             width: { xs: "90%", sm: 400 },
-            bgcolor: "background.paper",
+            bgcolor: "#F3F7EC",
             borderRadius: "16px",
             boxShadow: 24,
             p: { xs: 2, sm: 4 },
@@ -152,12 +160,12 @@ export default function Hero() {
               }}
             >
               <Link to="/EnrollmentPage" style={{ textDecoration: "none" }}>
-                <Card sx={{ maxWidth: 345 }}>
+                <Card sx={{ maxWidth: 345, boxShadow: 8 }}>
                   <CardActionArea>
                     <CardMedia
                       component="img"
                       height="100"
-                      image={background}
+                      image={bcmain}
                       alt="school"
                     />
                     <CardContent>
@@ -182,13 +190,13 @@ export default function Hero() {
                 alignItems: "center",
               }}
             >
-              <Link to="/EnrollmentPage" style={{ textDecoration: "none" }}>
-                <Card sx={{ maxWidth: 345 }}>
+              <Link to="/Sign-in" style={{ textDecoration: "none" }}>
+                <Card sx={{ maxWidth: 345, boxShadow: 8 }}>
                   <CardActionArea>
                     <CardMedia
                       component="img"
                       height="100"
-                      image={background}
+                      image={bcCebu}
                       alt="school"
                     />
                     <CardContent>

@@ -11,12 +11,26 @@ import Drawer from "@mui/material/Drawer";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
+import ListItemIcon from "@mui/material/ListItemIcon";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import { Theme, useTheme } from "@mui/material/styles";
+import { useTheme } from "@mui/material/styles";
+//icon
+import HomeIcon from "@mui/icons-material/Home";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import SchoolIcon from "@mui/icons-material/School";
+import RoomPreferencesIcon from "@mui/icons-material/RoomPreferences";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
+import QuestionAnswerIcon from "@mui/icons-material/QuestionAnswer";
 
-const navItems = ["Home", "Courses", "Facilities", "Location", "Faq's"];
+const navItems = [
+  { label: "Home", icon: <HomeIcon /> }, //home icon
+  { label: "Course", icon: <SchoolIcon /> },
+  { label: "Facilities", icon: <RoomPreferencesIcon /> },
+  { label: "Location", icon: <LocationOnIcon /> },
+  { label: "Faq", icon: <QuestionAnswerIcon /> },
+];
 
 interface Props {
   window?: () => Window;
@@ -36,7 +50,7 @@ function HideOnScroll(props: Props) {
   );
 }
 
-export default function HiddenOnScroll(props: Props) {
+export default function AppAppBar(props: Props) {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -52,8 +66,11 @@ export default function HiddenOnScroll(props: Props) {
       </Typography>
       <List>
         {navItems.map((item) => (
-          <ListItem key={item} disablePadding>
-            <ListItemText primary={item} sx={{ textAlign: "center" }} />
+          <ListItem key={item.label} disablePadding>
+            {item.icon && (
+              <ListItemIcon sx={{ minWidth: 36 }}>{item.icon}</ListItemIcon>
+            )}
+            <ListItemText primary={item.label} sx={{ textAlign: "center" }} />
           </ListItem>
         ))}
       </List>
@@ -77,18 +94,38 @@ export default function HiddenOnScroll(props: Props) {
                 <MenuIcon />
               </IconButton>
             ) : null}
+
+            {/*image logo*/}
+            <img
+              src="/src/StaticFiles/Logo.jpg" // Replace with the actual path to your logo
+              alt="BC Logo"
+              style={{
+                width: "50px",
+                height: "50px",
+                borderRadius: "50%",
+                objectFit: "cover",
+                border: "2px solid #fff",
+                marginRight: "8px", // Adjust the margin as needed
+              }}
+            />
+
             <Typography
               variant="h6"
               component="div"
               sx={{ flexGrow: 1, display: { xs: "block", sm: "block" } }}
             >
-              BC LOGO
+              Benedicto College
             </Typography>
             {!isMobile ? (
               <Box sx={{ display: { xs: "none", sm: "block" } }}>
                 {navItems.map((item) => (
-                  <Button key={item} sx={{ color: "#fff" }}>
-                    {item}
+                  <Button key={item.label} sx={{ color: "#fff" }}>
+                    {item.icon && (
+                      <ListItemIcon sx={{ minWidth: 36 }}>
+                        {item.icon}
+                      </ListItemIcon>
+                    )}
+                    {item.label}
                   </Button>
                 ))}
               </Box>
