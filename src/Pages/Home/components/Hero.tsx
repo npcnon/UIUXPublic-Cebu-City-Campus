@@ -62,7 +62,12 @@ export default function Hero() {
             color="text.secondary"
             variant="h2"
             mb={2}
-            sx={{ alignSelf: "center", width: { sm: "100%", md: "80%" } }}
+            sx={{
+              alignSelf: "center",
+              fontWeight: "bold",
+              textShadow: "2px 2px 4px rgba(0, 0, 0, 0.3)",
+              width: { sm: "100%", md: "80%" },
+            }}
           >
             ONLINE ENROLLMENT IS NOW OPEN!
           </Typography>
@@ -137,6 +142,10 @@ export default function Hero() {
             variant="subtitle1"
             component="h2"
             textAlign="center"
+            sx={{
+              fontWeight: "bold",
+              textShadow: "2px 2px 4px rgba(0, 0, 0, 0.3)",
+            }}
           >
             Select School Campus
           </Typography>
@@ -169,7 +178,11 @@ export default function Hero() {
                       alt="school"
                     />
                     <CardContent>
-                      <Typography variant="body2" color="text.secondary">
+                      <Typography
+                        variant="body2"
+                        color="text.secondary"
+                        sx={{ fontWeight: "bold" }}
+                      >
                         Benedicto College Mandaue Campus
                       </Typography>
                     </CardContent>
@@ -190,7 +203,7 @@ export default function Hero() {
                 alignItems: "center",
               }}
             >
-              <Link to="/Sign-in" style={{ textDecoration: "none" }}>
+              <Link to="/EnrollmentPage" style={{ textDecoration: "none" }}>
                 <Card sx={{ maxWidth: 345, boxShadow: 8 }}>
                   <CardActionArea>
                     <CardMedia
@@ -200,7 +213,11 @@ export default function Hero() {
                       alt="school"
                     />
                     <CardContent>
-                      <Typography variant="body2" color="text.secondary">
+                      <Typography
+                        variant="body2"
+                        color="text.secondary"
+                        sx={{ fontWeight: "bold" }}
+                      >
                         Benedicto College Cebu Campus
                       </Typography>
                     </CardContent>

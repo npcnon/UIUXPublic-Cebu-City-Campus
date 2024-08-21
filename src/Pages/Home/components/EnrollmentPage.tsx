@@ -162,6 +162,8 @@ export default function EnrollmentPage(props: Props) {
           flexGrow: 1,
           mt: 5,
           color: "#FF5F15",
+          fontWeight: "bold",
+          textShadow: "2px 2px 4px rgba(0, 0, 0, 0.3)",
           display: { xs: "block", sm: "block" },
         }}
       >
@@ -199,7 +201,15 @@ export default function EnrollmentPage(props: Props) {
                   alt="school"
                 />
                 <CardContent>
-                  <Typography gutterBottom variant="h6" component="div">
+                  <Typography
+                    gutterBottom
+                    variant="h6"
+                    component="div"
+                    sx={{
+                      fontWeight: "bold",
+                      textShadow: "2px 2px 4px rgba(0, 0, 0, 0.2)",
+                    }}
+                  >
                     New Student
                   </Typography>
                   <Typography gutterBottom variant="subtitle1" component="div">
@@ -252,7 +262,15 @@ export default function EnrollmentPage(props: Props) {
                   alt="school"
                 />
                 <CardContent>
-                  <Typography gutterBottom variant="h6" component="div">
+                  <Typography
+                    gutterBottom
+                    variant="h6"
+                    component="div"
+                    sx={{
+                      fontWeight: "bold",
+                      textShadow: "2px 2px 4px rgba(0, 0, 0, 0.2)",
+                    }}
+                  >
                     Old Student
                   </Typography>
                   <Typography gutterBottom variant="subtitle1" component="div">
