@@ -233,6 +233,7 @@ export default function EnrollmentPage(props: Props) {
                     "&:hover": {
                       backgroundColor: "#FFA500", // Custom hover color
                     },
+                    boxShadow: "3px 3px 6px rgba(0, 0, 0, 0.3)",
                   }}
                 >
                   Enroll Now
@@ -294,6 +295,7 @@ export default function EnrollmentPage(props: Props) {
                     "&:hover": {
                       backgroundColor: "#FFA500", // Custom hover color
                     },
+                    boxShadow: "3px 3px 6px rgba(0, 0, 0, 0.3)",
                   }}
                 >
                   Enroll Now
