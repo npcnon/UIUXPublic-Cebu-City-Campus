@@ -81,7 +81,11 @@ export default function AppAppBar(props: Props) {
     <React.Fragment>
       <CssBaseline />
       <HideOnScroll {...props}>
-        <AppBar>
+        <AppBar
+          sx={{
+            backgroundColor: "#0236ae", // Custom color
+          }}
+        >
           <Toolbar>
             {isMobile ? (
               <IconButton

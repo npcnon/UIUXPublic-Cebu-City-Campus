@@ -85,7 +85,11 @@ export default function EnrollmentPage(props: Props) {
     <React.Fragment>
       <CssBaseline />
       <HideOnScroll {...props}>
-        <AppBar>
+        <AppBar
+          sx={{
+            backgroundColor: "#0236ae", // Custom color
+          }}
+        >
           <Toolbar>
             {isMobile ? (
               <IconButton
@@ -161,7 +165,7 @@ export default function EnrollmentPage(props: Props) {
         sx={{
           flexGrow: 1,
           mt: 5,
-          color: "#FF5F15",
+          color: "#FF5c00",
           fontWeight: "bold",
           textShadow: "2px 2px 4px rgba(0, 0, 0, 0.3)",
           display: { xs: "block", sm: "block" },
@@ -179,7 +183,12 @@ export default function EnrollmentPage(props: Props) {
         to <br /> apply at the University. Let’s get started!
       </Typography>
 
-      <Grid container spacing={3} justifyContent="center" sx={{ mt: 1, mb: 3 }}>
+      <Grid
+        container
+        spacing={3}
+        justifyContent="center"
+        sx={{ mt: 1, mb: 3, backgroundColor: "#ffff" }}
+      >
         <Grid
           item
           xs={12}
@@ -228,7 +237,7 @@ export default function EnrollmentPage(props: Props) {
                   variant="contained"
                   startIcon={<PersonAddIcon />}
                   sx={{
-                    backgroundColor: "#FF5F15", // Custom background color
+                    backgroundColor: "#FF5c00", // Custom background color
                     color: "#FFFFFF", // Custom text color
                     "&:hover": {
                       backgroundColor: "#FFA500", // Custom hover color
@@ -290,7 +299,7 @@ export default function EnrollmentPage(props: Props) {
                   variant="contained"
                   startIcon={<PersonAddIcon />}
                   sx={{
-                    backgroundColor: "#FF5F15", // Custom background color
+                    backgroundColor: "#FF5c00", // Custom background color
                     color: "#FFFFFF", // Custom text color
                     "&:hover": {
                       backgroundColor: "#FFA500", // Custom hover color

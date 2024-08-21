@@ -85,7 +85,7 @@ export default function Hero() {
               variant="contained"
               size="large"
               sx={{
-                backgroundColor: "#FF5F15", // Custom background color
+                backgroundColor: "#FF5c00", // Custom background color
                 color: "#FFFFFF", // Custom text color
                 "&:hover": {
                   backgroundColor: "#FFA500", // Custom hover color
