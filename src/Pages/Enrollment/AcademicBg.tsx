@@ -18,20 +18,21 @@ import dayjs from 'dayjs';
 import { AcademicBackgroundData } from './Types/AcademicBackgroundTypes/AcademicBackgroundType';
 
 const FormGrid = styled(Grid)(() => ({
-  display: 'flex',
-  flexDirection: 'column',
+  display: "flex",
+  flexDirection: "column",
 }));
-
-
 
 interface AcademicBackgroundProps {
   data: AcademicBackgroundData;
   setData: React.Dispatch<React.SetStateAction<AcademicBackgroundData>>;
 }
 
-export default function AcademicBackground({ data, setData }: AcademicBackgroundProps) {
+export default function AcademicBackground({
+  data,
+  setData,
+}: AcademicBackgroundProps) {
   const { control, handleSubmit } = useForm<AcademicBackgroundData>({
-    defaultValues: data
+    defaultValues: data,
   });
 
   const onSubmit = (formData: AcademicBackgroundData) => {
@@ -60,7 +61,10 @@ export default function AcademicBackground({ data, setData }: AcademicBackground
                       label="Student Type"
                       onChange={(e) => {
                         field.onChange(e); // Update the internal form state
-                        setData(prev => ({ ...prev, studentType: e.target.value })); // Update the parent state
+                        setData((prev) => ({
+                          ...prev,
+                          studentType: e.target.value,
+                        })); // Update the parent state
                       }}
                     >
                       <MenuItem value="Graduate">Graduate</MenuItem>
@@ -75,7 +79,9 @@ export default function AcademicBackground({ data, setData }: AcademicBackground
           <FormGrid item xs={12} md={6} lg={7}>
             <Box sx={{ minWidth: 120 }}>
               <FormControl fullWidth>
-                <InputLabel id="applicationType-label">Application Type</InputLabel>
+                <InputLabel id="applicationType-label">
+                  Application Type
+                </InputLabel>
                 <Controller
                   name="applicationType"
                   control={control}
@@ -87,7 +93,10 @@ export default function AcademicBackground({ data, setData }: AcademicBackground
                       label="Application Type"
                       onChange={(e) => {
                         field.onChange(e); // Update the internal form state
-                        setData(prev => ({ ...prev, applicationType: e.target.value })); // Update the parent state
+                        setData((prev) => ({
+                          ...prev,
+                          applicationType: e.target.value,
+                        })); // Update the parent state
                       }}
                     >
                       <MenuItem value="Freshmen">Freshmen</MenuItem>
@@ -115,7 +124,10 @@ export default function AcademicBackground({ data, setData }: AcademicBackground
                       label="Course"
                       onChange={(e) => {
                         field.onChange(e); // Update the internal form state
-                        setData(prev => ({ ...prev, course: e.target.value })); // Update the parent state
+                        setData((prev) => ({
+                          ...prev,
+                          course: e.target.value,
+                        })); // Update the parent state
                       }}
                     >
                       <MenuItem value="BSIT">BSIT</MenuItem>
@@ -138,11 +150,14 @@ export default function AcademicBackground({ data, setData }: AcademicBackground
                     <Select
                       labelId="major-label"
                       id="major"
-                      value={field.value || ''}
+                      value={field.value || ""}
                       label="Major"
                       onChange={(e) => {
                         field.onChange(e); // Update the internal form state
-                        setData(prev => ({ ...prev, majorIn: e.target.value })); // Update the parent state
+                        setData((prev) => ({
+                          ...prev,
+                          majorIn: e.target.value,
+                        })); // Update the parent state
                       }}
                     >
                       <MenuItem value="BSIT">BSIT</MenuItem>
@@ -155,8 +170,8 @@ export default function AcademicBackground({ data, setData }: AcademicBackground
           </FormGrid>
 
           <Grid item xs={12} md={6} lg={12}>
-            <Box sx={{ display: 'flex', gap: 2 }}>
-              <Box sx={{ flex: '40%' }}>
+            <Box sx={{ display: "flex", gap: 2 }}>
+              <Box sx={{ flex: "40%" }}>
                 <FormControl fullWidth>
                   <InputLabel id="semester-label">Semester Entry</InputLabel>
                   <Controller
@@ -170,11 +185,18 @@ export default function AcademicBackground({ data, setData }: AcademicBackground
                         label="Semester Entry"
                         onChange={(e) => {
                           field.onChange(e); // Update the internal form state
-                          setData(prev => ({ ...prev, semesterEntry: e.target.value })); // Update the parent state
+                          setData((prev) => ({
+                            ...prev,
+                            semesterEntry: e.target.value,
+                          })); // Update the parent state
                         }}
                       >
-                        <MenuItem value="First Semester">First Semester</MenuItem>
-                        <MenuItem value="Second Semester">Second Semester</MenuItem>
+                        <MenuItem value="First Semester">
+                          First Semester
+                        </MenuItem>
+                        <MenuItem value="Second Semester">
+                          Second Semester
+                        </MenuItem>
                         <MenuItem value="Summer">Summer</MenuItem>
                       </Select>
                     )}
@@ -182,7 +204,7 @@ export default function AcademicBackground({ data, setData }: AcademicBackground
                 </FormControl>
               </Box>
 
-              <Box sx={{ flex: '30%' }}>
+              <Box sx={{ flex: "30%" }}>
                 <FormControl fullWidth>
                   <Controller
                     name="yearEntry"
@@ -190,15 +212,17 @@ export default function AcademicBackground({ data, setData }: AcademicBackground
                     render={({ field }) => (
                       <LocalizationProvider dateAdapter={AdapterDayjs}>
                         <DatePicker
-                          views={['year']}
+                          views={["year"]}
                           label="Year Entry"
                           value={field.value ? dayjs(field.value) : null}
                           onChange={(date: dayjs.Dayjs | null) => {
                             const year = date?.year() ?? 0; // Convert to number
                             field.onChange(year); // Update the internal form state
-                            setData(prev => ({ ...prev, yearEntry: year })); // Update the parent state
+                            setData((prev) => ({ ...prev, yearEntry: year })); // Update the parent state
                           }}
-                          slotProps={{ textField: { variant: 'outlined', fullWidth: true } }}
+                          slotProps={{
+                            textField: { variant: "outlined", fullWidth: true },
+                          }}
                         />
                       </LocalizationProvider>
                     )}
@@ -206,7 +230,7 @@ export default function AcademicBackground({ data, setData }: AcademicBackground
                 </FormControl>
               </Box>
 
-              <Box sx={{ flex: '30%' }}>
+              <Box sx={{ flex: "30%" }}>
                 <FormControl fullWidth>
                   <Controller
                     name="yearGraduate"
@@ -214,15 +238,20 @@ export default function AcademicBackground({ data, setData }: AcademicBackground
                     render={({ field }) => (
                       <LocalizationProvider dateAdapter={AdapterDayjs}>
                         <DatePicker
-                          views={['year']}
+                          views={["year"]}
                           label="Year Graduate"
                           value={field.value ? dayjs(field.value) : null}
                           onChange={(date: dayjs.Dayjs | null) => {
                             const year = date?.year() ?? 0; // Convert to number
                             field.onChange(year); // Update the internal form state
-                            setData(prev => ({ ...prev, yearGraduate: year })); // Update the parent state
+                            setData((prev) => ({
+                              ...prev,
+                              yearGraduate: year,
+                            })); // Update the parent state
                           }}
-                          slotProps={{ textField: { variant: 'outlined', fullWidth: true } }}
+                          slotProps={{
+                            textField: { variant: "outlined", fullWidth: true },
+                          }}
                         />
                       </LocalizationProvider>
                     )}
@@ -231,7 +260,6 @@ export default function AcademicBackground({ data, setData }: AcademicBackground
               </Box>
             </Box>
           </Grid>
-
         </Grid>
       </form>
     </>

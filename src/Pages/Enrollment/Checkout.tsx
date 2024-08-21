@@ -28,11 +28,11 @@ import { usePersonalDataAPIState } from './States/PersonalDataStates/usePersonal
 import { usePersonalDataState } from './States/PersonalDataStates/usePersonalDataState';
 
 const steps = [
-  'Personal Data',
-  'Family Background',
-  'Academic Background',
-  'Academic History',
-  'Additional Documents',
+  "Personal Data",
+  "Family Background",
+  "Academic Background",
+  "Academic History",
+  "Additional Documents",
 ];
 
 export default function Checkout() {
@@ -54,12 +54,12 @@ export default function Checkout() {
   
   const handleNext = () => {
     setActiveStep(activeStep + 1);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const handleBack = () => {
     setActiveStep(activeStep - 1);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const handleSubmit = async () => {
@@ -68,7 +68,6 @@ export default function Checkout() {
     setSuccess(null);
 
     // Transform academicBackground data for API
-    
 
     console.log('Data to be sent:', academicBackgroundapiData);
 
@@ -77,18 +76,18 @@ export default function Checkout() {
 
       setTimeout(() => {
         setLoading(false);
-        setSuccess('Data submitted successfully!');
+        setSuccess("Data submitted successfully!");
         setSuccessModalOpen(true);
       }, 2000);
     } catch (error: unknown) {
       setTimeout(() => {
         setLoading(false);
         if (axios.isAxiosError(error)) {
-          setError(`Error: ${error.response?.data || 'Unknown error'}`);
+          setError(`Error: ${error.response?.data || "Unknown error"}`);
         } else if (error instanceof Error) {
           setError(`Error: ${error.message}`);
         } else {
-          setError('An unknown error occurred');
+          setError("An unknown error occurred");
         }
         setModalOpen(true);
       }, 2000);
@@ -126,7 +125,7 @@ export default function Checkout() {
       case 4:
         return <AdditionalDocs />;
       default:
-        throw new Error('Unknown step');
+        throw new Error("Unknown step");
     }
   }
 
@@ -136,10 +135,10 @@ export default function Checkout() {
       <Grid
         container
         sx={{
-          minHeight: { xs: '100dvh', sm: '100dvh' },
-          alignItems: 'center',
-          justifyContent: 'center',
-          mt: 10,
+          minHeight: { xs: "100dvh", sm: "100dvh" },
+          alignItems: "center",
+          justifyContent: "center",
+          mt: 5,
           px: { xs: 2, sm: 4 },
           py: { xs: 1, sm: 3 },
         }}
@@ -150,22 +149,23 @@ export default function Checkout() {
           md={8}
           lg={6}
           sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            backgroundColor: { xs: 'transparent', sm: 'background.default' },
+            display: "flex",
+            flexDirection: "column",
+            backgroundColor: { xs: "transparent", sm: "background.default" },
             borderRadius: 2,
-            boxShadow: { xs: 'none', sm: 3 },
+            boxShadow: { xs: "none", sm: 3 },
             p: { xs: 2, sm: 4 },
+
             m: { xs: 1, sm: 3 },
-            width: '100%',
+            width: "100%",
           }}
         >
           <Stepper
             activeStep={activeStep}
             sx={{
-              display: 'flex',
+              display: "flex",
               mb: 3,
-              flexWrap: 'wrap',
+              flexWrap: "wrap",
             }}
             alternativeLabel
           >
@@ -178,9 +178,9 @@ export default function Checkout() {
           <Box sx={{ mb: 3 }}>{getStepContent(activeStep)}</Box>
           <Box
             sx={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              flexDirection: { xs: 'column-reverse', sm: 'row' },
+              display: "flex",
+              justifyContent: "space-between",
+              flexDirection: { xs: "column-reverse", sm: "row" },
               gap: 2,
             }}
           >
@@ -188,13 +188,15 @@ export default function Checkout() {
               <Button
                 onClick={handleBack}
                 startIcon={<ChevronLeftRoundedIcon />}
-                sx={{ mt: { xs: 1, sm: 0 }, width: { xs: '100%', sm: 'auto' } }}
+                sx={{ mt: { xs: 1, sm: 0 }, width: { xs: "100%", sm: "auto" } }}
               >
                 Back
               </Button>
             )}
             <Button
-              onClick={activeStep === steps.length - 1 ? handleSubmit : handleNext}
+              onClick={
+                activeStep === steps.length - 1 ? handleSubmit : handleNext
+              }
               endIcon={
                 activeStep === steps.length - 1 ? (
                   loading ? (
@@ -208,20 +210,31 @@ export default function Checkout() {
               }
               disabled={loading}
               sx={{
-                width: { xs: '100%', sm: 'auto' },
+                width: { xs: "100%", sm: "auto" },
                 mb: 2,
-                backgroundColor: activeStep === steps.length - 1 ? 'primary.main' : undefined,
-                color: activeStep === steps.length - 1 ? 'white' : undefined,
-                '&:hover': activeStep === steps.length - 1 ? {
-                  backgroundColor: 'primary.dark',
-                } : undefined,
-                '&:disabled': activeStep === steps.length - 1 ? {
-                  backgroundColor: 'disabled.main',
-                  color: 'disabled.contrastText',
-                } : undefined,
+                backgroundColor:
+                  activeStep === steps.length - 1 ? "primary.main" : undefined,
+                color: activeStep === steps.length - 1 ? "white" : undefined,
+                "&:hover":
+                  activeStep === steps.length - 1
+                    ? {
+                        backgroundColor: "primary.dark",
+                      }
+                    : undefined,
+                "&:disabled":
+                  activeStep === steps.length - 1
+                    ? {
+                        backgroundColor: "disabled.main",
+                        color: "disabled.contrastText",
+                      }
+                    : undefined,
               }}
             >
-              {loading ? 'Submitting...' : activeStep === steps.length - 1 ? 'Submit' : 'Proceed'}
+              {loading
+                ? "Submitting..."
+                : activeStep === steps.length - 1
+                ? "Submit"
+                : "Proceed"}
             </Button>
           </Box>
         </Grid>
@@ -231,7 +244,7 @@ export default function Checkout() {
       <Dialog open={modalOpen} onClose={handleCloseErrorModal}>
         <DialogTitle>Error</DialogTitle>
         <DialogContent>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+          <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
             <ErrorIcon color="error" />
             <span>{error}</span>
           </Box>
@@ -247,7 +260,7 @@ export default function Checkout() {
       <Dialog open={successModalOpen} onClose={handleCloseSuccessModal}>
         <DialogTitle>Success</DialogTitle>
         <DialogContent>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+          <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
             <CheckCircleIcon color="success" />
             <span>{success}</span>
           </Box>
