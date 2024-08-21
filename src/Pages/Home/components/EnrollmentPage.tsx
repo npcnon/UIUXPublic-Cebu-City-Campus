@@ -159,29 +159,31 @@ export default function EnrollmentPage(props: Props) {
         </Drawer>
       </nav>
 
-      <Typography
-        variant="h4"
-        textAlign="center"
-        sx={{
-          flexGrow: 1,
-          mt: 5,
-          color: "#FF5c00",
-          fontWeight: "bold",
-          textShadow: "2px 2px 4px rgba(0, 0, 0, 0.3)",
-          display: { xs: "block", sm: "block" },
-        }}
-      >
-        Admission Requirements
-      </Typography>
-      <Typography
-        variant="body2"
-        textAlign="center"
-        color="text.secondary"
-        sx={{ flexGrow: 1, mb: 2, display: { xs: "block", sm: "block" } }}
-      >
-        We’ll run through a checklist of items you’ll need to complete in order
-        to <br /> apply at the University. Let’s get started!
-      </Typography>
+      <Grid>
+        <Typography
+          variant="h4"
+          textAlign="center"
+          sx={{
+            flexGrow: 1,
+            mt: 5,
+            color: "#FF5c00",
+            fontWeight: "bold",
+            textShadow: "2px 2px 4px rgba(0, 0, 0, 0.2)",
+            display: { xs: "block", sm: "block" },
+          }}
+        >
+          Admission Requirements
+        </Typography>
+        <Typography
+          variant="body2"
+          textAlign="center"
+          color="text.secondary"
+          sx={{ flexGrow: 1, mb: 2, display: { xs: "block", sm: "block" } }}
+        >
+          We’ll run through a checklist of items you’ll need to complete in
+          order to <br /> apply at the University. Let’s get started!
+        </Typography>
+      </Grid>
 
       <Grid
         container
