@@ -12,12 +12,14 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
 import Typography from '@mui/material/Typography';
+import dayjs from 'dayjs';
+import { useForm, Controller } from 'react-hook-form';
 
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-
+import { PersonalData } from './Types/PersonalDataTypes/PersonalDataTypes';
 //end of imports
 
 const FormGrid = styled(Grid)(() => ({
@@ -26,31 +28,21 @@ const FormGrid = styled(Grid)(() => ({
 }));
 
 
-export default function PersonaData() {
-  const [gender, setGender] = React.useState('');
-  const [citizenship, setCitizenship] = React.useState('');
-  const [status, setStatus] = React.useState('');
-  const [country, setCountry] = React.useState('');
-  const [religion, setReligion] = React.useState('');
+
+interface PersonalDataProps {
+  data: PersonalData;
+  setData: React.Dispatch<React.SetStateAction<PersonalData>>;
+}
 
 
-  const handleGenderChange = (event: SelectChangeEvent) => {
-    setGender(event.target.value as string);
-  };
-  const handleCitizenshipChange = (event: SelectChangeEvent) => {
-    setCitizenship(event.target.value as string);
-  };
-  const handleStatusChange = (event: SelectChangeEvent) => {
-    setStatus(event.target.value as string);
-  };
-  const handleCountryChange = (event: SelectChangeEvent) => {
-    setCountry(event.target.value as string);
-  }
+export default function PersonaData({ data, setData }: PersonalDataProps) {
+  const { control, handleSubmit } = useForm<PersonalData>({
+    defaultValues: data
+  });
 
-  const handleReligionChange = (event: SelectChangeEvent) => {
-    setReligion(event.target.value as string);
-  }
- 
+  const onSubmit = (formData: PersonalData) => {
+    setData(formData);
+  };
 
   return (
     
@@ -60,9 +52,8 @@ export default function PersonaData() {
     </Typography>
     
     <Grid container spacing={3} 
-      sx={{
-        mb: 3
-      }}>
+      sx={{ mb: 3}}
+    >
       
       <FormGrid item xs={12} md={6} lg={4}>
       <Box sx={{ minWidth: 120 }}

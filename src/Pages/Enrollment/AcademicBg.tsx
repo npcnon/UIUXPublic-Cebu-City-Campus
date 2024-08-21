@@ -15,7 +15,7 @@ import { TextField } from '@mui/material';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
-import { AcademicBackgroundData } from './Types/AcademicBackgroundType';
+import { AcademicBackgroundData } from './Types/AcademicBackgroundTypes/AcademicBackgroundType';
 
 const FormGrid = styled(Grid)(() => ({
   display: 'flex',

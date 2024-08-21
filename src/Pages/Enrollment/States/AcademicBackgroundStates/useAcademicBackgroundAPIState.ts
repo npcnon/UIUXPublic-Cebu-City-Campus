@@ -1,8 +1,8 @@
-//useAcademicBackgroundAPIState.tsx
+//useAcademicBackgroundAPIState.ts
 
 import { useMemo } from 'react';
-import { AcademicBackgroundData } from '../../Types/AcademicBackgroundType';
-import { AcademicBackgroundAPIData } from '../../Types/AcademicBackgroundAPITypes';
+import { AcademicBackgroundData } from '../../Types/AcademicBackgroundTypes/AcademicBackgroundType';
+import { AcademicBackgroundAPIData } from '../../Types/AcademicBackgroundTypes/AcademicBackgroundAPITypes';
 
 export const useAcademicBackgroundAPIState = (academicBackground: AcademicBackgroundData): AcademicBackgroundAPIData => {
   return useMemo(() => ({

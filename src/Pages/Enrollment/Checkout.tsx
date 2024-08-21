@@ -22,8 +22,10 @@ import PersonalData from './PersonaData';
 import FamilyBackground from './FamilyBackground';
 import AcademicBackground from './AcademicBg';
 import AdditionalDocs from './AdditionalDocs';
-import { useAcademicBackgroundState } from './States/AcademicBackground/useAcademicBackgroundState';
-import { useAcademicBackgroundAPIState } from './States/AcademicBackground/useAcademicBackgroundAPIState'; // Import the hook
+import { useAcademicBackgroundState } from './States/AcademicBackgroundStates/useAcademicBackgroundState';
+import { useAcademicBackgroundAPIState } from './States/AcademicBackgroundStates/useAcademicBackgroundAPIState'; 
+import { usePersonalDataAPIState } from './States/PersonalDataStates/usePersonalDataAPIState';
+import { usePersonalDataState } from './States/PersonalDataStates/usePersonalDataState';
 
 const steps = [
   'Personal Data',
@@ -35,15 +37,21 @@ const steps = [
 
 export default function Checkout() {
   const [activeStep, setActiveStep] = React.useState(0);
-  const { academicBackground, setAcademicBackground } = useAcademicBackgroundState();
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
   const [success, setSuccess] = React.useState<string | null>(null);
   const [modalOpen, setModalOpen] = React.useState(false);
   const [successModalOpen, setSuccessModalOpen] = React.useState(false);
 
-  const apiData = useAcademicBackgroundAPIState(academicBackground);
+  const { personalData, setPersonalData } = usePersonalDataState();
+  const PersonalapiData = usePersonalDataAPIState(personalData);
 
+  const { academicBackground, setAcademicBackground } = useAcademicBackgroundState();
+  const academicBackgroundapiData = useAcademicBackgroundAPIState(academicBackground);
+
+
+  
+  
   const handleNext = () => {
     setActiveStep(activeStep + 1);
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -62,10 +70,10 @@ export default function Checkout() {
     // Transform academicBackground data for API
     
 
-    console.log('Data to be sent:', apiData);
+    console.log('Data to be sent:', academicBackgroundapiData);
 
     try {
-      await axios.post('http://127.0.0.1:8000/api/stdntacademicbackground/', apiData);
+      await axios.post('http://127.0.0.1:8000/api/stdntacademicbackground/', academicBackgroundapiData);
 
       setTimeout(() => {
         setLoading(false);
@@ -100,7 +108,10 @@ export default function Checkout() {
   function getStepContent(step: number) {
     switch (step) {
       case 0:
-        return <PersonalData />;
+        return <PersonalData 
+          data={personalData}
+          setData={setPersonalData}
+        />;
       case 1:
         return <FamilyBackground />;
       case 2:
