@@ -15,7 +15,7 @@ export const usePersonalDataState = () => {
     maritalStatus: '',
     religion: '',
     country: '',
-    acr: null, // Initialize as null if not applicable
+    acr: '', // Initialize as null if not applicable
   });
 
   return { personalData, setPersonalData };

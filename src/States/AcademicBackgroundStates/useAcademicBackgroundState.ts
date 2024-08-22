@@ -2,9 +2,10 @@
 
 import { useState } from 'react';
 import { AcademicBackgroundData } from '../../Types/AcademicBackgroundTypes/AcademicBackgroundType';
-
 export const useAcademicBackgroundState = () => {
   const [academicBackground, setAcademicBackground] = useState<AcademicBackgroundData>({
+    stdntId:'',
+    department:'',
     studentType: '',
     applicationType: '',
     course: '',

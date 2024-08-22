@@ -25,7 +25,7 @@ import Dashboard from "../Dashboard/Dashboard";
 const LayoutWithAppBar = () => (
   <>
     <CssBaseline />
-    <AppAppBar />
+    {/* <AppAppBar /> */}
     <Outlet /> {/* This will render the nested route components */}
   </>
 );
@@ -42,12 +42,12 @@ export default function LandingPage() {
   const router = createBrowserRouter(
     createRoutesFromElements(
       <>
-        <Route element={<LayoutWithAppBar />}>
-          <Route path="/" element={<Hero />} />
+        {/* <Route element={<LayoutWithAppBar />}>
+          <Route path="/" element={<Hero />} /> */}
           <Route path="/Enrollment" element={<Checkout />} />
-        </Route>
+        {/* </Route> */}
         <Route element={<LayoutWithoutAppBar />}>
-          <Route path="/EnrollmentPage" element={<EnrollmentPage />} />
+          {/* <Route path="/EnrollmentPage" element={<EnrollmentPage />} /> */}
           <Route path="/Sign-in" element={<SignInSide />} />
           <Route path="/Dashboard" element={<Dashboard />} />
         </Route>

@@ -1,6 +1,8 @@
 // Filename: academicBackgroundTypes.ts
 
 export interface AcademicBackgroundData {
+  stdntId: string;
+  department: string;
   studentType: string;
   applicationType: string;
   course: string;

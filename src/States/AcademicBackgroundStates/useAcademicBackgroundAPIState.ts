@@ -3,11 +3,10 @@
 import { useMemo } from 'react';
 import { AcademicBackgroundData } from '../../Types/AcademicBackgroundTypes/AcademicBackgroundType';
 import { AcademicBackgroundAPIData } from '../../Types/AcademicBackgroundTypes/AcademicBackgroundAPITypes';
-
 export const useAcademicBackgroundAPIState = (academicBackground: AcademicBackgroundData): AcademicBackgroundAPIData => {
   return useMemo(() => ({
     stdnt_id: 'S555666777',
-    department: '01',
+    department: academicBackground.department,
     course: academicBackground.course || '',
     major_in: academicBackground.majorIn || '',
     student_type: academicBackground.studentType || '',

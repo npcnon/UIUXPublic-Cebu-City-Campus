@@ -18,14 +18,14 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import axios from 'axios';
-import PersonalData from './PersonaData';
+import PersonalData from './PersonalData'; 
 import FamilyBackground from './FamilyBackground';
 import AcademicBackground from './AcademicBg';
 import AdditionalDocs from './AdditionalDocs';
-import { useAcademicBackgroundState } from './States/AcademicBackgroundStates/useAcademicBackgroundState';
-import { useAcademicBackgroundAPIState } from './States/AcademicBackgroundStates/useAcademicBackgroundAPIState'; 
-import { usePersonalDataAPIState } from './States/PersonalDataStates/usePersonalDataAPIState';
-import { usePersonalDataState } from './States/PersonalDataStates/usePersonalDataState';
+import { useAcademicBackgroundState } from '../../States/AcademicBackgroundStates/useAcademicBackgroundState';
+import { useAcademicBackgroundAPIState } from '../../States/AcademicBackgroundStates/useAcademicBackgroundAPIState'; 
+import { usePersonalDataAPIState } from '../../States/PersonalDataStates/usePersonalDataAPIState';
+import { usePersonalDataState } from '../../States/PersonalDataStates/usePersonalDataState';
 
 const steps = [
   "Personal Data",
@@ -44,14 +44,11 @@ export default function Checkout() {
   const [successModalOpen, setSuccessModalOpen] = React.useState(false);
 
   const { personalData, setPersonalData } = usePersonalDataState();
-  const PersonalapiData = usePersonalDataAPIState(personalData);
+  const personalapiData = usePersonalDataAPIState(personalData);
 
   const { academicBackground, setAcademicBackground } = useAcademicBackgroundState();
   const academicBackgroundapiData = useAcademicBackgroundAPIState(academicBackground);
 
-
-  
-  
   const handleNext = () => {
     setActiveStep(activeStep + 1);
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -66,33 +63,40 @@ export default function Checkout() {
     setLoading(true);
     setError(null);
     setSuccess(null);
-
-    // Transform academicBackground data for API
-
-    console.log('Data to be sent:', academicBackgroundapiData);
-
+  
     try {
+      // Format date for personalData
+      const formattedPersonalData = {
+        ...personalapiData,
+        birth_date: personalapiData.birth_date
+          ? personalapiData.birth_date.toISOString().split('T')[0]  // Convert to YYYY-MM-DD
+          : null,
+      };
+  
+      console.log(formattedPersonalData);
+      console.log(academicBackgroundapiData);
+  
+      // Submit academicBackground data first
       await axios.post('http://127.0.0.1:8000/api/stdntacademicbackground/', academicBackgroundapiData);
-
-      setTimeout(() => {
-        setLoading(false);
-        setSuccess("Data submitted successfully!");
-        setSuccessModalOpen(true);
-      }, 2000);
+      // Then submit personalData data
+      await axios.post('http://127.0.0.1:8000/api/stdntpersonal/', formattedPersonalData);
+  
+      setSuccess("Data submitted successfully!");
+      setSuccessModalOpen(true);
     } catch (error: unknown) {
-      setTimeout(() => {
-        setLoading(false);
-        if (axios.isAxiosError(error)) {
-          setError(`Error: ${error.response?.data || "Unknown error"}`);
-        } else if (error instanceof Error) {
-          setError(`Error: ${error.message}`);
-        } else {
-          setError("An unknown error occurred");
-        }
-        setModalOpen(true);
-      }, 2000);
+      if (axios.isAxiosError(error)) {
+        setError(`Error: ${error.response?.data || "Unknown error"}`);
+      } else if (error instanceof Error) {
+        setError(`Error: ${error.message}`);
+      } else {
+        setError("An unknown error occurred");
+      }
+      setModalOpen(true);
+    } finally {
+      setLoading(false);
     }
   };
+  
 
   const handleCloseErrorModal = () => {
     setModalOpen(false);
@@ -155,7 +159,6 @@ export default function Checkout() {
             borderRadius: 2,
             boxShadow: { xs: "none", sm: 3 },
             p: { xs: 2, sm: 4 },
-
             m: { xs: 1, sm: 3 },
             width: "100%",
           }}

@@ -6,11 +6,11 @@ export interface PersonalData {
     middleName: string;
     lastName: string;
     gender: string;
-    birthDate: Date;
+    birthDate: Date | null; // Updated type
     birthPlace: string;
     maritalStatus: string;
     religion: string;
     country: string;
-    acr?: string | null; 
+    acr?: string; 
   }
   

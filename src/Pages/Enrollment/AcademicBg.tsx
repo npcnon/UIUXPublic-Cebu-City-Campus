@@ -15,8 +15,8 @@ import { TextField } from '@mui/material';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
-import { AcademicBackgroundData } from './Types/AcademicBackgroundTypes/AcademicBackgroundType';
-
+import { AcademicBackgroundData } from '../../Types/AcademicBackgroundTypes/AcademicBackgroundType';
+import { fetchDepartmentIdByCourse } from '../../services/courseService';
 const FormGrid = styled(Grid)(() => ({
   display: "flex",
   flexDirection: "column",
@@ -34,6 +34,29 @@ export default function AcademicBackground({
   const { control, handleSubmit } = useForm<AcademicBackgroundData>({
     defaultValues: data,
   });
+
+  // State to track selected course
+  const [selectedCourse, setSelectedCourse] = React.useState<string | null>(null);
+
+  React.useEffect(() => {
+    const fetchDepartment = async () => {
+      if (selectedCourse) { 
+        try {
+          const departmentId = await fetchDepartmentIdByCourse(selectedCourse);
+          console.log(`course deparment id: ${departmentId}`)
+          // Update the department field in the data state
+          setData((prev) => ({
+            ...prev,
+            department: departmentId,
+          }));
+        } catch (error) {
+          console.error('Failed to fetch department ID:', error);
+        }
+      }
+    };
+
+    fetchDepartment();
+  }, [selectedCourse]);
 
   const onSubmit = (formData: AcademicBackgroundData) => {
     setData(formData);
@@ -124,14 +147,28 @@ export default function AcademicBackground({
                       label="Course"
                       onChange={(e) => {
                         field.onChange(e); // Update the internal form state
+                        const newCourse = e.target.value;
+                        setSelectedCourse(newCourse); // Update the local state
                         setData((prev) => ({
                           ...prev,
-                          course: e.target.value,
+                          course: newCourse,
                         })); // Update the parent state
                       }}
                     >
-                      <MenuItem value="BSIT">BSIT</MenuItem>
-                      <MenuItem value="BSTM">BSTM</MenuItem>
+                      <MenuItem value="Bachelor of Arts in Mass Communication">Bachelor of Arts in Mass Communication</MenuItem>
+                      <MenuItem value="Bachelor of Science in Accountancy (BSA)">Bachelor of Science in Accountancy (BSA)</MenuItem>
+                      <MenuItem value="Bachelor of Science in Business Administration (BSBA)">Bachelor of Science in Business Administration (BSBA)</MenuItem>
+                      <MenuItem value="Bachelor of Science in Information Technology (BSIT)">Bachelor of Science in Information Technology (BSIT)</MenuItem>
+                      <MenuItem value="Associate in Computer Technology (ACT)">Associate in Computer Technology (ACT)</MenuItem>
+                      <MenuItem value="Bachelor of Science in Electrical Engineering (BSEE)">Bachelor of Science in Electrical Engineering (BSEE)</MenuItem>
+                      <MenuItem value="Bachelor of Science in Electronics and Communications Engineering (BSECE)">Bachelor of Science in Electronics and Communications Engineering (BSECE)</MenuItem>
+                      <MenuItem value="Bachelor of Science in Industrial Engineering (BSIE)">Bachelor of Science in Industrial Engineering (BSIE)</MenuItem>
+                      <MenuItem value="Bachelor of Science in Mechanical Engineering (BSME)">Bachelor of Science in Mechanical Engineering (BSME)</MenuItem>
+                      <MenuItem value="Bachelor of Science in Civil Engineering (BSCE)">Bachelor of Science in Civil Engineering (BSCE)</MenuItem>
+                      <MenuItem value="Bachelor of Science in Industrial Technology (BSIT)">Bachelor of Science in Industrial Technology (BSIT)</MenuItem>
+                      <MenuItem value="Bachelor of Science in Electronics and Communications Engineering (BSECE)">Bachelor of Science in Electronics and Communications Engineering (BSECE)</MenuItem>
+                      <MenuItem value="Bachelor of Science in Tourism Management (BSTM)">Bachelor of Science in Tourism Management (BSTM)</MenuItem>
+
                     </Select>
                   )}
                 />
