@@ -17,29 +17,36 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs, { Dayjs } from 'dayjs';
 
 // Import the 'PersonalData' interface as a type
-import type { PersonalData } from "../../Types/PersonalDataTypes/PersonalDataTypes";
-
+import { usePersonalStore } from "../../stores/usePersonalStore";
+import { Personal } from "../../Types/PersonalDataTypes/PersonalDataTypes";
 const FormGrid = styled(Grid)(() => ({
   display: "flex",
   flexDirection: "column",
 }));
 
-interface PersonalDataProps {
-  data: PersonalData;
-  setData: React.Dispatch<React.SetStateAction<PersonalData>>;
-}
 
-export default function PersonalData({ setData, data }: PersonalDataProps) {
-  const { control, handleSubmit } = useForm<PersonalData>({
-    defaultValues: data,
+
+export default function PersonalData() {
+
+  const {personal, setPersonal} = usePersonalStore((state)=> ({
+    personal: state.personal,
+    setPersonal: state.setPersonal
+
+  }));
+
+  const { control, handleSubmit } = useForm<Personal>({
+    defaultValues: personal,
   });
 
-  const onSubmit = (formData: PersonalData) => {
+  const onSubmit = (formData: Personal) => {
    
-    setData(formData);
+    setPersonal(formData);
   };
   
-
+  React.useEffect(() => {
+    console.log(`personal data has changed: ${personal.firstName}`)
+  }, [personal]);
+  
   return (
     <>
       <Typography variant="h6" gutterBottom>z
@@ -61,7 +68,7 @@ export default function PersonalData({ setData, data }: PersonalDataProps) {
                     value={field.value}
                     onChange={(e) => {
                       field.onChange(e); // Update the internal form state
-                      setData((prev) => ({
+                      setPersonal((prev) => ({
                         ...prev,
                         firstName: e.target.value,
                       })); // Update the parent state
@@ -87,7 +94,7 @@ export default function PersonalData({ setData, data }: PersonalDataProps) {
                     value={field.value}
                     onChange={(e) => {
                       field.onChange(e); // Update the internal form state
-                      setData((prev) => ({
+                      setPersonal((prev) => ({
                         ...prev,
                         middleName: e.target.value,
                       })); // Update the parent state
@@ -112,7 +119,7 @@ export default function PersonalData({ setData, data }: PersonalDataProps) {
                     value={field.value}
                     onChange={(e) => {
                       field.onChange(e); // Update the internal form state
-                      setData((prev) => ({
+                      setPersonal((prev) => ({
                         ...prev,
                         lastName: e.target.value,
                       })); // Update the parent state
@@ -139,7 +146,7 @@ export default function PersonalData({ setData, data }: PersonalDataProps) {
                     value={field.value}
                     onChange={(e) => {
                       field.onChange(e); // Update the internal form state
-                      setData((prev) => ({
+                      setPersonal((prev) => ({
                         ...prev,
                         gender: e.target.value,
                       })); // Update the parent state
@@ -169,7 +176,7 @@ export default function PersonalData({ setData, data }: PersonalDataProps) {
                     onChange={(date: Dayjs | null) => {
                       const dateValue = date ? date.toDate() : null; // Convert Dayjs to Date
                       field.onChange(dateValue); // Update internal form state
-                      setData((prev) => ({
+                      setPersonal((prev) => ({
                         ...prev,
                         birthDate: dateValue, // Update parent state
                       }));
@@ -195,7 +202,7 @@ export default function PersonalData({ setData, data }: PersonalDataProps) {
                     value={field.value}
                     onChange={(e) => {
                       field.onChange(e); // Update the internal form state
-                      setData((prev) => ({
+                      setPersonal((prev) => ({
                         ...prev,
                         birthPlace: e.target.value,
                       })); // Update the parent state
@@ -221,7 +228,7 @@ export default function PersonalData({ setData, data }: PersonalDataProps) {
                     value={field.value}
                     onChange={(e) => {
                       field.onChange(e); // Update the internal form state
-                      setData((prev) => ({
+                      setPersonal((prev) => ({
                         ...prev,
                         maritalStatus: e.target.value,
                       })); // Update the parent state
@@ -251,7 +258,7 @@ export default function PersonalData({ setData, data }: PersonalDataProps) {
                     value={field.value}
                     onChange={(e) => {
                       field.onChange(e); // Update the internal form state
-                      setData((prev) => ({
+                      setPersonal((prev) => ({
                         ...prev,
                         religion: e.target.value,
                       })); // Update the parent state
@@ -276,7 +283,7 @@ export default function PersonalData({ setData, data }: PersonalDataProps) {
                     value={field.value}
                     onChange={(e) => {
                       field.onChange(e); // Update the internal form state
-                      setData((prev) => ({
+                      setPersonal((prev) => ({
                         ...prev,
                         country : e.target.value,
                       })); // Update the parent state
@@ -301,7 +308,7 @@ export default function PersonalData({ setData, data }: PersonalDataProps) {
                     value={field.value}
                     onChange={(e) => {
                       field.onChange(e); // Update the internal form state
-                      setData((prev) => ({
+                      setPersonal((prev) => ({
                         ...prev,
                         acr: e.target.value,
                       })); // Update the parent state

@@ -1,4 +1,4 @@
-//academicBg.tsx
+// Filename: academicBg.tsx
 
 import * as React from 'react';
 import Grid from '@mui/material/Grid';
@@ -15,51 +15,82 @@ import { TextField } from '@mui/material';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
-import { AcademicBackgroundData } from '../../Types/AcademicBackgroundTypes/AcademicBackgroundType';
 import { fetchDepartmentIdByCourse } from '../../services/courseService';
+import { fetchLatestStudentId } from '../../services/studentIdService';
+import { useAcademicStore } from '../../stores/useAcademicStore';
+import { AcademicBackgroundData } from '../../Types/AcademicBackgroundTypes/AcademicBackgroundType';
+import { usePersonalStore } from '../../stores/usePersonalStore';
+
+
 const FormGrid = styled(Grid)(() => ({
   display: "flex",
   flexDirection: "column",
 }));
 
-interface AcademicBackgroundProps {
-  data: AcademicBackgroundData;
-  setData: React.Dispatch<React.SetStateAction<AcademicBackgroundData>>;
-}
+export default function AcademicBackground() {
+  const { academicBackground, setAcademicBackground } = useAcademicStore(state => ({
+    academicBackground: state.academicBackground,
+    setAcademicBackground: state.setAcademicBackground,
+  }));
+  const {setPersonal } = usePersonalStore(state => ({
+    setPersonal : state.setPersonal,
 
-export default function AcademicBackground({
-  data,
-  setData,
-}: AcademicBackgroundProps) {
+  }));
   const { control, handleSubmit } = useForm<AcademicBackgroundData>({
-    defaultValues: data,
+    defaultValues: academicBackground,
   });
 
   // State to track selected course
   const [selectedCourse, setSelectedCourse] = React.useState<string | null>(null);
+  const [selectedYear, setSelectedYear] = React.useState<string | null>(null);
 
-  React.useEffect(() => {
-    const fetchDepartment = async () => {
-      if (selectedCourse) { 
-        try {
-          const departmentId = await fetchDepartmentIdByCourse(selectedCourse);
-          console.log(`course deparment id: ${departmentId}`)
-          // Update the department field in the data state
-          setData((prev) => ({
-            ...prev,
-            department: departmentId,
-          }));
-        } catch (error) {
-          console.error('Failed to fetch department ID:', error);
-        }
+ // Ensure academicBackground is updated correctly
+React.useEffect(() => {
+
+  const fetchDepartment = async () => {
+    if (selectedCourse) {
+      try {
+        const departmentId = await fetchDepartmentIdByCourse(selectedCourse);
+        setAcademicBackground(prev => ({
+          ...prev,
+          department: departmentId,
+        }));
+        console.log(`Academic Background department: ${useAcademicStore.getState().academicBackground.department} while fetched : ${departmentId}`);
+      } catch (error) {
+        console.error('Failed to fetch department ID:', error);
       }
-    };
+    }
+  };
+  fetchDepartment();
+}, [ selectedCourse]);
 
-    fetchDepartment();
-  }, [selectedCourse]);
+React.useEffect(() => {
+
+
+  const fetchStudentId = async () => {
+    if (selectedYear) {
+      try {
+        const studentId = await fetchLatestStudentId(academicBackground.yearEntry.toString(), academicBackground.department);
+        setPersonal(prev => ({
+          ...prev,
+          studentId : studentId
+        }));
+        setAcademicBackground(prev => ({
+          ...prev,
+          stdntId : studentId
+        }));
+        console.log(`Academic Background studentid: ${useAcademicStore.getState().academicBackground.stdntId}while fetched : ${studentId}`);
+      } catch (error) {
+        console.error('Failed to fetch student ID:', error);
+      }
+    }
+  };
+  fetchStudentId();
+}, [selectedYear]);
+
 
   const onSubmit = (formData: AcademicBackgroundData) => {
-    setData(formData);
+    setAcademicBackground(formData);
   };
 
   return (
@@ -84,10 +115,10 @@ export default function AcademicBackground({
                       label="Student Type"
                       onChange={(e) => {
                         field.onChange(e); // Update the internal form state
-                        setData((prev) => ({
+                        setAcademicBackground(prev => ({
                           ...prev,
                           studentType: e.target.value,
-                        })); // Update the parent state
+                        }));
                       }}
                     >
                       <MenuItem value="Graduate">Graduate</MenuItem>
@@ -116,10 +147,10 @@ export default function AcademicBackground({
                       label="Application Type"
                       onChange={(e) => {
                         field.onChange(e); // Update the internal form state
-                        setData((prev) => ({
+                        setAcademicBackground(prev => ({
                           ...prev,
                           applicationType: e.target.value,
-                        })); // Update the parent state
+                        }));
                       }}
                     >
                       <MenuItem value="Freshmen">Freshmen</MenuItem>
@@ -149,10 +180,10 @@ export default function AcademicBackground({
                         field.onChange(e); // Update the internal form state
                         const newCourse = e.target.value;
                         setSelectedCourse(newCourse); // Update the local state
-                        setData((prev) => ({
+                        setAcademicBackground(prev => ({
                           ...prev,
                           course: newCourse,
-                        })); // Update the parent state
+                        }));
                       }}
                     >
                       <MenuItem value="Bachelor of Arts in Mass Communication">Bachelor of Arts in Mass Communication</MenuItem>
@@ -184,22 +215,19 @@ export default function AcademicBackground({
                   name="majorIn"
                   control={control}
                   render={({ field }) => (
-                    <Select
-                      labelId="major-label"
+                    <TextField
+                      label="Major"
                       id="major"
                       value={field.value || ""}
-                      label="Major"
                       onChange={(e) => {
                         field.onChange(e); // Update the internal form state
-                        setData((prev) => ({
+                        setAcademicBackground(prev => ({
                           ...prev,
                           majorIn: e.target.value,
-                        })); // Update the parent state
+                        }));
                       }}
-                    >
-                      <MenuItem value="BSIT">BSIT</MenuItem>
-                      <MenuItem value="BSTM">BSTM</MenuItem>
-                    </Select>
+                      fullWidth
+                    />
                   )}
                 />
               </FormControl>
@@ -222,19 +250,15 @@ export default function AcademicBackground({
                         label="Semester Entry"
                         onChange={(e) => {
                           field.onChange(e); // Update the internal form state
-                          setData((prev) => ({
+                          setAcademicBackground(prev => ({
                             ...prev,
                             semesterEntry: e.target.value,
-                          })); // Update the parent state
+                          }));
                         }}
                       >
-                        <MenuItem value="First Semester">
-                          First Semester
-                        </MenuItem>
-                        <MenuItem value="Second Semester">
-                          Second Semester
-                        </MenuItem>
-                        <MenuItem value="Summer">Summer</MenuItem>
+                      <MenuItem value="First Semester">First Semester</MenuItem>
+                      <MenuItem value="Second Semester">Second Semester</MenuItem>
+                      <MenuItem value="Summer">Summer</MenuItem>
                       </Select>
                     )}
                   />
@@ -253,9 +277,10 @@ export default function AcademicBackground({
                           label="Year Entry"
                           value={field.value ? dayjs(field.value) : null}
                           onChange={(date: dayjs.Dayjs | null) => {
-                            const year = date?.year() ?? 0; // Convert to number
-                            field.onChange(year); // Update the internal form state
-                            setData((prev) => ({ ...prev, yearEntry: year })); // Update the parent state
+                            const year = date?.year() ?? 0;
+                            field.onChange(year);
+                            setSelectedYear(year.toString());
+                            setAcademicBackground(prev => ({ ...prev, yearEntry: year }));
                           }}
                           slotProps={{
                             textField: { variant: "outlined", fullWidth: true },
@@ -279,12 +304,12 @@ export default function AcademicBackground({
                           label="Year Graduate"
                           value={field.value ? dayjs(field.value) : null}
                           onChange={(date: dayjs.Dayjs | null) => {
-                            const year = date?.year() ?? 0; // Convert to number
-                            field.onChange(year); // Update the internal form state
-                            setData((prev) => ({
+                            const year = date?.year() ?? 0;
+                            field.onChange(year);
+                            setAcademicBackground(prev => ({
                               ...prev,
                               yearGraduate: year,
-                            })); // Update the parent state
+                            }));
                           }}
                           slotProps={{
                             textField: { variant: "outlined", fullWidth: true },

@@ -18,14 +18,13 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import axios from 'axios';
-import PersonalData from './PersonalData'; 
+// import PersonalData from './Personalform'; 
 import FamilyBackground from './FamilyBackground';
-import AcademicBackground from './AcademicBg';
+import AcademicBackground from './AcademicBackgroundForm';
 import AdditionalDocs from './AdditionalDocs';
-import { useAcademicBackgroundState } from '../../States/AcademicBackgroundStates/useAcademicBackgroundState';
-import { useAcademicBackgroundAPIState } from '../../States/AcademicBackgroundStates/useAcademicBackgroundAPIState'; 
-import { usePersonalDataAPIState } from '../../States/PersonalDataStates/usePersonalDataAPIState';
-import { usePersonalDataState } from '../../States/PersonalDataStates/usePersonalDataState';
+import { useAcademicStore } from '../../stores/useAcademicStore';
+import { usePersonalStore } from '../../stores/usePersonalStore';
+import PersonalData from './Personalform';
 
 const steps = [
   "Personal Data",
@@ -43,11 +42,15 @@ export default function Checkout() {
   const [modalOpen, setModalOpen] = React.useState(false);
   const [successModalOpen, setSuccessModalOpen] = React.useState(false);
 
-  const { personalData, setPersonalData } = usePersonalDataState();
-  const personalapiData = usePersonalDataAPIState(personalData);
+ 
+  
+  const { updateAcademicBackgroundAPI} = useAcademicStore(state => ({
+    updateAcademicBackgroundAPI: state.updateAcademicBackgroundAPI
+  }));
 
-  const { academicBackground, setAcademicBackground } = useAcademicBackgroundState();
-  const academicBackgroundapiData = useAcademicBackgroundAPIState(academicBackground);
+  const { updatePersonalAPI} = usePersonalStore(state => ({
+      updatePersonalAPI: state.updatePersonalAPI
+  }));
 
   const handleNext = () => {
     setActiveStep(activeStep + 1);
@@ -66,20 +69,26 @@ export default function Checkout() {
   
     try {
       // Format date for personalData
+      
+
+      updateAcademicBackgroundAPI();
+      const updatedAcademicBackgroundAPI = useAcademicStore.getState().academicBackgroundAPI
+      updatePersonalAPI()
+      const updatedPersonalAPI = usePersonalStore.getState().personalAPI
       const formattedPersonalData = {
-        ...personalapiData,
-        birth_date: personalapiData.birth_date
-          ? personalapiData.birth_date.toISOString().split('T')[0]  // Convert to YYYY-MM-DD
-          : null,
+        ...updatedPersonalAPI,
+        birth_date: updatedPersonalAPI.birth_date? updatedPersonalAPI.birth_date.toISOString().split('T')[0]  : null,
       };
   
-      console.log(formattedPersonalData);
-      console.log(academicBackgroundapiData);
-  
-      // Submit academicBackground data first
-      await axios.post('http://127.0.0.1:8000/api/stdntacademicbackground/', academicBackgroundapiData);
-      // Then submit personalData data
+     
+      
+      console.log('Academic Background API Data:', updatedAcademicBackgroundAPI); // Logs the latest data
+
+    
       await axios.post('http://127.0.0.1:8000/api/stdntpersonal/', formattedPersonalData);
+    // Submit academicBackground data first
+    await axios.post('http://127.0.0.1:8000/api/stdntacademicbackground/', updatedAcademicBackgroundAPI); 
+    // Then submit personalData data
   
       setSuccess("Data submitted successfully!");
       setSuccessModalOpen(true);
@@ -96,7 +105,6 @@ export default function Checkout() {
       setLoading(false);
     }
   };
-  
 
   const handleCloseErrorModal = () => {
     setModalOpen(false);
@@ -111,19 +119,12 @@ export default function Checkout() {
   function getStepContent(step: number) {
     switch (step) {
       case 0:
-        return <PersonalData 
-          data={personalData}
-          setData={setPersonalData}
-        />;
+        return <PersonalData/>;
       case 1:
         return <FamilyBackground />;
       case 2:
-        return (
-          <AcademicBackground
-            data={academicBackground}
-            setData={setAcademicBackground}
-          />
-        );
+        return <AcademicBackground />
+        
       case 3:
         return <></>;
       case 4:

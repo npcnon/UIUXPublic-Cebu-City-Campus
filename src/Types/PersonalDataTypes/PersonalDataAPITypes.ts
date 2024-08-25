@@ -1,6 +1,6 @@
 // Filename: PersonalDataAPITypes.ts
 
-export interface PersonalDataAPIData {
+export interface PersonalAPIData {
   student_id: string;
   f_name: string;
   m_name: string;

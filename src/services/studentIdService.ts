@@ -26,7 +26,7 @@ export const fetchLatestStudentId = async (year: string, department: string): Pr
       const incrementedId = (parseInt(last4Digits, 10) + 1).toString().padStart(4, '0'); // Increment and pad with leading zeros
 
       // Extract year entry and department ID (assuming you have these values or you can fetch them from another service)
-      const yearEntry = year; // Example, replace with actual logic
+      const yearEntry = year.slice(-2); // Example, replace with actual logic
       const departmentId = department; // Example, replace with actual logic
 
       return `${yearEntry}${departmentId}${incrementedId}`;

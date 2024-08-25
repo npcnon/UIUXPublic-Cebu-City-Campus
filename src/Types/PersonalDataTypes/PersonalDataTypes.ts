@@ -1,6 +1,6 @@
 // Filename: PersonalDataTypes.ts
 
-export interface PersonalData {
+export interface Personal {
     studentId: string;
     firstName: string;
     middleName: string;
