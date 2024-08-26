@@ -1,285 +1,528 @@
-//academichist.tsx
+// Filename: academichist.tsx
 
 import * as React from 'react';
 import Grid from '@mui/material/Grid';
 import { styled } from '@mui/system';
-//imports
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import FormControl from '@mui/material/FormControl';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
-import InputLabel from '@mui/material/InputLabel';
 import Typography from '@mui/material/Typography';
-//end of imports
+import { useForm, Controller } from 'react-hook-form';
+import { useAcHistStore } from '../../stores/useAcHistStore';
+import { AcHistData } from '../../Types/AcHistTypes/AcHistType';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import dayjs from 'dayjs';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
 const FormGrid = styled(Grid)(() => ({
   display: 'flex',
   flexDirection: 'column',
 }));
 
-
 export default function AcademicHist() {
-  const [honor, setHonor] = React.useState('');
-  const [year, setYear] = React.useState('');
-  const [yearTaken, setTaken] = React.useState('');
-  const [course, setCourse] = React.useState('');
-  
+  const { acHist, setAcHist, updateAcHistAPI } = useAcHistStore((state) => ({
+    acHist: state.acHist,
+    setAcHist: state.setAcHist,
+    updateAcHistAPI: state.updateAcHistAPI
+  }));
 
-  const handleHonorChange = (event: SelectChangeEvent) => {
-    setHonor(event.target.value as string);
-  };
-  const handleYearChange = (event: SelectChangeEvent) => {
-    setYear(event.target.value as string);
-  };
-  const handleTakenChange = (event: SelectChangeEvent) => {
-    setTaken(event.target.value as string);
-  }
+  const { control, handleSubmit } = useForm<AcHistData>({
+    defaultValues: acHist,
+  });
 
-  const handleCourseChange = (event: SelectChangeEvent) => {
-    setCourse(event.target.value as string);
-  }
+  const onSubmit = (formData: AcHistData) => {
+    setAcHist(formData);
+    updateAcHistAPI(); // Update API data when form is submitted
+  };
+
   return (
-    
     <>
-    <Typography variant="h5" gutterBottom>
-    For Undergraduate
-    </Typography>
-    <Typography variant="h6" gutterBottom>
-    I. Elementary
-    </Typography>
-    
-    <Grid container spacing={3} 
-      sx={{
-        mb: 3
-      }}>
-      
-      <FormGrid item xs={12} md={6} lg={12}>
-      <Box sx={{ minWidth: 120 }}
-        component="form"
-        noValidate
-        autoComplete="off" 
-      >
-      <FormControl fullWidth>
-       <TextField id="Eschool-name" label="School Name" variant="outlined" />
-       </FormControl>
-        </Box>
-      </FormGrid>
-
-      <FormGrid item xs={12} md={6} lg={12}>
-      <Box sx={{ minWidth: 120 }}
-        component="form"
-        noValidate
-        autoComplete="off"
-      >
-      <FormControl fullWidth>
-       <TextField id="school-address" label="Address" variant="outlined" />
-       </FormControl>
-        </Box>
-      </FormGrid>
-
-      <FormGrid item xs={12} md={6} lg={4}>
-      <Box sx={{ minWidth: 120 }}>
-      <FormControl fullWidth>
-        <InputLabel id="demo-simple-select-label">Year Graduated</InputLabel>
-        <Select
-          labelId="demo-simple-select-label"
-          id="elemYearGrad"
-          value={year}
-          label="Year Graduated"
-          onChange={handleYearChange}
-        >
-          <MenuItem value={1}>2001-2002</MenuItem>
-          <MenuItem value={2}>2002-2003</MenuItem>
-          
-        </Select>
-      </FormControl>    
-    </Box>
-    </FormGrid> 
-
-      
-      </Grid>
-
-
-      <Typography variant="h6" gutterBottom>
-      II. Secondary
+      <Typography variant="h6" gutterBottom sx={{ mb: 2, mt: 3 }}>
+        Academic History
       </Typography>
-      <Grid container spacing={3} 
-      sx={{
-        mb: 3
-      }}>
-      
-      <FormGrid item xs={12} md={6} lg={12}>
-      <Box sx={{ minWidth: 120 }}
-        component="form"
-        noValidate
-        autoComplete="off" 
-      >
-      <FormControl fullWidth>
-       <TextField id="hschool-name" label="School Name" variant="outlined" />
-       </FormControl>
-        </Box>
-      </FormGrid>
 
-      <FormGrid item xs={12} md={6} lg={8}>
-      <Box sx={{ minWidth: 120 }}>
-      <FormControl fullWidth>
-        <InputLabel id="demo-simple-select-label">Honor Received</InputLabel>
-        <Select
-          labelId="demo-simple-select-label"
-          id="honor1"
-          value={honor}
-          label="Honor Received"
-          onChange={handleHonorChange}
-        >
-          <MenuItem value={1}>Summa-cum laude</MenuItem>
-          <MenuItem value={2}>Magna-cum laude</MenuItem>
-          <MenuItem value={3}>Cum laude</MenuItem>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <Grid container spacing={3} sx={{ mb: 3 }}>
+          {/* Elementary School Information */}
+          <Typography variant="subtitle1" gutterBottom>
+            Elementary School Information
+          </Typography>
+          <FormGrid item xs={12} md={6}>
+            <Controller
+              name="elementarySchool"
+              control={control}
+              render={({ field }) => (
+                <FormControl fullWidth>
+                  <TextField
+                    {...field}
+                    label="Elementary School"
+                    variant="outlined"
+                    required
+                    value={field.value}
+                    onChange={(e) => {
+                      field.onChange(e); // Update the internal form state
+                      setAcHist((prev) => ({
+                        ...prev,
+                        elementarySchool: e.target.value,
+                      })); // Update the parent state
+                    }}
+                  />
+                </FormControl>
+              )}
+            />
+          </FormGrid>
+
+          <FormGrid item xs={12} md={6}>
+            <Controller
+              name="elementaryAddress"
+              control={control}
+              render={({ field }) => (
+                <FormControl fullWidth>
+                  <TextField
+                    {...field}
+                    label="Elementary School Address"
+                    variant="outlined"
+                    value={field.value}
+                    onChange={(e) => {
+                      field.onChange(e);
+                      setAcHist((prev) => ({
+                        ...prev,
+                        elementaryAddress: e.target.value,
+                      }));
+                    }}
+                  />
+                </FormControl>
+              )}
+            />
+          </FormGrid>
+
+          <FormGrid item xs={12} md={6}>
+            <Controller
+              name="elementaryHonors"
+              control={control}
+              render={({ field }) => (
+                <FormControl fullWidth>
+                  <TextField
+                    {...field}
+                    label="Elementary School Honors"
+                    variant="outlined"
+                    value={field.value}
+                    onChange={(e) => {
+                      field.onChange(e);
+                      setAcHist((prev) => ({
+                        ...prev,
+                        elementaryHonors: e.target.value,
+                      }));
+                    }}
+                  />
+                </FormControl>
+              )}
+            />
+          </FormGrid>
+
+          <Box sx={{ flex: "30%" }}>
+                <FormControl fullWidth>
+                  <Controller
+                    name="elementaryGraduate"
+                    control={control}
+                    render={({ field }) => (
+                      <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <DatePicker
+                          views={["year"]}
+                          label="Elementary Year Graduate"
+                          value={field.value ? dayjs(field.value) : null}
+                          onChange={(date: dayjs.Dayjs | null) => {
+                            const year = date?.year() ?? 0;
+                            field.onChange(year);
+                            setAcHist(prev => ({
+                              ...prev,
+                              elementaryGraduate: year,
+                            }));
+                          }}
+                          slotProps={{
+                            textField: { variant: "outlined", fullWidth: true },
+                          }}
+                        />
+                      </LocalizationProvider>
+                    )}
+                  />
+                </FormControl>
+          </Box>
+
+          {/* Junior High School Information */}
+          <Typography variant="subtitle1" gutterBottom>
+            Junior High School Information
+          </Typography>
+          <FormGrid item xs={12} md={6}>
+            <Controller
+              name="juniorHighschool"
+              control={control}
+              render={({ field }) => (
+                <FormControl fullWidth>
+                  <TextField
+                    {...field}
+                    label="Junior High School"
+                    variant="outlined"
+                    value={field.value}
+                    onChange={(e) => {
+                      field.onChange(e);
+                      setAcHist((prev) => ({
+                        ...prev,
+                        juniorHighschool: e.target.value,
+                      }));
+                    }}
+                  />
+                </FormControl>
+              )}
+            />
+          </FormGrid>
+
+          <FormGrid item xs={12} md={6}>
+            <Controller
+              name="juniorAddress"
+              control={control}
+              render={({ field }) => (
+                <FormControl fullWidth>
+                  <TextField
+                    {...field}
+                    label="Junior High School Address"
+                    variant="outlined"
+                    value={field.value}
+                    onChange={(e) => {
+                      field.onChange(e);
+                      setAcHist((prev) => ({
+                        ...prev,
+                        juniorAddress: e.target.value,
+                      }));
+                    }}
+                  />
+                </FormControl>
+              )}
+            />
+          </FormGrid>
+
+          <FormGrid item xs={12} md={6}>
+            <Controller
+              name="juniorHonors"
+              control={control}
+              render={({ field }) => (
+                <FormControl fullWidth>
+                  <TextField
+                    {...field}
+                    label="Junior High School Honors"
+                    variant="outlined"
+                    value={field.value}
+                    onChange={(e) => {
+                      field.onChange(e);
+                      setAcHist((prev) => ({
+                        ...prev,
+                        juniorHonors: e.target.value,
+                      }));
+                    }}
+                  />
+                </FormControl>
+              )}
+            />
+          </FormGrid>
+
+          <Box sx={{ flex: "30%" }}>
+                <FormControl fullWidth>
+                  <Controller
+                    name="juniorGraduate"
+                    control={control}
+                    render={({ field }) => (
+                      <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <DatePicker
+                          views={["year"]}
+                          label="Junior Highschool Year Graduate"
+                          value={field.value ? dayjs(field.value) : null}
+                          onChange={(date: dayjs.Dayjs | null) => {
+                            const year = date?.year() ?? 0;
+                            field.onChange(year);
+                            setAcHist(prev => ({
+                              ...prev,
+                              juniorGraduate: year,
+                            }));
+                          }}
+                          slotProps={{
+                            textField: { variant: "outlined", fullWidth: true },
+                          }}
+                        />
+                      </LocalizationProvider>
+                    )}
+                  />
+                </FormControl>
+          </Box>
+          {/* Senior High School Information */}
+          <Typography variant="subtitle1" gutterBottom>
+            Senior High School Information
+          </Typography>
+          <FormGrid item xs={12} md={6}>
+            <Controller
+              name="seniorHighschool"
+              control={control}
+              render={({ field }) => (
+                <FormControl fullWidth>
+                  <TextField
+                    {...field}
+                    label="Senior High School"
+                    variant="outlined"
+                    value={field.value}
+                    onChange={(e) => {
+                      field.onChange(e);
+                      setAcHist((prev) => ({
+                        ...prev,
+                        seniorHighschool: e.target.value,
+                      }));
+                    }}
+                  />
+                </FormControl>
+              )}
+            />
+          </FormGrid>
+
+          <FormGrid item xs={12} md={6}>
+            <Controller
+              name="seniorAddress"
+              control={control}
+              render={({ field }) => (
+                <FormControl fullWidth>
+                  <TextField
+                    {...field}
+                    label="Senior High School Address"
+                    variant="outlined"
+                    value={field.value}
+                    onChange={(e) => {
+                      field.onChange(e);
+                      setAcHist((prev) => ({
+                        ...prev,
+                        seniorAddress: e.target.value,
+                      }));
+                    }}
+                  />
+                </FormControl>
+              )}
+            />
+          </FormGrid>
+
+          <FormGrid item xs={12} md={6}>
+            <Controller
+              name="seniorHonors"
+              control={control}
+              render={({ field }) => (
+                <FormControl fullWidth>
+                  <TextField
+                    {...field}
+                    label="Senior High School Honors"
+                    variant="outlined"
+                    value={field.value}
+                    onChange={(e) => {
+                      field.onChange(e);
+                      setAcHist((prev) => ({
+                        ...prev,
+                        seniorHonors: e.target.value,
+                      }));
+                    }}
+                  />
+                </FormControl>
+              )}
+            />
+          </FormGrid>
+
+          <Box sx={{ flex: "30%" }}>
+                <FormControl fullWidth>
+                  <Controller
+                    name="seniorGraduate"
+                    control={control}
+                    render={({ field }) => (
+                      <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <DatePicker
+                          views={["year"]}
+                          label="Senior Highschool Year Graduate"
+                          value={field.value ? dayjs(field.value) : null}
+                          onChange={(date: dayjs.Dayjs | null) => {
+                            const year = date?.year() ?? 0;
+                            field.onChange(year);
+                            setAcHist(prev => ({
+                              ...prev,
+                              seniorGraduate: year,
+                            }));
+                          }}
+                          slotProps={{
+                            textField: { variant: "outlined", fullWidth: true },
+                          }}
+                        />
+                      </LocalizationProvider>
+                    )}
+                  />
+                </FormControl>
+          </Box>
           
-        </Select>
-      </FormControl>    
-    </Box>
-    </FormGrid> 
 
-      <FormGrid item xs={12} md={6} lg={4}>
-      <Box sx={{ minWidth: 120 }}>
-      <FormControl fullWidth>
-        <InputLabel id="demo-simple-select-label">Year Graduated</InputLabel>
-        <Select
-          labelId="demo-simple-select-label"
-          id="hsgrad"
-          value={year}
-          label="Year Graduated"
-          onChange={handleYearChange}
-        >
-          <MenuItem value={1}>2001-2002</MenuItem>
-          <MenuItem value={2}>2002-2003</MenuItem>
-          
-        </Select>
-      </FormControl>    
-    </Box>
-    </FormGrid> 
 
-      <FormGrid item xs={12} md={6} lg={12}>
-      <Box sx={{ minWidth: 120 }}
-        component="form"
-        noValidate
-        autoComplete="off"
-      >
-      <FormControl fullWidth>
-       <TextField id="school-address" label="Address" variant="outlined" />
-       </FormControl>
-        </Box>
-      </FormGrid>
+          {/* NCAE Information */}
+          <Typography variant="subtitle1" gutterBottom>
+            NCAE
+          </Typography>
+          <FormGrid item xs={12} md={6}>
+            <Controller
+              name="ncaeGrade"
+              control={control}
+              render={({ field }) => (
+                <FormControl fullWidth>
+                  <TextField
+                    {...field}
+                    label="NCAE Grade"
+                    variant="outlined"
+                    value={field.value}
+                    onChange={(e) => {
+                      field.onChange(e);
+                      setAcHist((prev) => ({
+                        ...prev,
+                        ncaeGrade: e.target.value,
+                      }));
+                    }}
+                  />
+                </FormControl>
+              )}
+            />
+          </FormGrid>
 
-      <FormGrid item xs={12} md={6} lg={6}>
-      <Box sx={{ minWidth: 120 }}
-        component="form"
-        noValidate
-        autoComplete="off"
-      >
-      <FormControl fullWidth>
-       <TextField id="ncaeGrade" label="NCAE Grade" variant="outlined" />
-       </FormControl>
-        </Box>
-      </FormGrid>
 
-      <FormGrid item xs={12} md={6} lg={6}>
-      <Box sx={{ minWidth: 120 }}>
-      <FormControl fullWidth>
-        <InputLabel id="demo-simple-select-label">Year Taken</InputLabel>
-        <Select
-          labelId="demo-simple-select-label"
-          id="elemYearGrad"
-          value={yearTaken}
-          label="Year Graduated"
-          onChange={handleTakenChange}
-        >
-          <MenuItem value={1}>2001-2002</MenuItem>
-          <MenuItem value={2}>2002-2003</MenuItem>
-          
-        </Select>
-      </FormControl>    
-    </Box>
-    </FormGrid> 
-      </Grid>
+          <Box sx={{ flex: "30%" }}>
+                <FormControl fullWidth>
+                  <Controller
+                    name="ncaeYearTaken"
+                    control={control}
+                    render={({ field }) => (
+                      <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <DatePicker
+                          views={["year"]}
+                          label="NCAE Year Taken"
+                          value={field.value ? dayjs(field.value) : null}
+                          onChange={(date: dayjs.Dayjs | null) => {
+                            const year = date?.year() ?? 0;
+                            field.onChange(year);
+                            setAcHist(prev => ({
+                              ...prev,
+                              ncaeYearTaken: year,
+                            }));
+                          }}
+                          slotProps={{
+                            textField: { variant: "outlined", fullWidth: true },
+                          }}
+                        />
+                      </LocalizationProvider>
+                    )}
+                  />
+                </FormControl>
+          </Box>
 
-      <Typography variant="h6" gutterBottom>
-      III. Latest College Attended
-      </Typography>
-      <Grid container spacing={3} 
-      sx={{
-        mb: 3
-      }}>
-      
-      <FormGrid item xs={12} md={6} lg={12}>
-      <Box sx={{ minWidth: 120 }}
-        component="form"
-        noValidate
-        autoComplete="off" 
-      >
-      <FormControl fullWidth>
-       <TextField id="college-name" label="School Name" variant="outlined" />
-       </FormControl>
-        </Box>
-      </FormGrid>
 
-      <FormGrid item xs={12} md={6} lg={7}>
-      <Box sx={{ minWidth: 120 }}>
-      <FormControl fullWidth>
-        <InputLabel id="demo-simple-select-label">Honor Received</InputLabel>
-        <Select
-          labelId="demo-simple-select-label"
-          id="honor1"
-          value={honor}
-          label="Honor Received"
-          onChange={handleHonorChange}
-        >
-          <MenuItem value={1}>Summa-cum laude</MenuItem>
-          <MenuItem value={2}>Magna-cum laude</MenuItem>
-          <MenuItem value={3}>Cum laude</MenuItem>
-          
-        </Select>
-      </FormControl>    
-    </Box>
-    </FormGrid> 
 
-      <FormGrid item xs={12} md={6} lg={5}>
-      <Box sx={{ minWidth: 120 }}>
-      <FormControl fullWidth>
-        <InputLabel id="demo-simple-select-label">Course</InputLabel>
-        <Select
-          labelId="demo-simple-select-label"
-          id="current-course"
-          value={course}
-          label="course"
-          onChange={handleCourseChange}
-        >
-          <MenuItem value={1}>BSIT</MenuItem>
-          <MenuItem value={2}>BSTM</MenuItem>
-          
-        </Select>
-      </FormControl>    
-    </Box>
-    </FormGrid> 
+          {/* College Information */}
+          <Typography variant="subtitle1" gutterBottom>
+            College Information
+          </Typography>
+          <FormGrid item xs={12} md={6}>
+            <Controller
+              name="latestCollege"
+              control={control}
+              render={({ field }) => (
+                <FormControl fullWidth>
+                  <TextField
+                    {...field}
+                    label="Latest College"
+                    variant="outlined"
+                    value={field.value}
+                    onChange={(e) => {
+                      field.onChange(e);
+                      setAcHist((prev) => ({
+                        ...prev,
+                        latestCollege: e.target.value,
+                      }));
+                    }}
+                  />
+                </FormControl>
+              )}
+            />
+          </FormGrid>
 
-      <FormGrid item xs={12} md={6} lg={12}>
-      <Box sx={{ minWidth: 120 }}
-        component="form"
-        noValidate
-        autoComplete="off"
-      >
-      <FormControl fullWidth>
-       <TextField id="school-address" label="Address" variant="outlined" />
-       </FormControl>
-        </Box>
-      </FormGrid>
-      </Grid>
-      
+          <FormGrid item xs={12} md={6}>
+            <Controller
+              name="collegeAddress"
+              control={control}
+              render={({ field }) => (
+                <FormControl fullWidth>
+                  <TextField
+                    {...field}
+                    label="College Address"
+                    variant="outlined"
+                    value={field.value}
+                    onChange={(e) => {
+                      field.onChange(e);
+                      setAcHist((prev) => ({
+                        ...prev,
+                        collegeAddress: e.target.value,
+                      }));
+                    }}
+                  />
+                </FormControl>
+              )}
+            />
+          </FormGrid>
 
-   
-  </>
-    
+          <FormGrid item xs={12} md={6}>
+            <Controller
+              name="collegeHonors"
+              control={control}
+              render={({ field }) => (
+                <FormControl fullWidth>
+                  <TextField
+                    {...field}
+                    label="College Honors"
+                    variant="outlined"
+                    value={field.value}
+                    onChange={(e) => {
+                      field.onChange(e);
+                      setAcHist((prev) => ({
+                        ...prev,
+                        collegeHonors: e.target.value,
+                      }));
+                    }}
+                  />
+                </FormControl>
+              )}
+            />
+          </FormGrid>
+
+          <FormGrid item xs={12} md={6}>
+            <Controller
+              name="course"
+              control={control}
+              render={({ field }) => (
+                <FormControl fullWidth>
+                  <TextField
+                    {...field}
+                    label="Course"
+                    variant="outlined"
+                    value={field.value}
+                    onChange={(e) => {
+                      field.onChange(e);
+                      setAcHist((prev) => ({
+                        ...prev,
+                        course: e.target.value,
+                      }));
+                    }}
+                  />
+                </FormControl>
+              )}
+            />
+          </FormGrid>
+
+        </Grid>
+      </form>
+    </>
   );
-
 }

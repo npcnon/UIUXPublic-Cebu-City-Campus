@@ -12,5 +12,14 @@ export interface Personal {
     religion: string;
     country: string;
     acr?: string; 
+
+    //addPersonalInfo
+    cityAddress :string;
+    provinceAddress :string;
+    contactNumber :string;
+    cityContactNumber :string;
+    provinceContactNumber :string;
+    email :string;
+    citizenship :string;
   }
   

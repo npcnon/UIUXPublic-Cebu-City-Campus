@@ -20,8 +20,12 @@ import { fetchLatestStudentId } from '../../services/studentIdService';
 import { useAcademicStore } from '../../stores/useAcademicStore';
 import { AcademicBackgroundData } from '../../Types/AcademicBackgroundTypes/AcademicBackgroundType';
 import { usePersonalStore } from '../../stores/usePersonalStore';
+import { useFamilyStore } from '../../stores/useFamilyStore';
+import { useAcHistStore } from '../../stores/useAcHistStore';
+import {debounce} from 'lodash';
 
 
+//TODO: switching of course will change regenerate the sudent id
 const FormGrid = styled(Grid)(() => ({
   display: "flex",
   flexDirection: "column",
@@ -36,10 +40,38 @@ export default function AcademicBackground() {
     setPersonal : state.setPersonal,
 
   }));
+
+  const {setFamilyBackground } = useFamilyStore(state => ({
+    setFamilyBackground : state.setFamilyBackground,
+
+  }));
+
+  const {setAcHist} = useAcHistStore(state => ({
+    setAcHist : state.setAcHist
+  }));
+
+
+  const debouncedSetAcademicBackground = React.useCallback(
+    debounce((data: Partial<AcademicBackgroundData>) => {
+      setAcademicBackground((prev) => ({
+        ...prev,
+        ...data,
+      }));
+    }, 5000),
+    [setAcademicBackground]
+  );
+
   const { control, handleSubmit } = useForm<AcademicBackgroundData>({
     defaultValues: academicBackground,
   });
 
+  
+  
+  const onSubmit = (formData: AcademicBackgroundData) => {
+    setAcademicBackground(formData);
+  };
+
+  
   // State to track selected course
   const [selectedCourse, setSelectedCourse] = React.useState<string | null>(null);
   const [selectedYear, setSelectedYear] = React.useState<string | null>(null);
@@ -79,6 +111,14 @@ React.useEffect(() => {
           ...prev,
           stdntId : studentId
         }));
+        setFamilyBackground(prev => ({
+          ...prev,
+          stdntId : studentId
+        }));
+        setAcHist(prev => ({
+          ...prev,
+          stdntId : studentId
+        }));
         console.log(`Academic Background studentid: ${useAcademicStore.getState().academicBackground.stdntId}while fetched : ${studentId}`);
       } catch (error) {
         console.error('Failed to fetch student ID:', error);
@@ -89,9 +129,7 @@ React.useEffect(() => {
 }, [selectedYear]);
 
 
-  const onSubmit = (formData: AcademicBackgroundData) => {
-    setAcademicBackground(formData);
-  };
+  
 
   return (
     <>
@@ -115,10 +153,9 @@ React.useEffect(() => {
                       label="Student Type"
                       onChange={(e) => {
                         field.onChange(e); // Update the internal form state
-                        setAcademicBackground(prev => ({
-                          ...prev,
+                        debouncedSetAcademicBackground({
                           studentType: e.target.value,
-                        }));
+                        });
                       }}
                     >
                       <MenuItem value="Graduate">Graduate</MenuItem>
@@ -147,10 +184,9 @@ React.useEffect(() => {
                       label="Application Type"
                       onChange={(e) => {
                         field.onChange(e); // Update the internal form state
-                        setAcademicBackground(prev => ({
-                          ...prev,
+                        debouncedSetAcademicBackground({
                           applicationType: e.target.value,
-                        }));
+                        });
                       }}
                     >
                       <MenuItem value="Freshmen">Freshmen</MenuItem>
@@ -180,10 +216,9 @@ React.useEffect(() => {
                         field.onChange(e); // Update the internal form state
                         const newCourse = e.target.value;
                         setSelectedCourse(newCourse); // Update the local state
-                        setAcademicBackground(prev => ({
-                          ...prev,
-                          course: newCourse,
-                        }));
+                        debouncedSetAcademicBackground({
+                          course: e.target.value,
+                        });
                       }}
                     >
                       <MenuItem value="Bachelor of Arts in Mass Communication">Bachelor of Arts in Mass Communication</MenuItem>
@@ -221,10 +256,9 @@ React.useEffect(() => {
                       value={field.value || ""}
                       onChange={(e) => {
                         field.onChange(e); // Update the internal form state
-                        setAcademicBackground(prev => ({
-                          ...prev,
+                        debouncedSetAcademicBackground({
                           majorIn: e.target.value,
-                        }));
+                        });
                       }}
                       fullWidth
                     />
@@ -250,11 +284,9 @@ React.useEffect(() => {
                         label="Semester Entry"
                         onChange={(e) => {
                           field.onChange(e); // Update the internal form state
-                          setAcademicBackground(prev => ({
-                            ...prev,
+                          debouncedSetAcademicBackground({
                             semesterEntry: e.target.value,
-                          }));
-                        }}
+                          });                        }}
                       >
                       <MenuItem value="First Semester">First Semester</MenuItem>
                       <MenuItem value="Second Semester">Second Semester</MenuItem>
@@ -264,7 +296,7 @@ React.useEffect(() => {
                   />
                 </FormControl>
               </Box>
-
+            
               <Box sx={{ flex: "30%" }}>
                 <FormControl fullWidth>
                   <Controller
@@ -280,8 +312,9 @@ React.useEffect(() => {
                             const year = date?.year() ?? 0;
                             field.onChange(year);
                             setSelectedYear(year.toString());
-                            setAcademicBackground(prev => ({ ...prev, yearEntry: year }));
-                          }}
+                            debouncedSetAcademicBackground({
+                              yearEntry: year,
+                            });                          }}
                           slotProps={{
                             textField: { variant: "outlined", fullWidth: true },
                           }}
@@ -306,10 +339,9 @@ React.useEffect(() => {
                           onChange={(date: dayjs.Dayjs | null) => {
                             const year = date?.year() ?? 0;
                             field.onChange(year);
-                            setAcademicBackground(prev => ({
-                              ...prev,
+                            debouncedSetAcademicBackground({
                               yearGraduate: year,
-                            }));
+                            });
                           }}
                           slotProps={{
                             textField: { variant: "outlined", fullWidth: true },

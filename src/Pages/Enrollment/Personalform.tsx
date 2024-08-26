@@ -39,22 +39,19 @@ export default function PersonalData() {
   });
 
   const onSubmit = (formData: Personal) => {
-   
+    
     setPersonal(formData);
   };
   
-  React.useEffect(() => {
-    console.log(`personal data has changed: ${personal.firstName}`)
-  }, [personal]);
-  
   return (
     <>
-      <Typography variant="h6" gutterBottom>z
-        I. Personal Information
-      </Typography>
+    
       <form onSubmit={handleSubmit(onSubmit)}>
         <Grid container spacing={3} sx={{ mb: 3 }}>
           {/* First Name */}
+          <Typography variant="h6" gutterBottom>
+            I. Personal Information
+          </Typography>
           <FormGrid item xs={12} md={6}>
             <Controller
               name="firstName"
@@ -132,35 +129,38 @@ export default function PersonalData() {
           </FormGrid>
 
           {/* Gender */}
-          <FormGrid item xs={12} md={6}>
-            <Controller
-              name="gender"
-              control={control}
-              render={({ field }) => (
-                <FormControl fullWidth>
-                  <InputLabel id="gender-label">Gender</InputLabel>
-                  <Select
-                    labelId="gender-label"
-                    {...field}
-                    variant="outlined"
-                    value={field.value}
-                    onChange={(e) => {
-                      field.onChange(e); // Update the internal form state
-                      setPersonal((prev) => ({
-                        ...prev,
-                        gender: e.target.value,
-                      })); // Update the parent state
-                    }}
-                    required
-                  >
-                    <MenuItem value="male">Male</MenuItem>
-                    <MenuItem value="female">Female</MenuItem>
-                    <MenuItem value="other">Other</MenuItem>
-                  </Select>
-                </FormControl>
-              )}
-            />
+          <FormGrid item xs={12} md={6} >
+            <Box sx={{ minWidth: 120 }}>
+              <FormControl fullWidth>
+                <InputLabel id="gender-label">
+                  Gender
+                </InputLabel>
+                <Controller
+                  name="gender"
+                  control={control}
+                  render={({ field }) => (
+                    <Select
+                      labelId="gender-label"
+                      id="gender"
+                      value={field.value}
+                      label="Gender"
+                      onChange={(e) => {
+                        field.onChange(e); // Update the internal form state
+                        setPersonal(prev => ({
+                          ...prev,
+                          gender: e.target.value,
+                        }));
+                      }}
+                    >
+                      <MenuItem value="Male">Male</MenuItem>
+                      <MenuItem value="Female">Female</MenuItem>
+                    </Select>
+                  )}
+                />
+              </FormControl>
+            </Box>
           </FormGrid>
+
 
           {/* Birth Date */}
           <FormGrid item xs={12} md={6}>
@@ -189,7 +189,7 @@ export default function PersonalData() {
           </FormGrid>
 
           {/* Birth Place */}
-          <FormGrid item xs={12}>
+          <FormGrid item xs={12} md={6}>
             <Controller
               name="birthPlace"
               control={control}
@@ -270,7 +270,7 @@ export default function PersonalData() {
           </FormGrid>
 
           {/* Country */}
-          <FormGrid item xs={12}>
+          <FormGrid item xs={12} md={6}>
             <Controller
               name="country"
               control={control}
@@ -286,6 +286,31 @@ export default function PersonalData() {
                       setPersonal((prev) => ({
                         ...prev,
                         country : e.target.value,
+                      })); // Update the parent state
+                    }}
+                  />
+                </FormControl>
+              )}
+            />
+          </FormGrid>
+
+          {/* Citizenship */}
+          <FormGrid item xs={12} md={6}>
+            <Controller
+              name="citizenship"
+              control={control}
+              render={({ field }) => (
+                <FormControl fullWidth>
+                  <TextField
+                    {...field}
+                    label="Citizenship"
+                    variant="outlined"
+                    value={field.value}
+                    onChange={(e) => {
+                      field.onChange(e); // Update the internal form state
+                      setPersonal((prev) => ({
+                        ...prev,
+                        citizenship : e.target.value,
                       })); // Update the parent state
                     }}
                   />
@@ -318,7 +343,174 @@ export default function PersonalData() {
               )}
             />
           </FormGrid>
+         
+        
+      <Typography variant="h6">
+      II. Address and Contact Information
+      </Typography>
 
+            {/*City Address*/}
+            <FormGrid item xs={12} md={10}>
+              <Controller
+                name="cityAddress"
+                control={control}
+                render={({ field }) => (
+                  <FormControl fullWidth>
+                    <TextField
+                      {...field}
+                      label="City Adress"
+                      variant="outlined"
+                      value={field.value}
+                      onChange={(e) => {
+                        field.onChange(e); // Update the internal form state
+                        setPersonal((prev) => ({
+                          ...prev,
+                          cityAddress: e.target.value,
+                        })); // Update the parent state
+                      }}
+                    />
+                  </FormControl>
+                )}
+              />
+            </FormGrid>
+
+
+
+            {/*Province Address*/}
+            <FormGrid item xs={12} md={10}>
+              <Controller
+                name="provinceAddress"
+                control={control}
+                render={({ field }) => (
+                  <FormControl fullWidth>
+                    <TextField
+                      {...field}
+                      label="Province Adress"
+                      variant="outlined"
+                      value={field.value}
+                      onChange={(e) => {
+                        field.onChange(e); // Update the internal form state
+                        setPersonal((prev) => ({
+                          ...prev,
+                          provinceAddress: e.target.value,
+                        })); // Update the parent state
+                      }}
+                    />
+                  </FormControl>
+                )}
+              />
+            </FormGrid>
+
+
+
+            {/*Contact Number*/}
+            <FormGrid item xs={12} md={10}>
+              <Controller
+                name="contactNumber"
+                control={control}
+                render={({ field }) => (
+                  <FormControl fullWidth>
+                    <TextField
+                      {...field}
+                      label="Contact Number"
+                      variant="outlined"
+                      value={field.value}
+                      onChange={(e) => {
+                        field.onChange(e); // Update the internal form state
+                        setPersonal((prev) => ({
+                          ...prev,
+                          contactNumber: e.target.value,
+                        })); // Update the parent state
+                      }}
+                    />
+                  </FormControl>
+                )}
+              />
+            </FormGrid>
+
+
+
+            {/*City Contact Number*/}
+            <FormGrid item xs={12} md={10}>
+              <Controller
+                name="cityContactNumber"
+                control={control}
+                render={({ field }) => (
+                  <FormControl fullWidth>
+                    <TextField
+                      {...field}
+                      label="City Contact Number"
+                      variant="outlined"
+                      value={field.value}
+                      onChange={(e) => {
+                        field.onChange(e); // Update the internal form state
+                        setPersonal((prev) => ({
+                          ...prev,
+                          cityContactNumber: e.target.value,
+                        })); // Update the parent state
+                      }}
+                    />
+                  </FormControl>
+                )}
+              />
+            </FormGrid>
+
+
+
+            {/*Province Contact Number*/}
+            <FormGrid item xs={12} md={10}>
+              <Controller
+                name="provinceContactNumber"
+                control={control}
+                render={({ field }) => (
+                  <FormControl fullWidth>
+                    <TextField
+                      {...field}
+                      label="Province Contact Number"
+                      variant="outlined"
+                      value={field.value}
+                      onChange={(e) => {
+                        field.onChange(e); // Update the internal form state
+                        setPersonal((prev) => ({
+                          ...prev,
+                          provinceContactNumber: e.target.value,
+                        })); // Update the parent state
+                      }}
+                    />
+                  </FormControl>
+                )}
+              />
+            </FormGrid>
+
+
+
+            {/*Email*/}
+            <FormGrid item xs={12} md={10}>
+              <Controller
+                name="email"
+                control={control}
+                render={({ field }) => (
+                  <FormControl fullWidth>
+                    <TextField
+                      {...field}
+                      label="Email"
+                      variant="outlined"
+                      value={field.value}
+                      onChange={(e) => {
+                        field.onChange(e); // Update the internal form state
+                        setPersonal((prev) => ({
+                          ...prev,
+                          email: e.target.value,
+                        })); // Update the parent state
+                      }}
+                    />
+                  </FormControl>
+                )}
+              />
+            </FormGrid>
+
+
+            
          
         </Grid>
       </form>

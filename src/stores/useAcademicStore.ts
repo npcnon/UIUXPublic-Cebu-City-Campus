@@ -52,7 +52,6 @@ export const useAcademicStore = create<AcademicStore>()(
           const { academicBackground } = state;
           return{
             academicBackgroundAPI: {
-              ...state.academicBackgroundAPI,
               stdnt_id: academicBackground.stdntId,
               department: academicBackground.department,
               course: academicBackground.course,

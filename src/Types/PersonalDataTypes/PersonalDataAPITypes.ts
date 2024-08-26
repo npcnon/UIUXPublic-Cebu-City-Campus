@@ -12,4 +12,5 @@ export interface PersonalAPIData {
   religion: string;
   country: string;
   acr?: string;
+
 }

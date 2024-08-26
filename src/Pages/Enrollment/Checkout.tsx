@@ -18,13 +18,18 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import axios from 'axios';
+
 // import PersonalData from './Personalform'; 
 import FamilyBackground from './FamilyBackground';
 import AcademicBackground from './AcademicBackgroundForm';
+import PersonalData from './Personalform';
+import AcademicHist from './AcademicHist';
+
 import AdditionalDocs from './AdditionalDocs';
 import { useAcademicStore } from '../../stores/useAcademicStore';
 import { usePersonalStore } from '../../stores/usePersonalStore';
-import PersonalData from './Personalform';
+import { useFamilyStore } from '../../stores/useFamilyStore';
+import { useAcHistStore } from '../../stores/useAcHistStore';
 
 const steps = [
   "Personal Data",
@@ -48,9 +53,19 @@ export default function Checkout() {
     updateAcademicBackgroundAPI: state.updateAcademicBackgroundAPI
   }));
 
-  const { updatePersonalAPI} = usePersonalStore(state => ({
-      updatePersonalAPI: state.updatePersonalAPI
+  const { updatePersonalAPI, updateAddPersonalAPI} = usePersonalStore(state => ({
+      updatePersonalAPI: state.updatePersonalAPI,
+      updateAddPersonalAPI: state.updateAddPersonalAPI
   }));
+
+  const { updateFamilyBackgroundAPI} = useFamilyStore(state => ({
+    updateFamilyBackgroundAPI: state.updateFamilyBackgroundAPI
+  }));
+
+  const { updateAcHistAPI} = useAcHistStore(state => ({
+    updateAcHistAPI: state.updateAcHistAPI
+  }));
+  
 
   const handleNext = () => {
     setActiveStep(activeStep + 1);
@@ -73,23 +88,44 @@ export default function Checkout() {
 
       updateAcademicBackgroundAPI();
       const updatedAcademicBackgroundAPI = useAcademicStore.getState().academicBackgroundAPI
+
       updatePersonalAPI()
       const updatedPersonalAPI = usePersonalStore.getState().personalAPI
+
+      updateAddPersonalAPI()
+      const updatedAddPersonalAPI = usePersonalStore.getState().addPersonalAPI
+
+      updateFamilyBackgroundAPI()
+      const updatedamilyBackgroundAPI = useFamilyStore.getState().familyBackgroundAPI
+
+      updateAcHistAPI()
+      const updatedAcHistAPI = useAcHistStore.getState().acHistAPI
+
+
       const formattedPersonalData = {
         ...updatedPersonalAPI,
         birth_date: updatedPersonalAPI.birth_date? updatedPersonalAPI.birth_date.toISOString().split('T')[0]  : null,
       };
   
-     
-      
+      console.clear();
+      console.log(' Personal API Data:', formattedPersonalData); // Logs the latest data
+      console.log('AddPersonal API Data:', updatedAddPersonalAPI); // Logs the latest data
+      console.log('Family Background API Data:', updatedamilyBackgroundAPI); // Logs the latest data
       console.log('Academic Background API Data:', updatedAcademicBackgroundAPI); // Logs the latest data
+      console.log('Academic History API Data:', updatedAcHistAPI); // Logs the latest data
 
-    
-      await axios.post('http://127.0.0.1:8000/api/stdntpersonal/', formattedPersonalData);
+
+    await axios.post('http://127.0.0.1:8000/api/stdntpersonal/', formattedPersonalData);
+
+    await axios.post('http://127.0.0.1:8000/api/addstdntpersonal/', updatedAddPersonalAPI);
+
+    await axios.post('http://127.0.0.1:8000/api/stdntfamily/', updatedamilyBackgroundAPI);
+
     // Submit academicBackground data first
     await axios.post('http://127.0.0.1:8000/api/stdntacademicbackground/', updatedAcademicBackgroundAPI); 
     // Then submit personalData data
-  
+    await axios.post('http://127.0.0.1:8000/api/stdntacademichistory/', updatedAcHistAPI); 
+
       setSuccess("Data submitted successfully!");
       setSuccessModalOpen(true);
     } catch (error: unknown) {
@@ -126,7 +162,7 @@ export default function Checkout() {
         return <AcademicBackground />
         
       case 3:
-        return <></>;
+        return <AcademicHist/>;
       case 4:
         return <AdditionalDocs />;
       default:
