@@ -18,7 +18,6 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 //icon
 import HomeIcon from "@mui/icons-material/Home";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import SchoolIcon from "@mui/icons-material/School";
 import RoomPreferencesIcon from "@mui/icons-material/RoomPreferences";
 import LocationOnIcon from "@mui/icons-material/LocationOn";

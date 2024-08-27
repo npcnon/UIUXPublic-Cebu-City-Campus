@@ -1,5 +1,6 @@
 // familybackground.tsx
 
+import * as React from "react";
 import Grid from '@mui/material/Grid';
 import { styled } from '@mui/system';
 import TextField from '@mui/material/TextField';
@@ -8,6 +9,7 @@ import Typography from '@mui/material/Typography';
 import { useForm, Controller } from 'react-hook-form';
 import { FamilyBackgroundData } from '../../Types/FamilyBackgroundTypes/FamilyBackgroundType';
 import { useFamilyStore } from '../../stores/useFamilyStore';
+import { debounce } from "lodash";
 
 const FormGrid = styled(Grid)(() => ({
   display: 'flex',
@@ -20,6 +22,15 @@ export default function FamilyBackground() {
     setFamilyBackground: state.setFamilyBackground,
   }));
 
+  const debouncedSetFamilyBackground = React.useCallback(
+    debounce((data: Partial<FamilyBackgroundData>) => {
+      setFamilyBackground((prev) => ({
+        ...prev,
+        ...data,
+      }));
+    }, 300),
+    [setFamilyBackground]
+  );
   const { control, handleSubmit } = useForm<FamilyBackgroundData>({
     defaultValues: familyBackground,
   });
@@ -51,10 +62,9 @@ export default function FamilyBackground() {
                     value={field.value}
                     onChange={(e) => {
                       field.onChange(e); // Update the internal form state
-                      setFamilyBackground((prev) => ({
-                        ...prev,
+                      debouncedSetFamilyBackground({
                         fatherFname: e.target.value,
-                      })); // Update the parent state
+                      }); // Update the parent state
                     }}
                   />
                 </FormControl>
@@ -75,10 +85,9 @@ export default function FamilyBackground() {
                     value={field.value}
                     onChange={(e) => {
                       field.onChange(e); // Update the internal form state
-                      setFamilyBackground((prev) => ({
-                        ...prev,
+                      debouncedSetFamilyBackground({
                         fatherMname: e.target.value,
-                      })); // Update the parent state
+                      }); // Update the parent state
                     }}
                   />
                 </FormControl>
@@ -100,10 +109,9 @@ export default function FamilyBackground() {
                     value={field.value}
                     onChange={(e) => {
                       field.onChange(e); // Update the internal form state
-                      setFamilyBackground((prev) => ({
-                        ...prev,
+                      debouncedSetFamilyBackground({
                         fatherLname: e.target.value,
-                      })); // Update the parent state
+                      }); // Update the parent state
                     }}
                   />
                 </FormControl>
@@ -124,10 +132,9 @@ export default function FamilyBackground() {
                     value={field.value}
                     onChange={(e) => {
                       field.onChange(e); // Update the internal form state
-                      setFamilyBackground((prev) => ({
-                        ...prev,
+                      debouncedSetFamilyBackground({
                         fatherContactNumber: e.target.value,
-                      })); // Update the parent state
+                      }); // Update the parent state
                     }}
                   />
                 </FormControl>
@@ -148,10 +155,9 @@ export default function FamilyBackground() {
                     value={field.value}
                     onChange={(e) => {
                       field.onChange(e); // Update the internal form state
-                      setFamilyBackground((prev) => ({
-                        ...prev,
+                      debouncedSetFamilyBackground({
                         fatherEmail: e.target.value,
-                      })); // Update the parent state
+                      }); // Update the parent state
                     }}
                   />
                 </FormControl>
@@ -172,10 +178,9 @@ export default function FamilyBackground() {
                     value={field.value}
                     onChange={(e) => {
                       field.onChange(e); // Update the internal form state
-                      setFamilyBackground((prev) => ({
-                        ...prev,
+                      debouncedSetFamilyBackground({
                         fatherOccupation: e.target.value,
-                      })); // Update the parent state
+                      }); // Update the parent state
                     }}
                   />
                 </FormControl>
@@ -196,10 +201,9 @@ export default function FamilyBackground() {
                     value={field.value}
                     onChange={(e) => {
                       field.onChange(e); // Update the internal form state
-                      setFamilyBackground((prev) => ({
-                        ...prev,
+                      debouncedSetFamilyBackground({
                         fatherIncome: e.target.value,
-                      })); // Update the parent state
+                      }); // Update the parent state
                     }}
                   />
                 </FormControl>
@@ -220,10 +224,9 @@ export default function FamilyBackground() {
                     value={field.value}
                     onChange={(e) => {
                       field.onChange(e); // Update the internal form state
-                      setFamilyBackground((prev) => ({
-                        ...prev,
+                      debouncedSetFamilyBackground({
                         fatherCompany: e.target.value,
-                      })); // Update the parent state
+                      }); // Update the parent state
                     }}
                   />
                 </FormControl>
@@ -250,10 +253,9 @@ export default function FamilyBackground() {
                     value={field.value}
                     onChange={(e) => {
                       field.onChange(e); // Update the internal form state
-                      setFamilyBackground((prev) => ({
-                        ...prev,
+                      debouncedSetFamilyBackground({
                         motherFname: e.target.value,
-                      })); // Update the parent state
+                      }); // Update the parent state
                     }}
                   />
                 </FormControl>
@@ -274,10 +276,9 @@ export default function FamilyBackground() {
                     value={field.value}
                     onChange={(e) => {
                       field.onChange(e); // Update the internal form state
-                      setFamilyBackground((prev) => ({
-                        ...prev,
+                      debouncedSetFamilyBackground({
                         motherMname: e.target.value,
-                      })); // Update the parent state
+                      }); // Update the parent state
                     }}
                   />
                 </FormControl>
@@ -299,10 +300,9 @@ export default function FamilyBackground() {
                     value={field.value}
                     onChange={(e) => {
                       field.onChange(e); // Update the internal form state
-                      setFamilyBackground((prev) => ({
-                        ...prev,
+                      debouncedSetFamilyBackground({
                         motherLname: e.target.value,
-                      })); // Update the parent state
+                      }); // Update the parent state
                     }}
                   />
                 </FormControl>
@@ -323,10 +323,9 @@ export default function FamilyBackground() {
                     value={field.value}
                     onChange={(e) => {
                       field.onChange(e); // Update the internal form state
-                      setFamilyBackground((prev) => ({
-                        ...prev,
+                      debouncedSetFamilyBackground({
                         motherContactNumber: e.target.value,
-                      })); // Update the parent state
+                      }); // Update the parent state
                     }}
                   />
                 </FormControl>
@@ -347,10 +346,9 @@ export default function FamilyBackground() {
                     value={field.value}
                     onChange={(e) => {
                       field.onChange(e); // Update the internal form state
-                      setFamilyBackground((prev) => ({
-                        ...prev,
+                      debouncedSetFamilyBackground({
                         motherEmail: e.target.value,
-                      })); // Update the parent state
+                      }); // Update the parent state
                     }}
                   />
                 </FormControl>
@@ -371,10 +369,9 @@ export default function FamilyBackground() {
                     value={field.value}
                     onChange={(e) => {
                       field.onChange(e); // Update the internal form state
-                      setFamilyBackground((prev) => ({
-                        ...prev,
+                      debouncedSetFamilyBackground({
                         motherOccupation: e.target.value,
-                      })); // Update the parent state
+                      }); // Update the parent state
                     }}
                   />
                 </FormControl>
@@ -395,10 +392,9 @@ export default function FamilyBackground() {
                     value={field.value}
                     onChange={(e) => {
                       field.onChange(e); // Update the internal form state
-                      setFamilyBackground((prev) => ({
-                        ...prev,
+                      debouncedSetFamilyBackground({
                         motherIncome: e.target.value,
-                      })); // Update the parent state
+                      }); // Update the parent state
                     }}
                   />
                 </FormControl>
@@ -419,10 +415,9 @@ export default function FamilyBackground() {
                     value={field.value}
                     onChange={(e) => {
                       field.onChange(e); // Update the internal form state
-                      setFamilyBackground((prev) => ({
-                        ...prev,
+                      debouncedSetFamilyBackground({
                         motherCompany: e.target.value,
-                      })); // Update the parent state
+                      }); // Update the parent state
                     }}
                   />
                 </FormControl>

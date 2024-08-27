@@ -1,9 +1,9 @@
 import CssBaseline from "@mui/material/CssBaseline";
-import AppAppBar from "./components/AppAppbar";
-import Hero from "./components/Hero";
+// import AppAppBar from "./components/AppAppbar";
+// import Hero from "./components/Hero";
 import Checkout from "../Enrollment/Checkout";
 import SignInSide from "../Login/SignInSide";
-import EnrollmentPage from "./components/EnrollmentPage";
+// import EnrollmentPage from "./components/EnrollmentPage";
 // import LogoCollection from './components/LogoCollection';
 // import Highlights from './components/Highlights';
 // import Pricing from './components/Pricing';
@@ -22,13 +22,13 @@ import {
 import Dashboard from "../Dashboard/Dashboard";
 
 // Layout with AppAppBar
-const LayoutWithAppBar = () => (
-  <>
-    <CssBaseline />
-    {/* <AppAppBar /> */}
-    <Outlet /> {/* This will render the nested route components */}
-  </>
-);
+// const LayoutWithAppBar = () => (
+//   <>
+//     <CssBaseline />
+//     {/* <AppAppBar /> */}
+//     <Outlet /> {/* This will render the nested route components */}
+//   </>
+// );
 
 // Layout without AppAppBar
 const LayoutWithoutAppBar = () => (

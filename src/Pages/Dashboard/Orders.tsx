@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { useState } from 'react';
 import { Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
 

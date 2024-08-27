@@ -18,7 +18,7 @@ interface MyAddedSubjectsProps {
   onRemoveSubject: (id: number) => void; // Function to remove a subject
 }
 
-const MyAddedSubjects: React.FC<MyAddedSubjectsProps> = ({ myAddedSubjects, selectedSubject, onRemoveSubject }) => {
+const MyAddedSubjects: React.FC<MyAddedSubjectsProps> = ({ myAddedSubjects,  onRemoveSubject }) => {
   return (
     <>
       <Typography variant="h6" component="h2" sx={{ mt: 4, mb: 2 }}>

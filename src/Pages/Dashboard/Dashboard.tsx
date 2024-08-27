@@ -30,13 +30,7 @@ import Orders from './Orders';
 import axios from 'axios'; // Import Axios
 import Subjects from './Subjects';
 
-function truncateText(text: string, maxLength: number) {
-  if (text.length > maxLength) {
-    return text.substring(0, maxLength) + '...';
-  } else {
-    return text;
-  }
-}
+
 
 function Copyright(props: any) {
   return (

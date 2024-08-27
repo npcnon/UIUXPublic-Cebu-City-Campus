@@ -12,19 +12,19 @@ const API_URL = 'http://127.0.0.1:8000/api'; // Adjust this URL based on your AP
  */
 export const fetchLatestStudentId = async (year: string, department: string): Promise<string> => {
   try {
-    const response = await axios.get(`${API_URL}/student/`);
-    
+    const response = await axios.get(`${API_URL}/stdntpersonal/?latest=true`);
+    console.log("response data: ", response.data);
     if (response.status === 200) {
+      
       const students = response.data;
       
       if (students.length === 0) {
-        return '0001'; // Return '0001' if no students are found
+        return `${year.slice(-2)}${department}${"0001"}`; // Return '0001' if no students are found
       }
 
       // Assuming the student ID is in the format: last2digits of year + department ID + student number
       // Get the latest student ID by ordering by the primary key or ID field in descending order
-      const latestStudent = students[0]; // Fetch the first item, assuming it's the latest
-      const latestId = latestStudent.student_id; // Adjust according to your data structure
+      const latestId = students.student_id; // Adjust according to your data structure
 
       // Extract the last 4 digits
       const last4Digits = latestId.slice(-4);
@@ -37,8 +37,10 @@ export const fetchLatestStudentId = async (year: string, department: string): Pr
       
       // Extract year entry and department ID
       const yearEntry = year.slice(-2); // Use the last 2 digits of the year
+      
       const departmentId = department; // Use the provided department code
-
+      console.log(`service year: ${yearEntry}`);
+      console.log(`service department: ${departmentId}`);
       // Construct and return the new student ID
       return `${yearEntry}${departmentId}${incrementedId}`;
     } else {

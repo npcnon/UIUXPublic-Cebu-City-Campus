@@ -1,4 +1,3 @@
-import { alpha } from "@mui/material";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
@@ -32,7 +31,7 @@ export default function Hero() {
   return (
     <Box
       id="hero"
-      sx={(theme) => ({
+      sx={() => ({
         width: "100%",
         /* height: "607px",
          backgroundImage: `url(${background})`, // Add background image

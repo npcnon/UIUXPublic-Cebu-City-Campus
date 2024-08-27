@@ -14,6 +14,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { throttle } from 'lodash';
 
 const FormGrid = styled(Grid)(() => ({
   display: 'flex',
@@ -21,19 +22,28 @@ const FormGrid = styled(Grid)(() => ({
 }));
 
 export default function AcademicHist() {
-  const { acHist, setAcHist, updateAcHistAPI } = useAcHistStore((state) => ({
+  const { acHist, setAcHist } = useAcHistStore((state) => ({
     acHist: state.acHist,
     setAcHist: state.setAcHist,
-    updateAcHistAPI: state.updateAcHistAPI
   }));
 
+
+  const throttledSetAcHist = throttle((data: Partial<AcHistData>) => {
+    useAcHistStore.getState().setAcHist(data);
+  }, 300);
+
+  const handleFieldChange = (field: keyof AcHistData) => (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | { value: unknown }>) => {
+    const value = event.target.value;
+    throttledSetAcHist({
+      [field]: value,
+    });
+  };
   const { control, handleSubmit } = useForm<AcHistData>({
     defaultValues: acHist,
   });
 
   const onSubmit = (formData: AcHistData) => {
     setAcHist(formData);
-    updateAcHistAPI(); // Update API data when form is submitted
   };
 
   return (
@@ -61,11 +71,10 @@ export default function AcademicHist() {
                     required
                     value={field.value}
                     onChange={(e) => {
-                      field.onChange(e); // Update the internal form state
-                      setAcHist((prev) => ({
-                        ...prev,
+                      field.onChange(e);
+                      throttledSetAcHist({
                         elementarySchool: e.target.value,
-                      })); // Update the parent state
+                      });
                     }}
                   />
                 </FormControl>
@@ -86,10 +95,9 @@ export default function AcademicHist() {
                     value={field.value}
                     onChange={(e) => {
                       field.onChange(e);
-                      setAcHist((prev) => ({
-                        ...prev,
+                      throttledSetAcHist({
                         elementaryAddress: e.target.value,
-                      }));
+                      });
                     }}
                   />
                 </FormControl>
@@ -110,10 +118,9 @@ export default function AcademicHist() {
                     value={field.value}
                     onChange={(e) => {
                       field.onChange(e);
-                      setAcHist((prev) => ({
-                        ...prev,
+                      throttledSetAcHist({
                         elementaryHonors: e.target.value,
-                      }));
+                      });
                     }}
                   />
                 </FormControl>
@@ -134,8 +141,7 @@ export default function AcademicHist() {
                           value={field.value ? dayjs(field.value) : null}
                           onChange={(date: dayjs.Dayjs | null) => {
                             const year = date?.year() ?? 0;
-                            field.onChange(year);
-                            setAcHist(prev => ({
+                            setAcHist((prev) => ({
                               ...prev,
                               elementaryGraduate: year,
                             }));
@@ -167,10 +173,9 @@ export default function AcademicHist() {
                     value={field.value}
                     onChange={(e) => {
                       field.onChange(e);
-                      setAcHist((prev) => ({
-                        ...prev,
+                      throttledSetAcHist({
                         juniorHighschool: e.target.value,
-                      }));
+                      });
                     }}
                   />
                 </FormControl>
@@ -191,10 +196,9 @@ export default function AcademicHist() {
                     value={field.value}
                     onChange={(e) => {
                       field.onChange(e);
-                      setAcHist((prev) => ({
-                        ...prev,
+                      throttledSetAcHist({
                         juniorAddress: e.target.value,
-                      }));
+                      });
                     }}
                   />
                 </FormControl>
@@ -215,10 +219,9 @@ export default function AcademicHist() {
                     value={field.value}
                     onChange={(e) => {
                       field.onChange(e);
-                      setAcHist((prev) => ({
-                        ...prev,
+                      throttledSetAcHist({
                         juniorHonors: e.target.value,
-                      }));
+                      });
                     }}
                   />
                 </FormControl>
@@ -239,8 +242,7 @@ export default function AcademicHist() {
                           value={field.value ? dayjs(field.value) : null}
                           onChange={(date: dayjs.Dayjs | null) => {
                             const year = date?.year() ?? 0;
-                            field.onChange(year);
-                            setAcHist(prev => ({
+                            setAcHist((prev) => ({
                               ...prev,
                               juniorGraduate: year,
                             }));
@@ -271,10 +273,9 @@ export default function AcademicHist() {
                     value={field.value}
                     onChange={(e) => {
                       field.onChange(e);
-                      setAcHist((prev) => ({
-                        ...prev,
+                      throttledSetAcHist({
                         seniorHighschool: e.target.value,
-                      }));
+                      });
                     }}
                   />
                 </FormControl>
@@ -295,10 +296,9 @@ export default function AcademicHist() {
                     value={field.value}
                     onChange={(e) => {
                       field.onChange(e);
-                      setAcHist((prev) => ({
-                        ...prev,
+                      throttledSetAcHist({
                         seniorAddress: e.target.value,
-                      }));
+                      });
                     }}
                   />
                 </FormControl>
@@ -319,10 +319,9 @@ export default function AcademicHist() {
                     value={field.value}
                     onChange={(e) => {
                       field.onChange(e);
-                      setAcHist((prev) => ({
-                        ...prev,
+                      throttledSetAcHist({
                         seniorHonors: e.target.value,
-                      }));
+                      });
                     }}
                   />
                 </FormControl>
@@ -343,8 +342,7 @@ export default function AcademicHist() {
                           value={field.value ? dayjs(field.value) : null}
                           onChange={(date: dayjs.Dayjs | null) => {
                             const year = date?.year() ?? 0;
-                            field.onChange(year);
-                            setAcHist(prev => ({
+                            setAcHist((prev) => ({
                               ...prev,
                               seniorGraduate: year,
                             }));
@@ -378,10 +376,9 @@ export default function AcademicHist() {
                     value={field.value}
                     onChange={(e) => {
                       field.onChange(e);
-                      setAcHist((prev) => ({
-                        ...prev,
+                      throttledSetAcHist({
                         ncaeGrade: e.target.value,
-                      }));
+                      });
                     }}
                   />
                 </FormControl>
@@ -403,8 +400,7 @@ export default function AcademicHist() {
                           value={field.value ? dayjs(field.value) : null}
                           onChange={(date: dayjs.Dayjs | null) => {
                             const year = date?.year() ?? 0;
-                            field.onChange(year);
-                            setAcHist(prev => ({
+                            setAcHist((prev) => ({
                               ...prev,
                               ncaeYearTaken: year,
                             }));
@@ -438,10 +434,9 @@ export default function AcademicHist() {
                     value={field.value}
                     onChange={(e) => {
                       field.onChange(e);
-                      setAcHist((prev) => ({
-                        ...prev,
+                      throttledSetAcHist({
                         latestCollege: e.target.value,
-                      }));
+                      });
                     }}
                   />
                 </FormControl>
@@ -462,10 +457,9 @@ export default function AcademicHist() {
                     value={field.value}
                     onChange={(e) => {
                       field.onChange(e);
-                      setAcHist((prev) => ({
-                        ...prev,
+                      throttledSetAcHist({
                         collegeAddress: e.target.value,
-                      }));
+                      });
                     }}
                   />
                 </FormControl>
@@ -486,10 +480,9 @@ export default function AcademicHist() {
                     value={field.value}
                     onChange={(e) => {
                       field.onChange(e);
-                      setAcHist((prev) => ({
-                        ...prev,
+                      throttledSetAcHist({
                         collegeHonors: e.target.value,
-                      }));
+                      });
                     }}
                   />
                 </FormControl>
@@ -510,10 +503,9 @@ export default function AcademicHist() {
                     value={field.value}
                     onChange={(e) => {
                       field.onChange(e);
-                      setAcHist((prev) => ({
-                        ...prev,
+                      throttledSetAcHist({
                         course: e.target.value,
-                      }));
+                      });
                     }}
                   />
                 </FormControl>

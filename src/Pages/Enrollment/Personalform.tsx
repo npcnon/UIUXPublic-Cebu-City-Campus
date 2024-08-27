@@ -15,7 +15,7 @@ import InputLabel from '@mui/material/InputLabel';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs, { Dayjs } from 'dayjs';
-
+import { debounce } from "lodash";
 // Import the 'PersonalData' interface as a type
 import { usePersonalStore } from "../../stores/usePersonalStore";
 import { Personal } from "../../Types/PersonalDataTypes/PersonalDataTypes";
@@ -34,6 +34,15 @@ export default function PersonalData() {
 
   }));
 
+  const debouncedSetPersonal = React.useCallback(
+    debounce((data: Partial<Personal>) => {
+      setPersonal((prev) => ({
+        ...prev,
+        ...data,
+      }));
+    }, 30),
+    [setPersonal]
+  );
   const { control, handleSubmit } = useForm<Personal>({
     defaultValues: personal,
   });
@@ -65,10 +74,9 @@ export default function PersonalData() {
                     value={field.value}
                     onChange={(e) => {
                       field.onChange(e); // Update the internal form state
-                      setPersonal((prev) => ({
-                        ...prev,
+                      debouncedSetPersonal({
                         firstName: e.target.value,
-                      })); // Update the parent state
+                      }); // Update the parent state
                     }}
                     required
                   />
@@ -91,10 +99,9 @@ export default function PersonalData() {
                     value={field.value}
                     onChange={(e) => {
                       field.onChange(e); // Update the internal form state
-                      setPersonal((prev) => ({
-                        ...prev,
+                      debouncedSetPersonal({
                         middleName: e.target.value,
-                      })); // Update the parent state
+                      }); // Update the parent state
                     }}
                   />
                 </FormControl>
@@ -116,10 +123,9 @@ export default function PersonalData() {
                     value={field.value}
                     onChange={(e) => {
                       field.onChange(e); // Update the internal form state
-                      setPersonal((prev) => ({
-                        ...prev,
+                      debouncedSetPersonal({
                         lastName: e.target.value,
-                      })); // Update the parent state
+                      }); // Update the parent state
                     }}
                     required
                   />
@@ -202,10 +208,9 @@ export default function PersonalData() {
                     value={field.value}
                     onChange={(e) => {
                       field.onChange(e); // Update the internal form state
-                      setPersonal((prev) => ({
-                        ...prev,
+                      debouncedSetPersonal({
                         birthPlace: e.target.value,
-                      })); // Update the parent state
+                      }); // Update the parent state
                     }}
                   />
                 </FormControl>
@@ -258,10 +263,9 @@ export default function PersonalData() {
                     value={field.value}
                     onChange={(e) => {
                       field.onChange(e); // Update the internal form state
-                      setPersonal((prev) => ({
-                        ...prev,
+                      debouncedSetPersonal({
                         religion: e.target.value,
-                      })); // Update the parent state
+                      }); // Update the parent state
                     }}
                   />
                 </FormControl>
@@ -283,10 +287,9 @@ export default function PersonalData() {
                     value={field.value}
                     onChange={(e) => {
                       field.onChange(e); // Update the internal form state
-                      setPersonal((prev) => ({
-                        ...prev,
+                      debouncedSetPersonal({
                         country : e.target.value,
-                      })); // Update the parent state
+                      }); // Update the parent state
                     }}
                   />
                 </FormControl>
@@ -308,10 +311,9 @@ export default function PersonalData() {
                     value={field.value}
                     onChange={(e) => {
                       field.onChange(e); // Update the internal form state
-                      setPersonal((prev) => ({
-                        ...prev,
+                      debouncedSetPersonal({
                         citizenship : e.target.value,
-                      })); // Update the parent state
+                      }); // Update the parent state
                     }}
                   />
                 </FormControl>
@@ -333,10 +335,9 @@ export default function PersonalData() {
                     value={field.value}
                     onChange={(e) => {
                       field.onChange(e); // Update the internal form state
-                      setPersonal((prev) => ({
-                        ...prev,
+                      debouncedSetPersonal({
                         acr: e.target.value,
-                      })); // Update the parent state
+                      }); // Update the parent state
                     }}
                   />
                 </FormControl>
@@ -363,10 +364,9 @@ export default function PersonalData() {
                       value={field.value}
                       onChange={(e) => {
                         field.onChange(e); // Update the internal form state
-                        setPersonal((prev) => ({
-                          ...prev,
+                        debouncedSetPersonal({
                           cityAddress: e.target.value,
-                        })); // Update the parent state
+                        }); // Update the parent state
                       }}
                     />
                   </FormControl>
@@ -390,10 +390,9 @@ export default function PersonalData() {
                       value={field.value}
                       onChange={(e) => {
                         field.onChange(e); // Update the internal form state
-                        setPersonal((prev) => ({
-                          ...prev,
+                        debouncedSetPersonal({
                           provinceAddress: e.target.value,
-                        })); // Update the parent state
+                        }); // Update the parent state
                       }}
                     />
                   </FormControl>
@@ -417,10 +416,9 @@ export default function PersonalData() {
                       value={field.value}
                       onChange={(e) => {
                         field.onChange(e); // Update the internal form state
-                        setPersonal((prev) => ({
-                          ...prev,
+                        debouncedSetPersonal({
                           contactNumber: e.target.value,
-                        })); // Update the parent state
+                        }); // Update the parent state
                       }}
                     />
                   </FormControl>
@@ -444,10 +442,9 @@ export default function PersonalData() {
                       value={field.value}
                       onChange={(e) => {
                         field.onChange(e); // Update the internal form state
-                        setPersonal((prev) => ({
-                          ...prev,
+                        debouncedSetPersonal({
                           cityContactNumber: e.target.value,
-                        })); // Update the parent state
+                        }); // Update the parent state
                       }}
                     />
                   </FormControl>
@@ -471,10 +468,9 @@ export default function PersonalData() {
                       value={field.value}
                       onChange={(e) => {
                         field.onChange(e); // Update the internal form state
-                        setPersonal((prev) => ({
-                          ...prev,
+                        debouncedSetPersonal({
                           provinceContactNumber: e.target.value,
-                        })); // Update the parent state
+                        }); // Update the parent state
                       }}
                     />
                   </FormControl>
@@ -498,10 +494,9 @@ export default function PersonalData() {
                       value={field.value}
                       onChange={(e) => {
                         field.onChange(e); // Update the internal form state
-                        setPersonal((prev) => ({
-                          ...prev,
+                        debouncedSetPersonal({
                           email: e.target.value,
-                        })); // Update the parent state
+                        }); // Update the parent state
                       }}
                     />
                   </FormControl>
