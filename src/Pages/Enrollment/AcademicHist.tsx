@@ -1,6 +1,6 @@
 // Filename: academichist.tsx
 
-import * as React from 'react';
+
 import Grid from '@mui/material/Grid';
 import { styled } from '@mui/system';
 import Box from '@mui/material/Box';
@@ -32,12 +32,6 @@ export default function AcademicHist() {
     useAcHistStore.getState().setAcHist(data);
   }, 300);
 
-  const handleFieldChange = (field: keyof AcHistData) => (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | { value: unknown }>) => {
-    const value = event.target.value;
-    throttledSetAcHist({
-      [field]: value,
-    });
-  };
   const { control, handleSubmit } = useForm<AcHistData>({
     defaultValues: acHist,
   });
