@@ -40,7 +40,7 @@ export default function PersonalData() {
         ...prev,
         ...data,
       }));
-    }, 30),
+    }, 100),
     [setPersonal]
   );
   const { control, handleSubmit } = useForm<Personal>({
@@ -72,7 +72,7 @@ export default function PersonalData() {
                     label="First Name"
                     variant="outlined"
                     value={field.value}
-                    onChange={(e) => {
+                    onBlur={(e) => {
                       field.onChange(e); // Update the internal form state
                       debouncedSetPersonal({
                         firstName: e.target.value,
@@ -97,7 +97,7 @@ export default function PersonalData() {
                     label="Middle Name"
                     variant="outlined"
                     value={field.value}
-                    onChange={(e) => {
+                    onBlur={(e) => {
                       field.onChange(e); // Update the internal form state
                       debouncedSetPersonal({
                         middleName: e.target.value,
@@ -121,7 +121,7 @@ export default function PersonalData() {
                     label="Last Name"
                     variant="outlined"
                     value={field.value}
-                    onChange={(e) => {
+                    onBlur={(e) => {
                       field.onChange(e); // Update the internal form state
                       debouncedSetPersonal({
                         lastName: e.target.value,
@@ -206,7 +206,7 @@ export default function PersonalData() {
                     label="Birth Place"
                     variant="outlined"
                     value={field.value}
-                    onChange={(e) => {
+                    onBlur={(e) => {
                       field.onChange(e); // Update the internal form state
                       debouncedSetPersonal({
                         birthPlace: e.target.value,
@@ -261,7 +261,7 @@ export default function PersonalData() {
                     label="Religion"
                     variant="outlined"
                     value={field.value}
-                    onChange={(e) => {
+                    onBlur={(e) => {
                       field.onChange(e); // Update the internal form state
                       debouncedSetPersonal({
                         religion: e.target.value,
@@ -285,7 +285,7 @@ export default function PersonalData() {
                     label="Country"
                     variant="outlined"
                     value={field.value}
-                    onChange={(e) => {
+                    onBlur={(e) => {
                       field.onChange(e); // Update the internal form state
                       debouncedSetPersonal({
                         country : e.target.value,
@@ -309,7 +309,7 @@ export default function PersonalData() {
                     label="Citizenship"
                     variant="outlined"
                     value={field.value}
-                    onChange={(e) => {
+                    onBlur={(e) => {
                       field.onChange(e); // Update the internal form state
                       debouncedSetPersonal({
                         citizenship : e.target.value,
@@ -333,7 +333,7 @@ export default function PersonalData() {
                     label="Acr (Optional)"
                     variant="outlined"
                     value={field.value}
-                    onChange={(e) => {
+                    onBlur={(e) => {
                       field.onChange(e); // Update the internal form state
                       debouncedSetPersonal({
                         acr: e.target.value,
@@ -362,7 +362,7 @@ export default function PersonalData() {
                       label="City Adress"
                       variant="outlined"
                       value={field.value}
-                      onChange={(e) => {
+                      onBlur={(e) => {
                         field.onChange(e); // Update the internal form state
                         debouncedSetPersonal({
                           cityAddress: e.target.value,
@@ -388,7 +388,7 @@ export default function PersonalData() {
                       label="Province Adress"
                       variant="outlined"
                       value={field.value}
-                      onChange={(e) => {
+                      onBlur={(e) => {
                         field.onChange(e); // Update the internal form state
                         debouncedSetPersonal({
                           provinceAddress: e.target.value,
@@ -414,7 +414,7 @@ export default function PersonalData() {
                       label="Contact Number"
                       variant="outlined"
                       value={field.value}
-                      onChange={(e) => {
+                      onBlur={(e) => {
                         field.onChange(e); // Update the internal form state
                         debouncedSetPersonal({
                           contactNumber: e.target.value,
@@ -440,7 +440,7 @@ export default function PersonalData() {
                       label="City Contact Number"
                       variant="outlined"
                       value={field.value}
-                      onChange={(e) => {
+                      onBlur={(e) => {
                         field.onChange(e); // Update the internal form state
                         debouncedSetPersonal({
                           cityContactNumber: e.target.value,
@@ -466,7 +466,7 @@ export default function PersonalData() {
                       label="Province Contact Number"
                       variant="outlined"
                       value={field.value}
-                      onChange={(e) => {
+                      onBlur={(e) => {
                         field.onChange(e); // Update the internal form state
                         debouncedSetPersonal({
                           provinceContactNumber: e.target.value,
@@ -492,7 +492,7 @@ export default function PersonalData() {
                       label="Email"
                       variant="outlined"
                       value={field.value}
-                      onChange={(e) => {
+                      onBlur={(e) => {
                         field.onChange(e); // Update the internal form state
                         debouncedSetPersonal({
                           email: e.target.value,
@@ -503,10 +503,6 @@ export default function PersonalData() {
                 )}
               />
             </FormGrid>
-
-
-            
-         
         </Grid>
       </form>
     </>

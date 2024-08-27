@@ -57,7 +57,7 @@
           ...prev,
           ...data,
         }));
-      }, 300),
+      }, 100),
       [setAcademicBackground]
     );
 
@@ -242,31 +242,29 @@
               </Box>
             </FormGrid>
 
-            <FormGrid item xs={12} md={6} lg={6}>
-              <Box sx={{ minWidth: 120 }}>
+            <FormGrid item xs={12} md={6}>
+            <Controller
+              name="majorIn"
+              control={control}
+              render={({ field }) => (
                 <FormControl fullWidth>
-                  <InputLabel id="major-label">Major</InputLabel>
-                  <Controller
-                    name="majorIn"
-                    control={control}
-                    render={({ field }) => (
-                      <TextField
-                        label="Major"
-                        id="major"
-                        value={field.value || ""}
-                        onChange={(e) => {
-                          field.onChange(e); // Update the internal form state
-                          debouncedSetAcademicBackground({
-                            majorIn: e.target.value,
-                          });
-                        }}
-                        fullWidth
-                      />
-                    )}
+                  <TextField
+                    {...field}
+                    label="Major In"
+                    variant="outlined"
+                    required
+                    value={field.value}
+                    onBlur={(e) => {
+                      field.onChange(e); // Update the internal form state
+                      debouncedSetAcademicBackground({
+                        majorIn: e.target.value,
+                      }); // Update the parent state
+                    }}
                   />
                 </FormControl>
-              </Box>
-            </FormGrid>
+              )}
+            />
+          </FormGrid>
 
             <Grid item xs={12} md={6} lg={12}>
               <Box sx={{ display: "flex", gap: 2 }}>

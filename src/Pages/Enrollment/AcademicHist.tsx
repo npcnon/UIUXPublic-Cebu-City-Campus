@@ -1,6 +1,6 @@
 // Filename: academichist.tsx
 
-
+import * as React from "react";
 import Grid from '@mui/material/Grid';
 import { styled } from '@mui/system';
 import Box from '@mui/material/Box';
@@ -14,8 +14,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { throttle } from 'lodash';
-
+import { debounce } from "lodash";
 const FormGrid = styled(Grid)(() => ({
   display: 'flex',
   flexDirection: 'column',
@@ -28,9 +27,15 @@ export default function AcademicHist() {
   }));
 
 
-  const throttledSetAcHist = throttle((data: Partial<AcHistData>) => {
-    useAcHistStore.getState().setAcHist(data);
-  }, 300);
+  const debouncedSetAcHist = React.useCallback(
+    debounce((data: Partial<AcHistData>) => {
+      setAcHist((prev) => ({
+        ...prev,
+        ...data,
+      }));
+    }, 100),
+    [setAcHist]
+  );
 
   const { control, handleSubmit } = useForm<AcHistData>({
     defaultValues: acHist,
@@ -64,11 +69,11 @@ export default function AcademicHist() {
                     variant="outlined"
                     required
                     value={field.value}
-                    onChange={(e) => {
-                      field.onChange(e);
-                      throttledSetAcHist({
+                    onBlur={(e) => {
+                      field.onChange(e); // Update the internal form state
+                      debouncedSetAcHist({
                         elementarySchool: e.target.value,
-                      });
+                      }); // Update the parent state
                     }}
                   />
                 </FormControl>
@@ -87,9 +92,9 @@ export default function AcademicHist() {
                     label="Elementary School Address"
                     variant="outlined"
                     value={field.value}
-                    onChange={(e) => {
+                    onBlur={(e) => {
                       field.onChange(e);
-                      throttledSetAcHist({
+                      debouncedSetAcHist({
                         elementaryAddress: e.target.value,
                       });
                     }}
@@ -110,9 +115,9 @@ export default function AcademicHist() {
                     label="Elementary School Honors"
                     variant="outlined"
                     value={field.value}
-                    onChange={(e) => {
+                    onBlur={(e) => {
                       field.onChange(e);
-                      throttledSetAcHist({
+                      debouncedSetAcHist({
                         elementaryHonors: e.target.value,
                       });
                     }}
@@ -165,9 +170,9 @@ export default function AcademicHist() {
                     label="Junior High School"
                     variant="outlined"
                     value={field.value}
-                    onChange={(e) => {
+                    onBlur={(e) => {
                       field.onChange(e);
-                      throttledSetAcHist({
+                      debouncedSetAcHist({
                         juniorHighschool: e.target.value,
                       });
                     }}
@@ -188,9 +193,9 @@ export default function AcademicHist() {
                     label="Junior High School Address"
                     variant="outlined"
                     value={field.value}
-                    onChange={(e) => {
+                    onBlur={(e) => {
                       field.onChange(e);
-                      throttledSetAcHist({
+                      debouncedSetAcHist({
                         juniorAddress: e.target.value,
                       });
                     }}
@@ -211,9 +216,9 @@ export default function AcademicHist() {
                     label="Junior High School Honors"
                     variant="outlined"
                     value={field.value}
-                    onChange={(e) => {
+                    onBlur={(e) => {
                       field.onChange(e);
-                      throttledSetAcHist({
+                      debouncedSetAcHist({
                         juniorHonors: e.target.value,
                       });
                     }}
@@ -265,9 +270,9 @@ export default function AcademicHist() {
                     label="Senior High School"
                     variant="outlined"
                     value={field.value}
-                    onChange={(e) => {
+                    onBlur={(e) => {
                       field.onChange(e);
-                      throttledSetAcHist({
+                      debouncedSetAcHist({
                         seniorHighschool: e.target.value,
                       });
                     }}
@@ -288,9 +293,9 @@ export default function AcademicHist() {
                     label="Senior High School Address"
                     variant="outlined"
                     value={field.value}
-                    onChange={(e) => {
+                    onBlur={(e) => {
                       field.onChange(e);
-                      throttledSetAcHist({
+                      debouncedSetAcHist({
                         seniorAddress: e.target.value,
                       });
                     }}
@@ -311,9 +316,9 @@ export default function AcademicHist() {
                     label="Senior High School Honors"
                     variant="outlined"
                     value={field.value}
-                    onChange={(e) => {
+                    onBlur={(e) => {
                       field.onChange(e);
-                      throttledSetAcHist({
+                      debouncedSetAcHist({
                         seniorHonors: e.target.value,
                       });
                     }}
@@ -368,9 +373,9 @@ export default function AcademicHist() {
                     label="NCAE Grade"
                     variant="outlined"
                     value={field.value}
-                    onChange={(e) => {
+                    onBlur={(e) => {
                       field.onChange(e);
-                      throttledSetAcHist({
+                      debouncedSetAcHist({
                         ncaeGrade: e.target.value,
                       });
                     }}
@@ -426,9 +431,9 @@ export default function AcademicHist() {
                     label="Latest College"
                     variant="outlined"
                     value={field.value}
-                    onChange={(e) => {
+                    onBlur={(e) => {
                       field.onChange(e);
-                      throttledSetAcHist({
+                      debouncedSetAcHist({
                         latestCollege: e.target.value,
                       });
                     }}
@@ -449,9 +454,9 @@ export default function AcademicHist() {
                     label="College Address"
                     variant="outlined"
                     value={field.value}
-                    onChange={(e) => {
+                    onBlur={(e) => {
                       field.onChange(e);
-                      throttledSetAcHist({
+                      debouncedSetAcHist({
                         collegeAddress: e.target.value,
                       });
                     }}
@@ -472,9 +477,9 @@ export default function AcademicHist() {
                     label="College Honors"
                     variant="outlined"
                     value={field.value}
-                    onChange={(e) => {
+                    onBlur={(e) => {
                       field.onChange(e);
-                      throttledSetAcHist({
+                      debouncedSetAcHist({
                         collegeHonors: e.target.value,
                       });
                     }}
@@ -495,9 +500,9 @@ export default function AcademicHist() {
                     label="Course"
                     variant="outlined"
                     value={field.value}
-                    onChange={(e) => {
+                    onBlur={(e) => {
                       field.onChange(e);
-                      throttledSetAcHist({
+                      debouncedSetAcHist({
                         course: e.target.value,
                       });
                     }}

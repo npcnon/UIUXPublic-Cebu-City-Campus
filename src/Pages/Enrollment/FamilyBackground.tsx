@@ -28,7 +28,7 @@ export default function FamilyBackground() {
         ...prev,
         ...data,
       }));
-    }, 300),
+    }, 100),
     [setFamilyBackground]
   );
   const { control, handleSubmit } = useForm<FamilyBackgroundData>({
@@ -60,7 +60,7 @@ export default function FamilyBackground() {
                     variant="outlined"
                     required
                     value={field.value}
-                    onChange={(e) => {
+                    onBlur={(e) => {
                       field.onChange(e); // Update the internal form state
                       debouncedSetFamilyBackground({
                         fatherFname: e.target.value,
@@ -83,7 +83,7 @@ export default function FamilyBackground() {
                     label="Father's Middle Name"
                     variant="outlined"
                     value={field.value}
-                    onChange={(e) => {
+                    onBlur={(e) => {
                       field.onChange(e); // Update the internal form state
                       debouncedSetFamilyBackground({
                         fatherMname: e.target.value,
@@ -107,7 +107,7 @@ export default function FamilyBackground() {
                     variant="outlined"
                     required
                     value={field.value}
-                    onChange={(e) => {
+                    onBlur={(e) => {
                       field.onChange(e); // Update the internal form state
                       debouncedSetFamilyBackground({
                         fatherLname: e.target.value,
@@ -130,7 +130,7 @@ export default function FamilyBackground() {
                     label="Father's Contact Number"
                     variant="outlined"
                     value={field.value}
-                    onChange={(e) => {
+                    onBlur={(e) => {
                       field.onChange(e); // Update the internal form state
                       debouncedSetFamilyBackground({
                         fatherContactNumber: e.target.value,
@@ -153,7 +153,7 @@ export default function FamilyBackground() {
                     label="Father's Email"
                     variant="outlined"
                     value={field.value}
-                    onChange={(e) => {
+                    onBlur={(e) => {
                       field.onChange(e); // Update the internal form state
                       debouncedSetFamilyBackground({
                         fatherEmail: e.target.value,
@@ -176,7 +176,7 @@ export default function FamilyBackground() {
                     label="Father's Occupation"
                     variant="outlined"
                     value={field.value}
-                    onChange={(e) => {
+                    onBlur={(e) => {
                       field.onChange(e); // Update the internal form state
                       debouncedSetFamilyBackground({
                         fatherOccupation: e.target.value,
@@ -199,7 +199,7 @@ export default function FamilyBackground() {
                     label="Father's Income"
                     variant="outlined"
                     value={field.value}
-                    onChange={(e) => {
+                    onBlur={(e) => {
                       field.onChange(e); // Update the internal form state
                       debouncedSetFamilyBackground({
                         fatherIncome: e.target.value,
@@ -222,7 +222,7 @@ export default function FamilyBackground() {
                     label="Father's Company"
                     variant="outlined"
                     value={field.value}
-                    onChange={(e) => {
+                    onBlur={(e) => {
                       field.onChange(e); // Update the internal form state
                       debouncedSetFamilyBackground({
                         fatherCompany: e.target.value,
@@ -251,7 +251,7 @@ export default function FamilyBackground() {
                     variant="outlined"
                     required
                     value={field.value}
-                    onChange={(e) => {
+                    onBlur={(e) => {
                       field.onChange(e); // Update the internal form state
                       debouncedSetFamilyBackground({
                         motherFname: e.target.value,
@@ -274,7 +274,7 @@ export default function FamilyBackground() {
                     label="Mother's Middle Name"
                     variant="outlined"
                     value={field.value}
-                    onChange={(e) => {
+                    onBlur={(e) => {
                       field.onChange(e); // Update the internal form state
                       debouncedSetFamilyBackground({
                         motherMname: e.target.value,
@@ -298,7 +298,7 @@ export default function FamilyBackground() {
                     variant="outlined"
                     required
                     value={field.value}
-                    onChange={(e) => {
+                    onBlur={(e) => {
                       field.onChange(e); // Update the internal form state
                       debouncedSetFamilyBackground({
                         motherLname: e.target.value,
@@ -321,7 +321,7 @@ export default function FamilyBackground() {
                     label="Mother's Contact Number"
                     variant="outlined"
                     value={field.value}
-                    onChange={(e) => {
+                    onBlur={(e) => {
                       field.onChange(e); // Update the internal form state
                       debouncedSetFamilyBackground({
                         motherContactNumber: e.target.value,
@@ -344,7 +344,7 @@ export default function FamilyBackground() {
                     label="Mother's Email"
                     variant="outlined"
                     value={field.value}
-                    onChange={(e) => {
+                    onBlur={(e) => {
                       field.onChange(e); // Update the internal form state
                       debouncedSetFamilyBackground({
                         motherEmail: e.target.value,
@@ -367,7 +367,7 @@ export default function FamilyBackground() {
                     label="Mother's Occupation"
                     variant="outlined"
                     value={field.value}
-                    onChange={(e) => {
+                    onBlur={(e) => {
                       field.onChange(e); // Update the internal form state
                       debouncedSetFamilyBackground({
                         motherOccupation: e.target.value,
@@ -390,7 +390,7 @@ export default function FamilyBackground() {
                     label="Mother's Income"
                     variant="outlined"
                     value={field.value}
-                    onChange={(e) => {
+                    onBlur={(e) => {
                       field.onChange(e); // Update the internal form state
                       debouncedSetFamilyBackground({
                         motherIncome: e.target.value,
@@ -413,7 +413,7 @@ export default function FamilyBackground() {
                     label="Mother's Company"
                     variant="outlined"
                     value={field.value}
-                    onChange={(e) => {
+                    onBlur={(e) => {
                       field.onChange(e); // Update the internal form state
                       debouncedSetFamilyBackground({
                         motherCompany: e.target.value,

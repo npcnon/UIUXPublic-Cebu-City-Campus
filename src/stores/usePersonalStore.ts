@@ -65,6 +65,7 @@ export const usePersonalStore = create<PersonalStore>()(
         },
 
         setPersonal: (update) => {
+          console.log("setpersonal is triggered")
             set(state => {
               const newPersonal = typeof update === 'function' ? update(state.personal) : update;
               return {
