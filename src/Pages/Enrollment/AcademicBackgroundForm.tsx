@@ -71,14 +71,11 @@
       setAcademicBackground(formData);
     };
 
-    
-    // State to track selected course
-    const [selectedCourse, setSelectedCourse] = React.useState<string | null>(null);
-    const [selectedYear, setSelectedYear] = React.useState<string | null>(null);
-
 
 
   React.useEffect(() => {
+    const selectedYear = useAcademicStore.getState().academicBackground.yearEntry;
+    const selectedCourse = useAcademicStore.getState().academicBackground.course;
     const fetchDepartment = async () => {
       if (selectedCourse) {
         try {
@@ -96,9 +93,9 @@
 
     const fetchStudentId = async () => {
       
-      if (selectedYear || selectedCourse) {
+      if (selectedYear && selectedCourse) {
         try {
-          const studentId = await fetchLatestStudentId(academicBackground.yearEntry.toString(), academicBackground.department);
+          const studentId = await fetchLatestStudentId();
           setPersonal(prev => ({
             ...prev,
             studentId : studentId 
@@ -121,9 +118,19 @@
         }
       }
     };
-    fetchDepartment();
-    fetchStudentId();
-  }, [selectedYear, selectedCourse]);
+
+    const fetchData = async () => {
+      if (useAcademicStore.getState().academicBackground.course && useAcademicStore.getState().academicBackground.yearEntry) {
+        await fetchDepartment();
+        await fetchStudentId();
+      } else if (selectedCourse && !selectedYear) {
+         fetchDepartment();
+      }
+    };
+
+    fetchData(); 
+    
+  }, [useAcademicStore.getState().academicBackground.yearEntry, useAcademicStore.getState().academicBackground.course]);
 
 
     
@@ -213,8 +220,6 @@
                         label="Course"
                         onChange={(e) => {
                           field.onChange(e); // Update the internal form state
-                          const newCourse = e.target.value;
-                          setSelectedCourse(newCourse); // Update the local state
                           setAcademicBackground((prev) => ({
                             ...prev,
                             course: e.target.value,
@@ -309,7 +314,6 @@
                             value={field.value ? dayjs(field.value) : null}
                             onChange={(date: dayjs.Dayjs | null) => {
                               const year = date?.year() ?? 0;
-                              setSelectedYear(year.toString());
                               setAcademicBackground((prev) => ({
                                 ...prev,
                                 yearEntry: year,

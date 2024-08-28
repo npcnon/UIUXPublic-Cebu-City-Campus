@@ -30,6 +30,7 @@ import { useAcademicStore } from '../../stores/useAcademicStore';
 import { usePersonalStore } from '../../stores/usePersonalStore';
 import { useFamilyStore } from '../../stores/useFamilyStore';
 import { useAcHistStore } from '../../stores/useAcHistStore';
+import { useRef } from 'react';
 
 const steps = [
   "Personal Data",
@@ -46,6 +47,7 @@ export default function Checkout() {
   const [success, setSuccess] = React.useState<string | null>(null);
   const [modalOpen, setModalOpen] = React.useState(false);
   const [successModalOpen, setSuccessModalOpen] = React.useState(false);
+  const validateRef = useRef<() => Promise<boolean>>(async () => true);
 
  
   
@@ -67,11 +69,14 @@ export default function Checkout() {
   }));
   
 
-  const handleNext = () => {
-    setActiveStep(activeStep + 1);
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
 
+  const handleNext = async () => {
+    const isValid = await validateRef.current();
+    if (isValid) {
+          setActiveStep(activeStep + 1);
+          window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
   const handleBack = () => {
     setActiveStep(activeStep - 1);
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -155,7 +160,7 @@ export default function Checkout() {
   function getStepContent(step: number) {
     switch (step) {
       case 0:
-        return <PersonalData/>;
+         return <PersonalData onValidate={validateRef}/>;
       case 1:
         return <FamilyBackground />;
       case 2:

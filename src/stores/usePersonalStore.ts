@@ -22,7 +22,7 @@ export const usePersonalStore = create<PersonalStore>()(
             middleName: '',
             lastName: '',
             gender: '',
-            birthDate: new Date(),
+            birthDate: null,
             birthPlace: '',
             maritalStatus: '',
             religion: '',
@@ -99,14 +99,14 @@ export const usePersonalStore = create<PersonalStore>()(
             const { personal } = state;
             return    {
               addPersonalAPI: {
-              stdnt_id : personal.studentId,
-              city_address : personal.cityAddress,
-              province_address : personal.provinceAddress,
-              contact_number : personal.contactNumber,
-              city_contact_number : personal.cityContactNumber,
-              province_contact_number : personal.provinceContactNumber,
-              email : personal.email,
-              citizenship : personal.citizenship,
+              stdnt_id : personal.studentId || '',
+              city_address : personal.cityAddress || '',
+              province_address : personal.provinceAddress || '',
+              contact_number : personal.contactNumber || '',
+              city_contact_number : personal.cityContactNumber || '',
+              province_contact_number : personal.provinceContactNumber || '',
+              email : personal.email || '',
+              citizenship : personal.citizenship || '',
               },}
           });
       },

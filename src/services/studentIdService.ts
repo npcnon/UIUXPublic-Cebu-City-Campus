@@ -1,7 +1,7 @@
 // Filename: studentIdService.ts
 
 import axios from 'axios';
-
+import { useAcademicStore } from '../stores/useAcademicStore';
 const API_URL = 'http://127.0.0.1:8000/api'; // Adjust this URL based on your API's actual URL
 
 /**
@@ -10,55 +10,33 @@ const API_URL = 'http://127.0.0.1:8000/api'; // Adjust this URL based on your AP
  * @param department - The department code to be included in the new student ID.
  * @returns A promise that resolves to the new student ID.
  */
-export const fetchLatestStudentId = async (year: string, department: string): Promise<string> => {
+export const fetchLatestStudentId = async (): Promise<string> => {
   try {
     const response = await axios.get(`${API_URL}/stdntpersonal/?latest=true`);
-
     if (response.status === 200) {
-      // Assuming the API response data is an array of student records
       const students = response.data;
-
-      if (Array.isArray(students) && students.length === 0) {
-        return `${year.slice(-2)}${department}${"0001"}`; // Return '0001' if no students are found
+      const yearEntry = useAcademicStore.getState().academicBackground.yearEntry.toString().slice(-2); // Use the last 2 digits of the year
+      const departmentId = useAcademicStore.getState().academicBackground.department;
+      if(students.length === 0){
+        console.log(`service---yearentry: ${yearEntry}-----departmentid${departmentId}`)
+        return `${yearEntry.slice(-2)}${departmentId}${"0001"}`;
       }
+      const latestId = students.student_id; // Adjust according to your data structure
 
-      if (!Array.isArray(students) || students.length === 0 || !students[0].student_id) {
-        throw new Error('Invalid data format or missing student_id');
-      }
-
-      // Extract the latest student ID
-      const latestStudent = students[0]; // Assuming the latest student is the first item
-      const latestId = latestStudent.student_id; // Adjust according to your data structure
-
-      // Extract the last 4 digits
       const last4Digits = latestId.slice(-4);
-      console.log("last digits: ", last4Digits);
-
-      // Increment the last 4 digits
       const incrementedNumber = (parseInt(last4Digits, 10) + 1).toString();
-
-      // Pad with leading zeros
       const incrementedId = incrementedNumber.padStart(4, '0');
 
-      // Extract year entry and department ID
-      const yearEntry = year.slice(-2); // Use the last 2 digits of the year
-      const departmentId = department; // Use the provided department code
-
-      console.log(`service year: ${yearEntry}`);
-      console.log(`service department: ${departmentId}`);
-
-      // Construct and return the new student ID
+      console.log(`service---yearentry: ${yearEntry}-----departmentid${departmentId}`)
       return `${yearEntry}${departmentId}${incrementedId}`;
-    } else if (response.status === 404) {
-      console.error('No data found');
-      return `${year.slice(-2)}${department}${"0001"}`; // Handle case where no data is found
     } else {
-      throw new Error(response.data.message || 'An unexpected error occurred');
+      throw new Error('Unexpected response status');
     }
   } catch (error) {
     if (axios.isAxiosError(error)) {
       if (error.response) {
-        console.error('Error Message:', error.response.data.message || 'An unexpected error occurred');
+          // Handle other error messages or log them
+          console.error('Error Message:', error.response.data.message || 'An unexpected error occurred');
       } else if (error.request) {
         console.error('Error Request:', error.request);
       } else {
@@ -67,6 +45,7 @@ export const fetchLatestStudentId = async (year: string, department: string): Pr
     } else {
       console.error('Unexpected Error:', error);
     }
-    throw error;
+    // Optionally, handle user-friendly fallback or rethrow the error
+    throw new Error('Failed to fetch student ID. Please try again later.');
   }
 };
