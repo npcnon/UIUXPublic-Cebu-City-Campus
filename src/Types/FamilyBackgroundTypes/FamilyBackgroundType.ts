@@ -1,30 +1,27 @@
-//filename: FamilyBackgroundType.ts
+// filename: FamilyBackgroundType.ts
 
-
-export interface FamilyBackgroundData{
-    stdntId : string;
-    fatherFname : string;
-    fatherMname : string;
-    fatherLname : string;
-    fatherContactNumber : string;
-    fatherEmail : string;
-    fatherOccupation : string;
-    fatherIncome : string;
-    fatherCompany : string;
-    motherFname : string;
-    motherMname : string;
-    motherLname : string;
-    motherContactNumber : string;
-    motherEmail : string;
-    motherOccupation : string;
-    motherIncome : string;
-    motherCompany : string;
-    guardianFname : string;
-    guardianMname : string;
-    guardianLname : string;
-    guardianRelation : string;
-    guardianContactNumber : string;
-    guardianEmail : string;
-
-
+export interface FamilyBackgroundData {
+    stdntId?: string | null;
+    fatherFname?: string | null;
+    fatherMname?: string | null;
+    fatherLname?: string | null;
+    fatherContactNumber?: string | null;
+    fatherEmail?: string | null;
+    fatherOccupation?: string | null;
+    fatherIncome?: number | null;
+    fatherCompany?: string | null;
+    motherFname?: string | null;
+    motherMname?: string | null;
+    motherLname?: string | null;
+    motherContactNumber?: string | null;
+    motherEmail?: string | null;
+    motherOccupation?: string | null;
+    motherIncome?: number | null;
+    motherCompany?: string | null;
+    guardianFname?: string | null;
+    guardianMname?: string | null;
+    guardianLname?: string | null;
+    guardianRelation?: string | null;
+    guardianContactNumber?: string | null;
+    guardianEmail?: string | null;
 }

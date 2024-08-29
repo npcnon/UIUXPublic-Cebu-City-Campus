@@ -158,7 +158,7 @@ export default function Checkout() {
       case 0:
         return <PersonalData onValidate={validateRef} />;
       case 1:
-        return <FamilyBackground />;
+        return <FamilyBackground onValidate={validateRef}/>;
       case 2:
         return <AcademicBackground />;
       case 3:
@@ -187,6 +187,7 @@ export default function Checkout() {
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',
+          backgroundAttachment: 'fixed', // Keeps the background fixed during scroll
         }}
       >
         <Grid
@@ -258,6 +259,7 @@ export default function Checkout() {
             {activeStep !== 0 && (
               <Button
                 onClick={handleBack}
+                
                 startIcon={<KeyboardArrowLeft />}
                 sx={{ mt: { xs: 1, sm: 0 }, width: { xs: "100%", sm: "auto" } }}
               >
@@ -268,8 +270,6 @@ export default function Checkout() {
             {activeStep === steps.length - 1 ? (
               <Button
                 onClick={handleSubmit}
-                variant="contained"
-                color="primary"
                 disabled={loading}
                 endIcon={
                   loading ? (
@@ -285,12 +285,10 @@ export default function Checkout() {
             ) : (
               <Button
                 onClick={handleNext}
-                variant="contained"
-                color="primary"
                 endIcon={<KeyboardArrowRight />}
                 sx={{ mt: { xs: 1, sm: 0 }, width: { xs: "100%", sm: "auto" } }}
               >
-                Next
+                Proceed
               </Button>
             )}
           </Box>

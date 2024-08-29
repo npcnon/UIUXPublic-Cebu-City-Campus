@@ -5,7 +5,7 @@ export interface PersonalAPIData {
   f_name: string;
   m_name: string;
   l_name: string;
-  gender: string;
+  sex: string;
   birth_date: Date | null;
   birth_place: string;
   marital_status: string;
