@@ -11,7 +11,6 @@ import SignInSide from "../Login/SignInSide";
 // import Testimonials from './components/Testimonials';
 // import FAQ from './components/FAQ';
 // import Footer from './components/Footer';
-import HorizontalNonLinearStepper from "../../Testing(Temporary)/stepper";
 import {
   createBrowserRouter,
   createRoutesFromElements,
@@ -47,7 +46,6 @@ export default function LandingPage() {
         {/* <Route element={<LayoutWithAppBar />}>
           <Route path="/" element={<Hero />} /> */}
           <Route path="/Enrollment" element={<Checkout />} />
-          <Route path="/Stepper" element={<HorizontalNonLinearStepper />} />
         {/* </Route> */}
         <Route element={<LayoutWithoutAppBar />}>
           {/* <Route path="/EnrollmentPage" element={<EnrollmentPage />} /> */}

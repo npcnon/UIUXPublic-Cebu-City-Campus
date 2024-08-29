@@ -5,33 +5,30 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import Grid from '@mui/material/Grid';
-import Step from '@mui/material/Step';
-import StepLabel from '@mui/material/StepLabel';
-import Stepper from '@mui/material/Stepper';
-import ChevronLeftRoundedIcon from '@mui/icons-material/ChevronLeftRounded';
-import ChevronRightRoundedIcon from '@mui/icons-material/ChevronRightRounded';
 import CircularProgress from '@mui/material/CircularProgress';
+import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
+import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import ErrorIcon from '@mui/icons-material/Error';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle'; // For success modal
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import axios from 'axios';
-
-// import PersonalData from './Personalform'; 
-import FamilyBackground from './FamilyBackground';
-import AcademicBackground from './AcademicBackgroundForm';
-import PersonalData from './Personalform';
-import AcademicHist from './AcademicHist';
-
-import AdditionalDocs from './AdditionalDocs';
+import library from '../../StaticFiles/lib.jpg';
 import { useAcademicStore } from '../../stores/useAcademicStore';
 import { usePersonalStore } from '../../stores/usePersonalStore';
 import { useFamilyStore } from '../../stores/useFamilyStore';
 import { useAcHistStore } from '../../stores/useAcHistStore';
 import { useRef } from 'react';
-
+import PersonalData from './Personalform';
+import FamilyBackground from './FamilyBackground';
+import AcademicBackground from './AcademicBackgroundForm';
+import AcademicHist from './AcademicHist';
+import AdditionalDocs from './AdditionalDocs';
+import { Typography, Fade } from '@mui/material';
+import { useState } from 'react';
+import { styled } from '@mui/system';
 const steps = [
   "Personal Data",
   "Family Background",
@@ -39,6 +36,9 @@ const steps = [
   "Academic History",
   "Additional Documents",
 ];
+
+
+
 
 export default function Checkout() {
   const [activeStep, setActiveStep] = React.useState(0);
@@ -48,37 +48,50 @@ export default function Checkout() {
   const [modalOpen, setModalOpen] = React.useState(false);
   const [successModalOpen, setSuccessModalOpen] = React.useState(false);
   const validateRef = useRef<() => Promise<boolean>>(async () => true);
+  const contentRef = useRef<HTMLDivElement>(null);
+  const [fadeIn, setFadeIn] = useState(true);
 
- 
-  
-  const { updateAcademicBackgroundAPI} = useAcademicStore(state => ({
+  const { updateAcademicBackgroundAPI } = useAcademicStore(state => ({
     updateAcademicBackgroundAPI: state.updateAcademicBackgroundAPI
   }));
 
-  const { updatePersonalAPI, updateAddPersonalAPI} = usePersonalStore(state => ({
-      updatePersonalAPI: state.updatePersonalAPI,
-      updateAddPersonalAPI: state.updateAddPersonalAPI
+  const { updatePersonalAPI, updateAddPersonalAPI } = usePersonalStore(state => ({
+    updatePersonalAPI: state.updatePersonalAPI,
+    updateAddPersonalAPI: state.updateAddPersonalAPI
   }));
 
-  const { updateFamilyBackgroundAPI} = useFamilyStore(state => ({
+  const { updateFamilyBackgroundAPI } = useFamilyStore(state => ({
     updateFamilyBackgroundAPI: state.updateFamilyBackgroundAPI
   }));
 
-  const { updateAcHistAPI} = useAcHistStore(state => ({
+  const { updateAcHistAPI } = useAcHistStore(state => ({
     updateAcHistAPI: state.updateAcHistAPI
   }));
-  
-
 
   const handleNext = async () => {
     const isValid = await validateRef.current();
     if (isValid) {
-          setActiveStep(activeStep + 1);
-          window.scrollTo({ top: 0, behavior: "smooth" });
+      setFadeIn(false);
+      setTimeout(() => {
+        setActiveStep(prevActiveStep => Math.min(prevActiveStep + 1, steps.length - 1));
+        setFadeIn(true);
+      }, 300);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } else {
+      // Scroll to the first error
+      const firstError = document.querySelector('.Mui-error');
+      if (firstError) {
+        firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
     }
   };
+
   const handleBack = () => {
-    setActiveStep(activeStep - 1);
+    setFadeIn(false);
+    setTimeout(() => {
+      setActiveStep(prevActiveStep => Math.max(prevActiveStep - 1, 0));
+      setFadeIn(true);
+    }, 300);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
@@ -86,50 +99,33 @@ export default function Checkout() {
     setLoading(true);
     setError(null);
     setSuccess(null);
-  
+
     try {
-      // Format date for personalData
-      
-
       updateAcademicBackgroundAPI();
-      const updatedAcademicBackgroundAPI = useAcademicStore.getState().academicBackgroundAPI
+      const updatedAcademicBackgroundAPI = useAcademicStore.getState().academicBackgroundAPI;
 
-      updatePersonalAPI()
-      const updatedPersonalAPI = usePersonalStore.getState().personalAPI
+      updatePersonalAPI();
+      const updatedPersonalAPI = usePersonalStore.getState().personalAPI;
 
-      updateAddPersonalAPI()
-      const updatedAddPersonalAPI = usePersonalStore.getState().addPersonalAPI
+      updateAddPersonalAPI();
+      const updatedAddPersonalAPI = usePersonalStore.getState().addPersonalAPI;
 
-      updateFamilyBackgroundAPI()
-      const updatedamilyBackgroundAPI = useFamilyStore.getState().familyBackgroundAPI
+      updateFamilyBackgroundAPI();
+      const updatedamilyBackgroundAPI = useFamilyStore.getState().familyBackgroundAPI;
 
-      updateAcHistAPI()
-      const updatedAcHistAPI = useAcHistStore.getState().acHistAPI
-
+      updateAcHistAPI();
+      const updatedAcHistAPI = useAcHistStore.getState().acHistAPI;
 
       const formattedPersonalData = {
         ...updatedPersonalAPI,
-        birth_date: updatedPersonalAPI.birth_date? updatedPersonalAPI.birth_date.toISOString().split('T')[0]  : null,
+        birth_date: updatedPersonalAPI.birth_date ? updatedPersonalAPI.birth_date.toISOString().split('T')[0] : null,
       };
-  
-      console.clear();
-      console.log(' Personal API Data:', formattedPersonalData); // Logs the latest data
-      console.log('AddPersonal API Data:', updatedAddPersonalAPI); // Logs the latest data
-      console.log('Family Background API Data:', updatedamilyBackgroundAPI); // Logs the latest data
-      console.log('Academic Background API Data:', updatedAcademicBackgroundAPI); // Logs the latest data
-      console.log('Academic History API Data:', updatedAcHistAPI); // Logs the latest data
 
-
-    await axios.post('http://127.0.0.1:8000/api/stdntpersonal/', formattedPersonalData);
-
-    await axios.post('http://127.0.0.1:8000/api/addstdntpersonal/', updatedAddPersonalAPI);
-
-    await axios.post('http://127.0.0.1:8000/api/stdntfamily/', updatedamilyBackgroundAPI);
-
-    // Submit academicBackground data first
-    await axios.post('http://127.0.0.1:8000/api/stdntacademicbackground/', updatedAcademicBackgroundAPI); 
-    // Then submit personalData data
-    await axios.post('http://127.0.0.1:8000/api/stdntacademichistory/', updatedAcHistAPI); 
+      await axios.post('http://127.0.0.1:8000/api/stdntpersonal/', formattedPersonalData);
+      await axios.post('http://127.0.0.1:8000/api/addstdntpersonal/', updatedAddPersonalAPI);
+      await axios.post('http://127.0.0.1:8000/api/stdntfamily/', updatedamilyBackgroundAPI);
+      await axios.post('http://127.0.0.1:8000/api/stdntacademicbackground/', updatedAcademicBackgroundAPI);
+      await axios.post('http://127.0.0.1:8000/api/stdntacademichistory/', updatedAcHistAPI);
 
       setSuccess("Data submitted successfully!");
       setSuccessModalOpen(true);
@@ -160,14 +156,13 @@ export default function Checkout() {
   function getStepContent(step: number) {
     switch (step) {
       case 0:
-         return <PersonalData onValidate={validateRef}/>;
+        return <PersonalData onValidate={validateRef} />;
       case 1:
         return <FamilyBackground />;
       case 2:
-        return <AcademicBackground />
-        
+        return <AcademicBackground />;
       case 3:
-        return <AcademicHist/>;
+        return <AcademicHist />;
       case 4:
         return <AdditionalDocs />;
       default:
@@ -181,19 +176,24 @@ export default function Checkout() {
       <Grid
         container
         sx={{
-          minHeight: { xs: "100dvh", sm: "100dvh" },
+          minHeight: "100vh",
           alignItems: "center",
           justifyContent: "center",
-          mt: 5,
           px: { xs: 2, sm: 4 },
           py: { xs: 1, sm: 3 },
+          backgroundImage: `url(${library})`,
+          backgroundColor: (t) =>
+            t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
         }}
       >
         <Grid
           item
           sm={12}
-          md={8}
-          lg={6}
+          md={10}
+          lg={8}
           sx={{
             display: "flex",
             flexDirection: "column",
@@ -205,22 +205,48 @@ export default function Checkout() {
             width: "100%",
           }}
         >
-          <Stepper
-            activeStep={activeStep}
-            sx={{
-              display: "flex",
-              mb: 3,
-              flexWrap: "wrap",
-            }}
-            alternativeLabel
-          >
-            {steps.map((label) => (
-              <Step key={label}>
-                <StepLabel>{label}</StepLabel>
-              </Step>
-            ))}
-          </Stepper>
-          <Box sx={{ mb: 3 }}>{getStepContent(activeStep)}</Box>
+          <Box sx={{ mb: 3, position: 'relative' }}>
+            {/* Step indicator */}
+            <Typography
+              variant="h6"
+              sx={{
+                position: 'absolute',
+                top: 0,
+                right: 0,
+                margin: 2,
+                fontWeight: 'bold',
+                color: "#909090", 
+              }}
+            >
+              {`${activeStep + 1}/${steps.length}`}
+            </Typography>
+
+            {/* Current step title */}
+            <Fade in={fadeIn} timeout={300}>
+              <Typography
+                variant="h4"
+                align="center"
+                sx={{ 
+                  mt: 4, 
+                  mb: 6,
+                  fontWeight: 'bold',
+                  color: "#898989", 
+
+                }}
+                
+              >
+                {steps[activeStep]}
+              </Typography>
+            </Fade>
+
+            {/* Step content */}
+            <Fade in={fadeIn} timeout={300}>
+              <Box sx={{ mt: 6 }} ref={contentRef}>
+                {getStepContent(activeStep)}
+              </Box>
+            </Fade>
+          </Box>
+          
           <Box
             sx={{
               display: "flex",
@@ -232,88 +258,68 @@ export default function Checkout() {
             {activeStep !== 0 && (
               <Button
                 onClick={handleBack}
-                startIcon={<ChevronLeftRoundedIcon />}
+                startIcon={<KeyboardArrowLeft />}
                 sx={{ mt: { xs: 1, sm: 0 }, width: { xs: "100%", sm: "auto" } }}
               >
                 Back
               </Button>
             )}
-            <Button
-              onClick={
-                activeStep === steps.length - 1 ? handleSubmit : handleNext
-              }
-              endIcon={
-                activeStep === steps.length - 1 ? (
+
+            {activeStep === steps.length - 1 ? (
+              <Button
+                onClick={handleSubmit}
+                variant="contained"
+                color="primary"
+                disabled={loading}
+                endIcon={
                   loading ? (
-                    <CircularProgress size={24} color="inherit" />
+                    <CircularProgress size={20} color="inherit" />
                   ) : (
-                    <ChevronRightRoundedIcon />
+                    <CheckCircleIcon />
                   )
-                ) : (
-                  <ChevronRightRoundedIcon />
-                )
-              }
-              disabled={loading}
-              sx={{
-                width: { xs: "100%", sm: "auto" },
-                mb: 2,
-                backgroundColor:
-                  activeStep === steps.length - 1 ? "primary.main" : undefined,
-                color: activeStep === steps.length - 1 ? "white" : undefined,
-                "&:hover":
-                  activeStep === steps.length - 1
-                    ? {
-                        backgroundColor: "primary.dark",
-                      }
-                    : undefined,
-                "&:disabled":
-                  activeStep === steps.length - 1
-                    ? {
-                        backgroundColor: "disabled.main",
-                        color: "disabled.contrastText",
-                      }
-                    : undefined,
-              }}
-            >
-              {loading
-                ? "Submitting..."
-                : activeStep === steps.length - 1
-                ? "Submit"
-                : "Proceed"}
-            </Button>
+                }
+                sx={{ mt: { xs: 1, sm: 0 }, width: { xs: "100%", sm: "auto" } }}
+              >
+                Submit
+              </Button>
+            ) : (
+              <Button
+                onClick={handleNext}
+                variant="contained"
+                color="primary"
+                endIcon={<KeyboardArrowRight />}
+                sx={{ mt: { xs: 1, sm: 0 }, width: { xs: "100%", sm: "auto" } }}
+              >
+                Next
+              </Button>
+            )}
           </Box>
         </Grid>
       </Grid>
 
-      {/* Error Modal */}
+      {/* Error Dialog */}
       <Dialog open={modalOpen} onClose={handleCloseErrorModal}>
-        <DialogTitle>Error</DialogTitle>
+        <DialogTitle>
+          <ErrorIcon color="error" /> Submission Error
+        </DialogTitle>
         <DialogContent>
-          <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-            <ErrorIcon color="error" />
-            <span>{error}</span>
-          </Box>
+          <Typography>{error}</Typography>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCloseErrorModal} color="primary">
-            Close
-          </Button>
+          <Button onClick={handleCloseErrorModal}>Close</Button>
         </DialogActions>
       </Dialog>
 
-      {/* Success Modal */}
+      {/* Success Dialog */}
       <Dialog open={successModalOpen} onClose={handleCloseSuccessModal}>
-        <DialogTitle>Success</DialogTitle>
+        <DialogTitle>
+          <CheckCircleIcon color="success" /> Submission Success
+        </DialogTitle>
         <DialogContent>
-          <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-            <CheckCircleIcon color="success" />
-            <span>{success}</span>
-          </Box>
+          <Typography>{success}</Typography>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCloseSuccessModal} color="primary">
-            Close
-          </Button>
+          <Button onClick={handleCloseSuccessModal}>Close</Button>
         </DialogActions>
       </Dialog>
     </>

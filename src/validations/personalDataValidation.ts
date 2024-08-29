@@ -1,11 +1,14 @@
+//filenameL personalDataValidation.ts
+
 import * as yup from 'yup';
 import dayjs from 'dayjs';
 
 // Define validation schema based on the Personal interface
 export const personalDataSchema = yup.object().shape({
-  studentId: yup.string().required('Student ID is required'),
+  studentId: yup.string(),
   firstName: yup
     .string()
+    .trim()
     .max(3, 'First Name cannot be longer than 3 characters')
     .required("First Name is Required"),
   middleName: yup
