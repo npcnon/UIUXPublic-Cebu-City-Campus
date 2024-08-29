@@ -28,7 +28,6 @@ import AcademicHist from './AcademicHist';
 import AdditionalDocs from './AdditionalDocs';
 import { Typography, Fade } from '@mui/material';
 import { useState } from 'react';
-import { styled } from '@mui/system';
 const steps = [
   "Personal Data",
   "Family Background",
