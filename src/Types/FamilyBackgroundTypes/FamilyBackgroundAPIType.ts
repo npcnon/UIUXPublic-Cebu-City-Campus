@@ -2,27 +2,28 @@
 
 
 export interface FamilyBackgroundAPIData{
-    stdnt_id : string;
-    father_fname : string;
-    father_mname : string;
-    father_lname : string;
-    father_contact_number : string;
-    father_email : string;
-    father_occupation : string;
-    father_income : string;
-    father_company : string;
-    mother_fname : string;
-    mother_mname : string;
-    mother_lname : string;
-    mother_contact_number : string;
-    mother_email : string;
-    mother_occupation : string;
-    mother_income : string;
-    mother_company : string;
-    guardian_fname : string;
-    guardian_mname : string;
-    guardian_lname : string;
-    guardian_relation : string;
-    guardian_contact_number : string;
-    guardian_email : string;
+    stdnt_id? : string | null;
+    father_fname? : string | null;
+    father_mname? : string | null;
+    father_lname? : string | null;
+    father_contact_number? : string | null;
+    father_email? : string | null;
+    father_occupation? : string | null;
+    father_income? : number | null;
+    father_company? : string | null;
+    mother_fname? : string | null;
+    mother_mname? : string | null;
+    mother_lname? : string | null;
+    mother_contact_number? : string | null;
+    mother_email? : string | null;
+    mother_occupation? : string | null;
+    mother_income? : number | null;
+    mother_company? : string | null;
+    guardian_fname? : string | null;
+    guardian_mname? : string | null;
+    guardian_lname? : string | null;
+    guardian_relation? : string | null;
+    guardian_contact_number? : string | null;
+    guardian_email? : string | null;
+
 }

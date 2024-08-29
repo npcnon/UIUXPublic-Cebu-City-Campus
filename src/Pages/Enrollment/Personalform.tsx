@@ -1,6 +1,6 @@
   //filename: Pesonalform.tsx
 
-  import React, { useCallback, useEffect, useState } from 'react';
+  import React, { useCallback, useEffect } from 'react';
   import { Grid, TextField, FormControl, Typography, Select, MenuItem, InputLabel, Box } from '@mui/material';
   import { styled } from '@mui/system';
   import { useForm, Controller, Resolver } from 'react-hook-form';
@@ -9,14 +9,15 @@
   import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
   import dayjs from 'dayjs';
   import { debounce } from 'lodash';
+  import { yupResolver } from '@hookform/resolvers/yup';
+  import CustomSectionDivider from './CustomSectionDivider';
+  
+  import { personalDataSchema } from '../../validations/personalDataValidation';
   import { usePersonalStore } from '../../stores/usePersonalStore';
   import { Personal } from '../../Types/PersonalDataTypes/PersonalDataTypes';
-  import { yupResolver } from '@hookform/resolvers/yup';
-  import { personalDataSchema } from '../../validations/personalDataValidation';
-  import Tooltip from '@mui/material/Tooltip';
-  import { Zoom } from '@mui/material';
-  import ErrorIcon from '@mui/icons-material/Error';
-  import CustomSectionDivider from './CustomSectionDivider';
+
+
+
 
   const StyledSection = styled(Box)(({ theme }) => ({
     marginBottom: theme.spacing(4),
@@ -35,18 +36,7 @@
     marginBottom: theme.spacing(2),
   }));
 
-  const defaultTooltipProp = {
-    popper: {
-      modifiers: [
-        {
-          name: 'offset',
-          options: {
-            offset: [0, -7],
-          },
-        },
-      ],
-    },
-  };
+
 
   interface PersonalDataProps {
     onValidate: React.MutableRefObject<() => Promise<boolean>>;
@@ -58,7 +48,6 @@
       setPersonal: state.setPersonal
     }));
 
-    const [isBackspaceHeld, setIsBackspaceHeld] = useState(false);
 
     const debouncedSetPersonal = useCallback(
       debounce((data: Partial<Personal>) => {
@@ -90,27 +79,7 @@
   
 
 
-    useEffect(() => {
-      const handleKeyDown = (e: KeyboardEvent) => {
-        if (e.key === 'Backspace') {
-          setIsBackspaceHeld(true);
-        }
-      };
 
-      const handleKeyUp = (e: KeyboardEvent) => {
-        if (e.key === 'Backspace') {
-          setIsBackspaceHeld(false);
-        }
-      };
-
-      window.addEventListener('keydown', handleKeyDown);
-      window.addEventListener('keyup', handleKeyUp);
-
-      return () => {
-        window.removeEventListener('keydown', handleKeyDown);
-        window.removeEventListener('keyup', handleKeyUp);
-      };
-    }, []);
 
 
 
@@ -124,7 +93,7 @@
               {...field}
               label={label}
               helperText={errors[name] ? errors[name]?.message : optional ? 'Optional' : ''}
-              variant="standard"
+              variant="outlined"
               value={field.value || ''}
               onBlur={(e) => {
                 field.onBlur();
@@ -174,7 +143,7 @@
                     }}
                     slotProps={{
                       textField: {
-                        variant: 'standard',
+                        variant: 'outlined',
                         fullWidth: true,
                         error: !!errors.birthDate,
                         helperText: errors.birthDate?.message,
@@ -195,7 +164,7 @@
               name="gender"
               control={control}
               render={({ field }) => (
-                <FormControl fullWidth error={!!errors.gender} variant="standard">
+                <FormControl fullWidth error={!!errors.gender} variant="outlined">
                   <InputLabel id="gender-label">Sex</InputLabel>
                   <Select
                     {...field}
@@ -224,7 +193,7 @@
               name="maritalStatus"
               control={control}
               render={({ field }) => (
-                <FormControl fullWidth error={!!errors.maritalStatus} variant='standard'>
+                <FormControl fullWidth error={!!errors.maritalStatus} variant='outlined'>
                   <InputLabel id="marital-status-label">Marital Status</InputLabel>
                   <Select
                     {...field}
