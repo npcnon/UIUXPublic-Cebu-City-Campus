@@ -211,7 +211,7 @@ export default function Checkout() {
               variant="h6"
               sx={{
                 position: 'absolute',
-                top: 0,
+                top: -15,
                 right: 0,
                 margin: 2,
                 fontWeight: 'bold',
@@ -222,7 +222,7 @@ export default function Checkout() {
             </Typography>
 
             {/* Current step title */}
-            <Fade in={fadeIn} timeout={300}>
+            {/* <Fade in={fadeIn} timeout={300}>
               <Typography
                 variant="h4"
                 align="center"
@@ -237,7 +237,7 @@ export default function Checkout() {
               >
                 {steps[activeStep]}
               </Typography>
-            </Fade>
+            </Fade> */}
 
             {/* Step content */}
             <Fade in={fadeIn} timeout={300}>
