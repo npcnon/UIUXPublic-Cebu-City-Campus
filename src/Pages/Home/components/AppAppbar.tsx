@@ -115,7 +115,11 @@ export default function AppAppBar(props: any) {
               <Typography
                 variant="h6"
                 component="div"
-                sx={{ flexGrow: 1, display: { xs: "block", sm: "block" } }}
+                sx={{
+                  flexGrow: 1,
+                  ml: 1.5,
+                  display: { xs: "block", sm: "block" },
+                }}
               >
                 Benedicto College
               </Typography>

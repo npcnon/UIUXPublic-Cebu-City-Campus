@@ -33,16 +33,12 @@ export default function Hero() {
       id="hero"
       sx={() => ({
         width: "100%",
-        /* height: "607px",
-         backgroundImage: `url(${background})`, // Add background image
+        height: "607px",
+        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0), rgba(26,50,129,255)), url(${bcCebu})`,
         backgroundSize: "cover", // Cover the entire box
         backgroundPosition: "center", // Center the image
         backgroundRepeat: "no-repeat", // Prevent repeating
-        backgroundAttachment: "fixed", // Optional: fixed background for parallax effect 
-        backgroundColor:
-          theme.palette.mode === "light"
-            ? "rgba(206, 229, 253, 0.9)"
-            : `rgba(9, 14, 16, 0.9)`, */
+        backgroundAttachment: "fixed", // Optional: fixed background for parallax effect
       })}
     >
       <Container
@@ -58,13 +54,13 @@ export default function Hero() {
         <Stack spacing={1} useFlexGap sx={{ width: { xs: "100%", sm: "70%" } }}>
           <Typography
             textAlign="center"
-            color="text.secondary"
+            color="#faf9f6"
             variant="h2"
             mb={2}
             sx={{
               alignSelf: "center",
               fontWeight: "bold",
-              textShadow: "2px 2px 4px rgba(0, 0, 0, 0.3)",
+              textShadow: "2px 2px 4px rgba(0, 0, 0, 1)",
               width: { sm: "100%", md: "80%" },
             }}
           >
@@ -84,7 +80,7 @@ export default function Hero() {
               variant="contained"
               size="large"
               sx={{
-                backgroundColor: "#FF5c00", // Custom background color
+                backgroundColor: "#f15800", // Custom background color
                 color: "#FFFFFF", // Custom text color
                 "&:hover": {
                   backgroundColor: "#FFA500", // Custom hover color
@@ -100,7 +96,7 @@ export default function Hero() {
 
         <Typography
           textAlign="center"
-          color="text.secondary"
+          color="#faf9f6"
           variant="h6"
           sx={{ alignSelf: "center", width: { sm: "100%", md: "80%" } }}
         >
@@ -109,7 +105,7 @@ export default function Hero() {
 
         <Typography
           textAlign="center"
-          color="text.secondary"
+          color="#faf9f6"
           variant="subtitle2"
           sx={{ alignSelf: "center", width: { sm: "100%", md: "80%" } }}
         >
