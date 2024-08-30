@@ -16,7 +16,8 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
-//icon
+import Container from "@mui/material/Container";
+// icons
 import HomeIcon from "@mui/icons-material/Home";
 import SchoolIcon from "@mui/icons-material/School";
 import RoomPreferencesIcon from "@mui/icons-material/RoomPreferences";
@@ -24,7 +25,7 @@ import LocationOnIcon from "@mui/icons-material/LocationOn";
 import QuestionAnswerIcon from "@mui/icons-material/QuestionAnswer";
 
 const navItems = [
-  { label: "Home", icon: <HomeIcon /> }, //home icon
+  { label: "Home", icon: <HomeIcon /> },
   { label: "Course", icon: <SchoolIcon /> },
   { label: "Facilities", icon: <RoomPreferencesIcon /> },
   { label: "Location", icon: <LocationOnIcon /> },
@@ -55,14 +56,16 @@ export default function AppAppBar(props: any) {
 
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
-      <Typography variant="h6" sx={{ my: 2 }}>
+      <Typography variant="subtitle1" sx={{ my: 2 }}>
         Benedicto College
       </Typography>
       <List>
         {navItems.map((item) => (
-          <ListItem key={item.label} disablePadding>
+          <ListItem key={item.label} sx={{ justifyContent: "center" }}>
             {item.icon && (
-              <ListItemIcon sx={{ minWidth: 36 }}>{item.icon}</ListItemIcon>
+              <ListItemIcon sx={{ minWidth: "auto", mr: 1 }}>
+                {item.icon}
+              </ListItemIcon>
             )}
             <ListItemText primary={item.label} sx={{ textAlign: "center" }} />
           </ListItem>
@@ -77,58 +80,64 @@ export default function AppAppBar(props: any) {
       <HideOnScroll {...props}>
         <AppBar
           sx={{
-            backgroundColor: "#0236ae", // Custom color
+            backgroundColor: "#03153e", // Custom color
+            padding: { xs: "8px 16px", sm: "8px 32px" }, // Responsive padding
           }}
         >
-          <Toolbar>
-            {isMobile ? (
-              <IconButton
-                color="inherit"
-                aria-label="open drawer"
-                edge="start"
-                onClick={handleDrawerToggle}
-                sx={{ mr: 2 }}
+          <Container maxWidth="lg">
+            <Toolbar disableGutters>
+              {isMobile ? (
+                <IconButton
+                  color="inherit"
+                  aria-label="open drawer"
+                  edge="start"
+                  onClick={handleDrawerToggle}
+                  sx={{ mr: 2 }}
+                >
+                  <MenuIcon />
+                </IconButton>
+              ) : null}
+
+              {/* Image Logo */}
+              <img
+                src="/src/StaticFiles/Logo.jpg"
+                alt="BC Logo"
+                style={{
+                  width: "50px",
+                  height: "50px",
+                  borderRadius: "50%",
+                  objectFit: "cover",
+                  border: "2px solid #fff",
+                  marginRight: "8px",
+                }}
+              />
+
+              <Typography
+                variant="h6"
+                component="div"
+                sx={{ flexGrow: 1, display: { xs: "block", sm: "block" } }}
               >
-                <MenuIcon />
-              </IconButton>
-            ) : null}
+                Benedicto College
+              </Typography>
 
-            {/*image logo*/}
-            <img
-              src="/src/StaticFiles/Logo.jpg" // Replace with the actual path to your logo
-              alt="BC Logo"
-              style={{
-                width: "50px",
-                height: "50px",
-                borderRadius: "50%",
-                objectFit: "cover",
-                border: "2px solid #fff",
-                marginRight: "8px", // Adjust the margin as needed
-              }}
-            />
-
-            <Typography
-              variant="h6"
-              component="div"
-              sx={{ flexGrow: 1, display: { xs: "block", sm: "block" } }}
-            >
-              Benedicto College
-            </Typography>
-            {!isMobile ? (
-              <Box sx={{ display: { xs: "none", sm: "block" } }}>
-                {navItems.map((item) => (
-                  <Button key={item.label} sx={{ color: "#fff" }}>
-                    {item.icon && (
-                      <ListItemIcon sx={{ minWidth: 36 }}>
-                        {item.icon}
-                      </ListItemIcon>
-                    )}
-                    {item.label}
-                  </Button>
-                ))}
-              </Box>
-            ) : null}
-          </Toolbar>
+              {!isMobile ? (
+                <Box sx={{ display: "flex", gap: 2 }}>
+                  {navItems.map((item) => (
+                    <Button key={item.label} sx={{ color: "#fff" }}>
+                      {item.icon && (
+                        <ListItemIcon
+                          sx={{ minWidth: 36, color: "#fff", mr: 1 }}
+                        >
+                          {item.icon}
+                        </ListItemIcon>
+                      )}
+                      {item.label}
+                    </Button>
+                  ))}
+                </Box>
+              ) : null}
+            </Toolbar>
+          </Container>
         </AppBar>
       </HideOnScroll>
       <Toolbar />
@@ -138,7 +147,7 @@ export default function AppAppBar(props: any) {
           open={mobileOpen}
           onClose={handleDrawerToggle}
           ModalProps={{
-            keepMounted: true, // Better open performance on mobile.
+            keepMounted: true,
           }}
           sx={{
             display: { xs: "block", sm: "none" },
