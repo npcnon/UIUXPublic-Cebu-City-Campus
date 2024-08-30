@@ -4,24 +4,16 @@ import Container from "@mui/material/Container";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import bcCebu from "../../../StaticFiles/benedicto_background.jpg";
-import bcmain from "../../../StaticFiles/bcmain.jpg";
 //modal imports
 import { useState } from "react";
 import Modal from "@mui/material/Modal";
 //grid imports
-import { styled } from "@mui/material/styles";
 import Grid from "@mui/material/Grid";
 import { Link } from "react-router-dom";
-//card
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
-import { CardActionArea } from "@mui/material";
-
-const FormGrid = styled(Grid)(() => ({
-  display: "flex",
-  flexDirection: "column",
-}));
+//
+import Divider from "@mui/material/Divider";
+import SendIcon from "@mui/icons-material/Send";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
 
 export default function Hero() {
   const [open, setOpen] = useState(false);
@@ -58,6 +50,7 @@ export default function Hero() {
             variant="h2"
             mb={2}
             sx={{
+              lineHeight: 1.3,
               alignSelf: "center",
               fontWeight: "bold",
               textShadow: "2px 2px 4px rgba(0, 0, 0, 1)",
@@ -76,20 +69,34 @@ export default function Hero() {
             sx={{ pt: 2, width: { xs: "100%", sm: "auto" } }}
           >
             <Button
-              color="primary"
               variant="contained"
-              size="large"
+              startIcon={<AddCircleIcon />}
               sx={{
                 backgroundColor: "#f15800", // Custom background color
                 color: "#FFFFFF", // Custom text color
                 "&:hover": {
                   backgroundColor: "#FFA500", // Custom hover color
                 },
+                textShadow: "2px 2px 4px rgba(0, 0, 0, 0.5)",
                 boxShadow: "3px 3px 6px rgba(0, 0, 0, 0.3)",
               }}
               onClick={handleOpen}
             >
               Enroll Now
+            </Button>
+
+            <Button
+              href="/Sign-in"
+              endIcon={<SendIcon />}
+              sx={{
+                color: "#FFFFFF", // Custom text color
+                "&:hover": {
+                  backgroundColor: "#f15800", // Custom hover color
+                },
+                textShadow: "2px 2px 4px rgba(0, 0, 0, 1)",
+              }}
+            >
+              Student Portal
             </Button>
           </Stack>
         </Stack>
@@ -98,16 +105,27 @@ export default function Hero() {
           textAlign="center"
           color="#faf9f6"
           variant="h6"
-          sx={{ alignSelf: "center", width: { sm: "100%", md: "80%" } }}
+          sx={{
+            alignSelf: "center",
+            lineHeight: 2,
+            width: { sm: "100%", md: "80%" },
+            textShadow: "2px 2px 4px rgba(0, 0, 0, 0.5)",
+          }}
         >
-          BASIC EDUCATION | SENIOR HIGH | COLLEGE
+          Basic Education | Senior High | College{" "}
         </Typography>
 
         <Typography
           textAlign="center"
           color="#faf9f6"
           variant="subtitle2"
-          sx={{ alignSelf: "center", width: { sm: "100%", md: "80%" } }}
+          sx={{
+            lineHeight: 2,
+            alignSelf: "center",
+            fontWeight: "medium",
+            width: { sm: "100%", md: "80%" },
+            textShadow: "2px 2px 4px rgba(0, 0, 0, 0.5)",
+          }}
         >
           MANDAUE CITY CAMPUS | CEBU CITY CAMPUS
         </Typography>
@@ -127,7 +145,7 @@ export default function Hero() {
             left: "50%",
             transform: "translate(-50%, -50%)",
             width: { xs: "90%", sm: 400 },
-            bgcolor: "#F3F7EC",
+            bgcolor: "#faf9f6",
             borderRadius: "16px",
             boxShadow: 24,
             p: { xs: 2, sm: 4 },
@@ -135,92 +153,82 @@ export default function Hero() {
         >
           <Typography
             id="enroll-modal-title"
-            variant="subtitle1"
-            component="h2"
+            variant="h6"
             textAlign="center"
             sx={{
-              fontWeight: "bold",
-              textShadow: "2px 2px 4px rgba(0, 0, 0, 0.3)",
+              color: "#1E201E", // Custom text color
+              fontWeight: "medium",
+              textShadow: "2px 2px 4px rgba(0, 0, 0, 0.1)",
             }}
           >
             Select School Campus
           </Typography>
+          <Divider sx={{ mt: 2, mb: 3 }} />
 
           <Grid
             container
-            spacing={2}
+            spacing={0.5}
             justifyContent="center"
             sx={{ mt: 1, mb: 3 }}
           >
-            {/* Mandaue City */}
-            <FormGrid
-              item
-              xs={12}
-              md={6}
-              lg={6}
+            <Grid
+              justifyContent="center"
+              alignItems="center"
               sx={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
+                mt: 1,
+                mb: 1,
               }}
             >
-              <Link to="/EnrollmentPage" style={{ textDecoration: "none" }}>
-                <Card sx={{ maxWidth: 345, boxShadow: 8 }}>
-                  <CardActionArea>
-                    <CardMedia
-                      component="img"
-                      height="100"
-                      image={bcmain}
-                      alt="school"
-                    />
-                    <CardContent>
-                      <Typography
-                        variant="body2"
-                        color="text.secondary"
-                        sx={{ fontWeight: "bold" }}
-                      >
-                        Benedicto College Mandaue Campus
-                      </Typography>
-                    </CardContent>
-                  </CardActionArea>
-                </Card>
-              </Link>
-            </FormGrid>
+              <Button
+                href="/Enrollment"
+                variant="contained"
+                size="small"
+                sx={{
+                  backgroundColor: "#f15800", // Custom background color
+                  color: "#FFFFFF", // Custom text color
+                  "&:hover": {
+                    backgroundColor: "#FFA500", // Custom hover color
+                  },
+                  boxShadow: "3px 3px 6px rgba(0, 0, 0, 0.3)",
+                }}
+              >
+                Mandaue Campus
+              </Button>
+            </Grid>
 
-            {/* Cebu City */}
-            <FormGrid
-              item
-              xs={12}
-              md={6}
-              lg={6}
+            <Divider
+              orientation="vertical"
+              variant="middle"
+              flexItem
               sx={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
+                mr: 3,
+                ml: 3,
+              }}
+            />
+            <Grid
+              justifyContent="center"
+              alignItems="center"
+              sx={{
+                mt: 1,
+                mb: 1,
               }}
             >
-              <Link to="/EnrollmentPage" style={{ textDecoration: "none" }}>
-                <Card sx={{ maxWidth: 345, boxShadow: 8 }}>
-                  <CardActionArea>
-                    <CardMedia
-                      component="img"
-                      height="100"
-                      image={bcCebu}
-                      alt="school"
-                    />
-                    <CardContent>
-                      <Typography
-                        variant="body2"
-                        color="text.secondary"
-                        sx={{ fontWeight: "bold" }}
-                      >
-                        Benedicto College Cebu Campus
-                      </Typography>
-                    </CardContent>
-                  </CardActionArea>
-                </Card>
-              </Link>
-            </FormGrid>
+              <Button
+                href="/Enrollment"
+                variant="contained"
+                size="small"
+                sx={{
+                  backgroundColor: "#f15800", // Custom background color
+                  color: "#FFFFFF", // Custom text color
+                  "&:hover": {
+                    backgroundColor: "#FFA500", // Custom hover color
+                  },
+                  boxShadow: "3px 3px 6px rgba(0, 0, 0, 0.3)",
+                }}
+              >
+                Cebu Campus
+              </Button>
+            </Grid>
           </Grid>
         </Box>
       </Modal>
