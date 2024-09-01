@@ -1,9 +1,9 @@
 import CssBaseline from "@mui/material/CssBaseline";
-// import AppAppBar from "./components/AppAppbar";
-// import Hero from "./components/Hero";
+import AppAppBar from "./components/AppAppbar";
+import Hero from "./components/Hero";
 import Checkout from "../Enrollment/Checkout";
 import SignInSide from "../Login/SignInSide";
-// import EnrollmentPage from "./components/EnrollmentPage";
+import EnrollmentPage from "./components/EnrollmentPage";
 // import LogoCollection from './components/LogoCollection';
 // import Highlights from './components/Highlights';
 // import Pricing from './components/Pricing';
@@ -21,13 +21,13 @@ import {
 import Dashboard from "../Dashboard/Dashboard";
 
 // Layout with AppAppBar
-// const LayoutWithAppBar = () => (
-//   <>
-//     <CssBaseline />
-//     {/* <AppAppBar /> */}
-//     <Outlet /> {/* This will render the nested route components */}
-//   </>
-// );
+const LayoutWithAppBar = () => (
+  <>
+    <CssBaseline />
+    <AppAppBar />
+    <Outlet /> {/* This will render the nested route components */}
+  </>
+);
 
 // Layout without AppAppBar
 const LayoutWithoutAppBar = () => (
@@ -37,18 +37,16 @@ const LayoutWithoutAppBar = () => (
   </>
 );
 
-
-
 export default function LandingPage() {
   const router = createBrowserRouter(
     createRoutesFromElements(
       <>
-        {/* <Route element={<LayoutWithAppBar />}>
-          <Route path="/" element={<Hero />} /> */}
+        <Route element={<LayoutWithAppBar />}>
+          <Route path="/" element={<Hero />} />
           <Route path="/Enrollment" element={<Checkout />} />
-        {/* </Route> */}
+        </Route>
         <Route element={<LayoutWithoutAppBar />}>
-          {/* <Route path="/EnrollmentPage" element={<EnrollmentPage />} /> */}
+          <Route path="/EnrollmentPage" element={<EnrollmentPage />} />
           <Route path="/Sign-in" element={<SignInSide />} />
           <Route path="/Dashboard" element={<Dashboard />} />
         </Route>

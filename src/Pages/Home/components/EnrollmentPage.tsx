@@ -35,12 +35,7 @@ const navItems = [
   { label: "home", icon: <HomeIcon /> }, //home icon
 ];
 
-interface Props {
-  window?: () => Window;
-  children: React.ReactElement;
-}
-
-function HideOnScroll(props: Props) {
+function HideOnScroll(props: any) {
   const { children, window } = props;
   const trigger = useScrollTrigger({
     target: window ? window() : undefined,
@@ -53,7 +48,7 @@ function HideOnScroll(props: Props) {
   );
 }
 
-export default function EnrollmentPage(props: Props) {
+export default function EnrollmentPage(props: any) {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [mobileOpen, setMobileOpen] = React.useState(false);
