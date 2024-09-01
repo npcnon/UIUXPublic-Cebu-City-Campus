@@ -51,19 +51,19 @@
 
     const [currentSchema, setCurrentSchema] = useState(familyDataSchema);
 
-    useEffect(() => {
-      if (/* your condition here, e.g., fatherFname is filled */) {
-        setCurrentSchema(updatedSchema);  // Replace `updatedSchema` with the updated validation schema
-      }
-    }, [/* dependencies */]);
+    // useEffect(() => {
+    //   if (/* your condition here, e.g., fatherFname is filled */) {
+    //     setCurrentSchema(updatedSchema);  // Replace `updatedSchema` with the updated validation schema
+    //   }
+    // }, [/* dependencies */]);
     
-    const { control, formState: { errors }, trigger ,watch} = useForm<FamilyBackgroundData>({
-      defaultValues: familyBackground,
-      resolver: yupResolver(currentSchema) as Resolver<FamilyBackgroundData>,
-      mode: 'onBlur',
-      shouldUnregister: false,
-    });
-
+    // const { control, formState: { errors }, trigger ,watch} = useForm<FamilyBackgroundData>({
+    //   defaultValues: familyBackground,
+    //   resolver: yupResolver(currentSchema) as Resolver<FamilyBackgroundData>,
+    //   mode: 'onBlur',
+    //   shouldUnregister: false,
+    // });
+    
     const { control: fatherControl, formState: { errors: fatherErrors }, trigger: fatherTrigger, setResolver } = useForm<FatherData>({
       defaultValues: familyBackground,
       resolver: yupResolver(familyDataSchema) as Resolver<FamilyBackgroundData>,
