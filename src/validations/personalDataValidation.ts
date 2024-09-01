@@ -5,7 +5,6 @@ import dayjs from 'dayjs';
 
 // Define validation schema based on the Personal interface
 export const personalDataSchema = yup.object().shape({
-
   studentId: yup.string(),
 
   firstName: yup

@@ -83,29 +83,29 @@
 
 
 
-    const renderTextField = (name: keyof Personal, label: string, optional: boolean = false) => (
-      <Controller
-        name={name}
-        control={control}
-        render={({ field }) => (
-          <FormControl fullWidth error={!!errors[name]}>
-            <TextField
-              {...field}
-              label={label}
-              helperText={errors[name] ? errors[name]?.message : optional ? 'Optional' : ''}
-              variant="outlined"
-              value={field.value || ''}
-              onBlur={(e) => {
-                field.onBlur();
-                debouncedSetPersonal({ [name]: e.target.value });
-              }}
-              autoComplete="off"
-              error={!!errors[name]}
-            />
-          </FormControl>
-        )}
-      />
-    );
+      const renderTextField = (name: keyof Personal, label: string, optional: boolean = false) => (
+        <Controller
+          name={name}
+          control={control}
+          render={({ field }) => (
+            <FormControl fullWidth error={!!errors[name]}>
+              <TextField
+                {...field}
+                label={label}
+                helperText={errors[name] ? errors[name]?.message : optional ? 'Optional' : ''}
+                variant="outlined"
+                value={field.value || ''}
+                onBlur={(e) => {
+                  field.onBlur();
+                  debouncedSetPersonal({ [name]: e.target.value });
+                }}
+                autoComplete="off"
+                error={!!errors[name]}
+              />
+            </FormControl>
+          )}
+        />
+      );
 
     return (
       <form>
