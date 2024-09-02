@@ -1,9 +1,9 @@
 // Filename: FamilyBackground.tsx
 
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Grid, TextField, FormControl, Box } from '@mui/material';
 import { styled } from '@mui/system';
-import { useForm, Controller, Resolver, useWatch } from 'react-hook-form';
+import { useForm, Controller, Resolver } from 'react-hook-form';
 import { debounce } from 'lodash';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { FamilyBackgroundData } from '../../Types/FamilyBackgroundTypes/FamilyBackgroundType';
