@@ -1,4 +1,4 @@
-// Filename: yearpicker.tsx
+// Filename: YearPicker.tsx
 
 import React, { useState } from 'react';
 import TextField from '@mui/material/TextField';
@@ -11,11 +11,13 @@ import { FieldError } from 'react-hook-form';
 
 interface YearPickerProps {
   label: string;
-  value: number | null;
+  value: number | null | undefined;
   onChange: (year: number) => void;
   error?: FieldError;
   minYear?: number;
   maxYear?: number;
+  helperText?: string;
+  showOptional?: boolean; // Added prop to show "Optional"
 }
 
 const YearPicker: React.FC<YearPickerProps> = ({ 
@@ -24,7 +26,9 @@ const YearPicker: React.FC<YearPickerProps> = ({
   onChange, 
   error, 
   minYear = 1900, 
-  maxYear = new Date().getFullYear() + 10 
+  maxYear = new Date().getFullYear() + 10,
+  helperText,
+  showOptional = false // Default to showing optional text
 }) => {
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 
@@ -59,7 +63,7 @@ const YearPicker: React.FC<YearPickerProps> = ({
           readOnly: true,
         }}
         error={!!error}
-        helperText={error?.message}
+        helperText={error ? error.message : (showOptional ? 'Optional' : helperText)}
       />
       <Popover
         id={id}

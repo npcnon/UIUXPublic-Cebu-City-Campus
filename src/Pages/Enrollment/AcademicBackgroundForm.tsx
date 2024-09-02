@@ -10,11 +10,7 @@
   import Typography from '@mui/material/Typography';
   import { styled } from '@mui/material/styles';
   import { useForm, Controller, Resolver } from 'react-hook-form';
-  import { DatePicker } from '@mui/x-date-pickers/DatePicker';
   import { TextField } from '@mui/material';
-  import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-  import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-  import dayjs from 'dayjs';
   import { fetchDepartmentIdByCourse } from '../../services/courseService';
   import { fetchLatestStudentId } from '../../services/studentIdService';
   import { useAcademicStore } from '../../stores/useAcademicStore';

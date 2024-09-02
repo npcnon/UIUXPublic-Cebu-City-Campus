@@ -28,6 +28,9 @@ import AcademicHist from './AcademicHist';
 import AdditionalDocs from './AdditionalDocs';
 import { Typography, Fade } from '@mui/material';
 import { useState } from 'react';
+import ChevronRightRoundedIcon from '@mui/icons-material/ChevronRightRounded';
+
+
 const steps = [
   "Personal Data",
   "Family Background",
@@ -98,33 +101,48 @@ export default function Checkout() {
     setLoading(true);
     setError(null);
     setSuccess(null);
-
+  
     try {
+
       updateAcademicBackgroundAPI();
-      const updatedAcademicBackgroundAPI = useAcademicStore.getState().academicBackgroundAPI;
+      const updatedAcademicBackgroundAPI = useAcademicStore.getState().academicBackgroundAPI
 
-      updatePersonalAPI();
-      const updatedPersonalAPI = usePersonalStore.getState().personalAPI;
+      updatePersonalAPI()
+      const updatedPersonalAPI = usePersonalStore.getState().personalAPI
 
-      updateAddPersonalAPI();
-      const updatedAddPersonalAPI = usePersonalStore.getState().addPersonalAPI;
+      updateAddPersonalAPI()
+      const updatedAddPersonalAPI = usePersonalStore.getState().addPersonalAPI
 
-      updateFamilyBackgroundAPI();
-      const updatedamilyBackgroundAPI = useFamilyStore.getState().familyBackgroundAPI;
+      updateFamilyBackgroundAPI()
+      const updatedamilyBackgroundAPI = useFamilyStore.getState().familyBackgroundAPI
 
-      updateAcHistAPI();
-      const updatedAcHistAPI = useAcHistStore.getState().acHistAPI;
+      updateAcHistAPI()
+      const updatedAcHistAPI = useAcHistStore.getState().acHistAPI
+
 
       const formattedPersonalData = {
         ...updatedPersonalAPI,
-        birth_date: updatedPersonalAPI.birth_date ? updatedPersonalAPI.birth_date.toISOString().split('T')[0] : null,
+        birth_date: updatedPersonalAPI.birth_date? updatedPersonalAPI.birth_date.toISOString().split('T')[0]  : null,
       };
+  
+      console.clear();
+      console.log(' Personal API Data:', formattedPersonalData); // Logs the latest data
+      console.log('AddPersonal API Data:', updatedAddPersonalAPI); // Logs the latest data
+      console.log('Family Background API Data:', updatedamilyBackgroundAPI); // Logs the latest data
+      console.log('Academic Background API Data:', updatedAcademicBackgroundAPI); // Logs the latest data
+      console.log('Academic History API Data:', updatedAcHistAPI); // Logs the latest data
 
-      await axios.post('http://127.0.0.1:8000/api/stdntpersonal/', formattedPersonalData);
-      await axios.post('http://127.0.0.1:8000/api/addstdntpersonal/', updatedAddPersonalAPI);
-      await axios.post('http://127.0.0.1:8000/api/stdntfamily/', updatedamilyBackgroundAPI);
-      await axios.post('http://127.0.0.1:8000/api/stdntacademicbackground/', updatedAcademicBackgroundAPI);
-      await axios.post('http://127.0.0.1:8000/api/stdntacademichistory/', updatedAcHistAPI);
+
+    await axios.post('http://127.0.0.1:8000/api/stdntpersonal/', formattedPersonalData);
+
+    await axios.post('http://127.0.0.1:8000/api/addstdntpersonal/', updatedAddPersonalAPI);
+
+    await axios.post('http://127.0.0.1:8000/api/stdntfamily/', updatedamilyBackgroundAPI);
+
+    // Submit academicBackground data first
+    await axios.post('http://127.0.0.1:8000/api/stdntacademicbackground/', updatedAcademicBackgroundAPI); 
+    // Then submit personalData data
+    await axios.post('http://127.0.0.1:8000/api/stdntacademichistory/', updatedAcHistAPI); 
 
       setSuccess("Data submitted successfully!");
       setSuccessModalOpen(true);
@@ -161,7 +179,7 @@ export default function Checkout() {
       case 2:
         return <AcademicBackground onValidate={validateRef}/>;
       case 3:
-        return <AcademicHist />;
+        return <AcademicHist onValidate={validateRef}/>;
       case 4:
         return <AdditionalDocs />;
       default:
@@ -268,19 +286,48 @@ export default function Checkout() {
 
             {activeStep === steps.length - 1 ? (
               <Button
-                onClick={handleSubmit}
-                disabled={loading}
-                endIcon={
+              onClick={
+                activeStep === steps.length - 1 ? handleSubmit : handleNext
+              }
+              endIcon={
+                activeStep === steps.length - 1 ? (
                   loading ? (
-                    <CircularProgress size={20} color="inherit" />
+                    <CircularProgress size={24} color="inherit" />
                   ) : (
-                    <CheckCircleIcon />
+                    <ChevronRightRoundedIcon />
                   )
-                }
-                sx={{ mt: { xs: 1, sm: 0 }, width: { xs: "100%", sm: "auto" } }}
-              >
-                Submit
-              </Button>
+                ) : (
+                  <ChevronRightRoundedIcon />
+                )
+              }
+              disabled={loading}
+              sx={{
+                width: { xs: "100%", sm: "auto" },
+                mb: 2,
+                backgroundColor:
+                  activeStep === steps.length - 1 ? "primary.main" : undefined,
+                color: activeStep === steps.length - 1 ? "white" : undefined,
+                "&:hover":
+                  activeStep === steps.length - 1
+                    ? {
+                        backgroundColor: "primary.dark",
+                      }
+                    : undefined,
+                "&:disabled":
+                  activeStep === steps.length - 1
+                    ? {
+                        backgroundColor: "disabled.main",
+                        color: "disabled.contrastText",
+                      }
+                    : undefined,
+              }}
+            >
+              {loading
+                ? "Submitting..."
+                : activeStep === steps.length - 1
+                ? "Submit"
+                : "Proceed"}
+            </Button>
             ) : (
               <Button
                 onClick={handleNext}

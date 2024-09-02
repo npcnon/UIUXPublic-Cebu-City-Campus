@@ -1,23 +1,23 @@
-//filename: AcHistType.ts
+// Filename: AcHistType.ts
 
-export interface AcHistData{
-    stdntId : string;   
-    elementarySchool : string;
-    elementaryAddress : string;
-    elementaryHonors : string;
-    elementaryGraduate : number;
-    juniorHighschool : string;
-    juniorAddress : string;
-    juniorHonors : string;
-    juniorGraduate : number;
-    seniorHighschool : string;
-    seniorAddress : string;
-    seniorHonors : string;
-    seniorGraduate : number;
-    ncaeGrade : string;
-    ncaeYearTaken : number;
-    latestCollege : string;
-    collegeAddress : string;
-    collegeHonors : string;
-    course : string;
+export interface AcHistData {
+    stdntId: string | undefined;   
+    elementarySchool: string;
+    elementaryAddress: string;
+    elementaryHonors?: string | null; 
+    elementaryGraduate: number | null;
+    juniorHighschool: string;
+    juniorAddress: string;
+    juniorHonors?: string | null; 
+    juniorGraduate: number | null;
+    seniorHighschool: string;
+    seniorAddress: string;
+    seniorHonors?: string | null; 
+    seniorGraduate: number | null;
+    ncaeGrade?: string | null;
+    ncaeYearTaken?: number | null;
+    latestCollege?: string | null; 
+    collegeAddress?: string | null; 
+    collegeHonors?: string | null; 
+    course?: string | null; 
 }

@@ -1,12 +1,16 @@
-import React, { useCallback } from "react";
-import { Grid, TextField, FormControl, Typography, Box } from '@mui/material';
+// Filename: AcademicHist.tsx
+
+import React, { useCallback, useEffect } from "react";
+import { Grid, TextField, FormControl, Box } from '@mui/material';
 import { styled } from '@mui/system';
-import { useForm, Controller } from 'react-hook-form';
+import { useForm, Controller, Resolver } from 'react-hook-form';
 import { debounce } from "lodash";
 import { useAcHistStore } from '../../stores/useAcHistStore';
 import { AcHistData } from '../../Types/AcHistTypes/AcHistType';
 import CustomSectionDivider from './CustomSectionDivider';
 import YearPicker from './yearpicker';
+import { academichistDataSchema } from "../../validations/academichistDataValidation";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 const StyledSection = styled(Box)(({ theme }) => ({
   marginBottom: theme.spacing(4),
@@ -23,7 +27,11 @@ const FormField = styled(Grid)(({ theme }) => ({
   marginBottom: theme.spacing(2),
 }));
 
-export default function AcademicHist() {
+interface AcademicHistDataProps {
+  onValidate: React.MutableRefObject<() => Promise<boolean>>;
+}
+
+export default function AcademicHist({ onValidate }: AcademicHistDataProps) {
   const { acHist, setAcHist } = useAcHistStore((state) => ({
     acHist: state.acHist,
     setAcHist: state.setAcHist,
@@ -35,12 +43,15 @@ export default function AcademicHist() {
         ...prev,
         ...data,
       }));
-    }, 100),
+    }, 300),
     [setAcHist]
   );
 
-  const { control } = useForm<AcHistData>({
+  const { control, formState: { errors }, trigger } = useForm<AcHistData>({
     defaultValues: acHist,
+    resolver: yupResolver(academichistDataSchema) as Resolver<AcHistData>,
+    mode: 'all',
+    shouldUnregister: false,
   });
 
   const renderTextField = (name: keyof AcHistData, label: string, optional: boolean = false) => (
@@ -48,11 +59,11 @@ export default function AcademicHist() {
       name={name}
       control={control}
       render={({ field }) => (
-        <FormControl fullWidth>
+        <FormControl fullWidth error={!!errors[name]}>
           <TextField
             {...field}
             label={label}
-            helperText={optional ? 'Optional' : ''}
+            helperText={optional ? 'Optional' : errors[name]?.message || ''}
             variant="outlined"
             value={field.value || ''}
             onBlur={(e) => {
@@ -64,11 +75,26 @@ export default function AcademicHist() {
               debouncedSetAcHist({ [name]: e.target.value });
             }}
             autoComplete="off"
+            error={!!errors[name]}
           />
         </FormControl>
       )}
     />
   );
+
+  useEffect(() => {
+    onValidate.current = async () => {
+      const isValid = await trigger(undefined, { shouldFocus: true });
+      console.log("validation is triggered");
+      console.log("Validation result:", isValid);
+  
+      if (!isValid) {
+        console.log("Validation errors:", errors);
+      }
+  
+      return isValid;
+    };
+  }, [trigger, onValidate, errors]);
 
   return (
     <form>
@@ -88,7 +114,7 @@ export default function AcademicHist() {
             <Controller
               name="elementaryGraduate"
               control={control}
-              render={({ field }) => (
+              render={({ field, fieldState }) => (
                 <YearPicker
                   label="Elementary Year Graduate"
                   value={field.value}
@@ -99,6 +125,7 @@ export default function AcademicHist() {
                       elementaryGraduate: year,
                     }));
                   }}
+                  error={fieldState.error}
                 />
               )}
             />
@@ -122,7 +149,7 @@ export default function AcademicHist() {
             <Controller
               name="juniorGraduate"
               control={control}
-              render={({ field }) => (
+              render={({ field, fieldState }) => (
                 <YearPicker
                   label="Junior High Year Graduate"
                   value={field.value}
@@ -133,6 +160,7 @@ export default function AcademicHist() {
                       juniorGraduate: year,
                     }));
                   }}
+                  error={fieldState.error}
                 />
               )}
             />
@@ -156,7 +184,7 @@ export default function AcademicHist() {
             <Controller
               name="seniorGraduate"
               control={control}
-              render={({ field }) => (
+              render={({ field, fieldState }) => (
                 <YearPicker
                   label="Senior High Year Graduate"
                   value={field.value}
@@ -167,6 +195,7 @@ export default function AcademicHist() {
                       seniorGraduate: year,
                     }));
                   }}
+                  error={fieldState.error}
                 />
               )}
             />
@@ -178,13 +207,13 @@ export default function AcademicHist() {
         <CustomSectionDivider title="NCAE Information" />
         <StyledGrid container spacing={3}>
           <FormField item xs={12} md={6}>
-            {renderTextField('ncaeGrade', 'NCAE Grade')}
+            {renderTextField('ncaeGrade', 'NCAE Grade', true)}
           </FormField>
           <FormField item xs={12} md={6}>
             <Controller
               name="ncaeYearTaken"
               control={control}
-              render={({ field }) => (
+              render={({ field, fieldState }) => (
                 <YearPicker
                   label="NCAE Year Taken"
                   value={field.value}
@@ -195,6 +224,9 @@ export default function AcademicHist() {
                       ncaeYearTaken: year,
                     }));
                   }}
+                  error={fieldState.error}
+                  helperText="Optional"
+                  showOptional={true}
                 />
               )}
             />
@@ -206,16 +238,16 @@ export default function AcademicHist() {
         <CustomSectionDivider title="College Information" />
         <StyledGrid container spacing={3}>
           <FormField item xs={12} md={6}>
-            {renderTextField('latestCollege', 'Latest College')}
+            {renderTextField('latestCollege', 'Latest College', true)}
           </FormField>
           <FormField item xs={12} md={6}>
-            {renderTextField('collegeAddress', 'College Address')}
+            {renderTextField('collegeAddress', 'College Address', true)}
           </FormField>
           <FormField item xs={12} md={6}>
             {renderTextField('collegeHonors', 'College Honors', true)}
           </FormField>
           <FormField item xs={12} md={6}>
-            {renderTextField('course', 'Course')}
+            {renderTextField('course', 'Course', true)}
           </FormField>
         </StyledGrid>
       </StyledSection>
