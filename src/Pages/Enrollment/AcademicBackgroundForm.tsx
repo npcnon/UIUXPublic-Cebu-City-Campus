@@ -23,13 +23,18 @@
   import { useFamilyStore } from '../../stores/useFamilyStore';
   import { useAcHistStore } from '../../stores/useAcHistStore';
   import {debounce} from 'lodash';
-
+  import YearPicker from './yearpicker'; 
 
   //TODO: switching of course will change regenerate the sudent id
   const FormGrid = styled(Grid)(() => ({
     display: "flex",
     flexDirection: "column",
   }));
+
+  const FormField = styled(Grid)(({ theme }) => ({
+    marginBottom: theme.spacing(2),
+  }));
+
 
   export default function AcademicBackground() {
     const { academicBackground, setAcademicBackground } = useAcademicStore(state => ({
@@ -61,15 +66,12 @@
       [setAcademicBackground]
     );
 
-    const { control, handleSubmit } = useForm<AcademicBackgroundData>({
+    const { control, formState: { errors }} = useForm<AcademicBackgroundData>({
       defaultValues: academicBackground,
     });
 
     
-    
-    const onSubmit = (formData: AcademicBackgroundData) => {
-      setAcademicBackground(formData);
-    };
+
 
 
 
@@ -140,90 +142,97 @@
         <Typography variant="h6" gutterBottom>
           I. Academic Background Form
         </Typography>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form >
+
           <Grid container spacing={3} sx={{ mb: 3 }}>
-            <FormGrid item xs={12} md={6} lg={5}>
-              <Box sx={{ minWidth: 120 }}>
-                <FormControl fullWidth>
-                  <InputLabel id="studentType-label">Student Type</InputLabel>
-                  <Controller
-                    name="studentType"
-                    control={control}
-                    render={({ field }) => (
+            
+            <FormField item xs={12} md={6}>
+                <Controller
+                  name="studentType"
+                  control={control}
+                  render={({ field }) => (
+                    <FormControl fullWidth error={!!errors.studentType} variant="outlined">
+                      <InputLabel id="studenttype-label">Student Type</InputLabel>
                       <Select
-                        labelId="studentType-label"
-                        id="studentType"
-                        value={field.value}
+                        {...field}
+                        labelId="studenttype-label"
                         label="Student Type"
+                        MenuProps={{ disableScrollLock: true }}
                         onChange={(e) => {
                           field.onChange(e); // Update the internal form state
                           setAcademicBackground((prev) => ({
                             ...prev,
                             studentType: e.target.value,
-                          }));
+                          }));                        
                         }}
                       >
                         <MenuItem value="Graduate">Graduate</MenuItem>
                         <MenuItem value="Undergraduate">Undergraduate</MenuItem>
                       </Select>
-                    )}
-                  />
-                </FormControl>
-              </Box>
-            </FormGrid>
+                      {errors.studentType && (
+                        <Typography color="error" variant="caption">
+                          {errors.studentType.message}
+                        </Typography>
+                      )}
+                    </FormControl>
+                  )}
+                />
+              </FormField>
 
-            <FormGrid item xs={12} md={6} lg={7}>
-              <Box sx={{ minWidth: 120 }}>
-                <FormControl fullWidth>
-                  <InputLabel id="applicationType-label">
-                    Application Type
-                  </InputLabel>
-                  <Controller
-                    name="applicationType"
-                    control={control}
-                    render={({ field }) => (
+
+            <FormField item xs={12} md={6}>
+                <Controller
+                  name="applicationType"
+                  control={control}
+                  render={({ field }) => (
+                    <FormControl fullWidth error={!!errors.applicationType} variant="outlined">
+                      <InputLabel id="applicationtype-label">Application Type</InputLabel>
                       <Select
-                        labelId="applicationType-label"
-                        id="applicationType"
-                        value={field.value}
+                        {...field}
+                        labelId="applicationtype-label"
                         label="Application Type"
+                        MenuProps={{ disableScrollLock: true }}
                         onChange={(e) => {
                           field.onChange(e); // Update the internal form state
                           setAcademicBackground((prev) => ({
                             ...prev,
                             applicationType: e.target.value,
-                          }));
+                          }));                        
                         }}
                       >
                         <MenuItem value="Freshmen">Freshmen</MenuItem>
                         <MenuItem value="Transferee">Transferee</MenuItem>
                         <MenuItem value="Cross Enrollee">Cross Enrollee</MenuItem>
                       </Select>
-                    )}
-                  />
-                </FormControl>
-              </Box>
-            </FormGrid>
+                      {errors.applicationType && (
+                        <Typography color="error" variant="caption">
+                          {errors.applicationType.message}
+                        </Typography>
+                      )}
+                    </FormControl>
+                  )}
+                />
+              </FormField>
 
-            <FormGrid item xs={12} md={6} lg={6}>
-              <Box sx={{ minWidth: 120 }}>
-                <FormControl fullWidth>
-                  <InputLabel id="course-label">Course</InputLabel>
-                  <Controller
-                    name="course"
-                    control={control}
-                    render={({ field }) => (
+
+            <FormField item xs={12} md={6} lg={6}>
+                <Controller
+                  name="course"
+                  control={control}
+                  render={({ field }) => (
+                    <FormControl fullWidth error={!!errors.course} variant="outlined">
+                      <InputLabel id="course-label">Course</InputLabel>
                       <Select
+                        {...field}
                         labelId="course-label"
-                        id="course"
-                        value={field.value}
                         label="Course"
+                        MenuProps={{ disableScrollLock: true }}
                         onChange={(e) => {
                           field.onChange(e); // Update the internal form state
                           setAcademicBackground((prev) => ({
                             ...prev,
                             course: e.target.value,
-                          }));
+                          }));                        
                         }}
                       >
                         <MenuItem value="Bachelor of Arts in Mass Communication">Bachelor of Arts in Mass Communication</MenuItem>
@@ -239,13 +248,16 @@
                         <MenuItem value="Bachelor of Science in Industrial Technology (BSIT)">Bachelor of Science in Industrial Technology (BSIT)</MenuItem>
                         <MenuItem value="Bachelor of Science in Electronics and Communications Engineering (BSECE)">Bachelor of Science in Electronics and Communications Engineering (BSECE)</MenuItem>
                         <MenuItem value="Bachelor of Science in Tourism Management (BSTM)">Bachelor of Science in Tourism Management (BSTM)</MenuItem>
-
                       </Select>
-                    )}
-                  />
-                </FormControl>
-              </Box>
-            </FormGrid>
+                      {errors.course && (
+                        <Typography color="error" variant="caption">
+                          {errors.course.message}
+                        </Typography>
+                      )}
+                    </FormControl>
+                  )}
+                />
+              </FormField>
 
             <FormGrid item xs={12} md={6}>
             <Controller
@@ -271,93 +283,88 @@
             />
           </FormGrid>
 
-            <Grid item xs={12} md={6} lg={12}>
-              <Box sx={{ display: "flex", gap: 2 }}>
-                <Box sx={{ flex: "40%" }}>
-                  <FormControl fullWidth>
-                    <InputLabel id="semester-label">Semester Entry</InputLabel>
-                    <Controller
-                      name="semesterEntry"
-                      control={control}
-                      render={({ field }) => (
-                        <Select
-                          labelId="semester-label"
-                          id="semester"
-                          value={field.value}
-                          label="Semester Entry"
-                          onChange={(e) => {
-                            field.onChange(e); // Update the internal form state
-                            setAcademicBackground((prev) => ({
-                              ...prev,
-                              semesterEntry: e.target.value,
-                            }));                        }}
-                        >
+          <Grid item xs={12} md={6} lg={12}>
+            <Box sx={{ display: "flex", gap: 2 }}>
+              
+              <FormField item xs={12} md={6}>
+                <Controller
+                  name="semesterEntry"
+                  control={control}
+                  render={({ field }) => (
+                    <FormControl fullWidth error={!!errors.semesterEntry} variant="outlined">
+                      <InputLabel id="semesterentry-label">Semester Entry</InputLabel>
+                      <Select
+                        {...field}
+                        labelId="semesterentry-label"
+                        label="Semester Entry"
+                        MenuProps={{ disableScrollLock: true }}
+                        onChange={(e) => {
+                          field.onChange(e); // Update the internal form state
+                          setAcademicBackground((prev) => ({
+                            ...prev,
+                            semesterEntry: e.target.value,
+                          }));                        
+                        }}
+                      >
                         <MenuItem value="First Semester">First Semester</MenuItem>
                         <MenuItem value="Second Semester">Second Semester</MenuItem>
-                        <MenuItem value="Summer">Summer</MenuItem>
-                        </Select>
+                        <MenuItem value="Summer">Summer</MenuItem>                  
+                      </Select>
+                      {errors.semesterEntry && (
+                        <Typography color="error" variant="caption">
+                          {errors.semesterEntry.message}
+                        </Typography>
                       )}
-                    />
-                  </FormControl>
-                </Box>
+                    </FormControl>
+                  )}
+                />
+              </FormField>
               
-                <Box sx={{ flex: "30%" }}>
-                  <FormControl fullWidth>
-                    <Controller
-                      name="yearEntry"
-                      control={control}
-                      render={({ field }) => (
-                        <LocalizationProvider dateAdapter={AdapterDayjs}>
-                          <DatePicker
-                            views={["year"]}
-                            label="Year Entry"
-                            value={field.value ? dayjs(field.value) : null}
-                            onChange={(date: dayjs.Dayjs | null) => {
-                              const year = date?.year() ?? 0;
-                              setAcademicBackground((prev) => ({
-                                ...prev,
-                                yearEntry: year,
-                              }));                          }}
-                            slotProps={{
-                              textField: { variant: "outlined", fullWidth: true },
-                            }}
-                          />
-                        </LocalizationProvider>
-                      )}
-                    />
-                  </FormControl>
-                </Box>
-
-                <Box sx={{ flex: "30%" }}>
-                  <FormControl fullWidth>
-                    <Controller
-                      name="yearGraduate"
-                      control={control}
-                      render={({ field }) => (
-                        <LocalizationProvider dateAdapter={AdapterDayjs}>
-                          <DatePicker
-                            views={["year"]}
-                            label="Year Graduate"
-                            value={field.value ? dayjs(field.value) : null}
-                            onChange={(date: dayjs.Dayjs | null) => {
-                              const year = date?.year() ?? 0;
-                              field.onChange(year);
-                              setAcademicBackground((prev) => ({
-                                ...prev,
-                                yearGraduate: year,
-                              }));
-                            }}
-                            slotProps={{
-                              textField: { variant: "outlined", fullWidth: true },
-                            }}
-                          />
-                        </LocalizationProvider>
-                      )}
-                    />
-                  </FormControl>
-                </Box>
+              <Box sx={{ flex: "30%" }}>
+                <FormControl fullWidth>
+                  <Controller
+                    name="yearEntry"
+                    control={control}
+                    render={({ field }) => (
+                      <YearPicker
+                        label="Year Entry"
+                        value={field.value}
+                        onChange={(year: number) => {
+                          field.onChange(year);
+                          setAcademicBackground((prev) => ({
+                            ...prev,
+                            yearEntry: year,
+                          }));
+                        }}
+                      />
+                    )}
+                  />
+                </FormControl>
               </Box>
-            </Grid>
+
+              <Box sx={{ flex: "30%" }}>
+                <FormControl fullWidth>
+                  <Controller
+                    name="yearGraduate"
+                    control={control}
+                    render={({ field }) => (
+                      <YearPicker
+                        label="Year Graduate"
+                        value={field.value}
+                        onChange={(year: number) => {
+                          field.onChange(year);
+                          setAcademicBackground((prev) => ({
+                            ...prev,
+                            yearGraduate: year,
+                          }));
+                        }}
+                      />
+                    )}
+                  />
+                </FormControl>
+              </Box>
+            </Box>
+          </Grid>
           </Grid>
         </form>
       </>
