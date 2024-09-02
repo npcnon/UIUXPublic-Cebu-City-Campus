@@ -23,6 +23,8 @@ import SchoolIcon from "@mui/icons-material/School";
 import RoomPreferencesIcon from "@mui/icons-material/RoomPreferences";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import QuestionAnswerIcon from "@mui/icons-material/QuestionAnswer";
+import Logo from "../../../StaticFiles/Logo.jpg";
+
 
 const navItems = [
   { label: "Home", icon: <HomeIcon /> },
@@ -100,7 +102,7 @@ export default function AppAppBar(props: any) {
 
               {/* Image Logo */}
               <img
-                src="/src/StaticFiles/Logo.jpg"
+                src={Logo}
                 alt="BC Logo"
                 style={{
                   width: "50px",
