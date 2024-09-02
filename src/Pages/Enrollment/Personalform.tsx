@@ -73,7 +73,7 @@
           console.log("Validation errors:", errors);
         }
     
-        return true;
+        return isValid;
       };
     }, [trigger, onValidate, errors]);
   
