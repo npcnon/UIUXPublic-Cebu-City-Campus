@@ -145,21 +145,21 @@ export default function FamilyBackground({ onValidate }: FamilyDataProps) {
   const { control: fatherControl, formState: { errors: fatherErrors }, trigger: fatherTrigger } = useForm<FatherData>({
     defaultValues: familyBackground,
     resolver: yupResolver(currentFatherSchema) as Resolver<FatherData>,
-    mode: 'onChange',
+    mode: 'all',
     shouldUnregister: false,
   });
 
   const { control: guardianControl, formState: { errors: guardianErrors }, trigger: guardianTrigger } = useForm<GuardianData>({
     defaultValues: familyBackground,
     resolver: yupResolver(currentGuardianSchema) as Resolver<GuardianData>,
-    mode: 'onBlur',
+    mode: 'all',
     shouldUnregister: false,
   });
 
   const { control: motherControl, formState: { errors: motherErrors }, trigger: motherTrigger } = useForm<MotherData>({
     defaultValues: familyBackground,
     resolver: yupResolver(currentMotherSchema) as Resolver<MotherData>,
-    mode: 'onBlur',
+    mode: 'all',
     shouldUnregister: false,
   });
 

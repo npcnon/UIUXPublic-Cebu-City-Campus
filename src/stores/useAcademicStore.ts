@@ -24,8 +24,8 @@ export const useAcademicStore = create<AcademicStore>()(
       course: '',
       majorIn: '',
       semesterEntry: '',
-      yearEntry: 0,
-      yearGraduate: 0,
+      yearEntry: null,
+      yearGraduate: null,
     },
     academicBackgroundAPI: {
       stdnt_id: '',
@@ -39,6 +39,7 @@ export const useAcademicStore = create<AcademicStore>()(
       application_type: '',
     },
     setAcademicBackground: (update) => {
+      console.log("setacademicbg is triggered")
       set(state => {
         const newAcademicBackground = typeof update === 'function' ? update(state.academicBackground) : update;
         return {

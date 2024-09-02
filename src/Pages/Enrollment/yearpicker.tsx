@@ -1,3 +1,5 @@
+// Filename: yearpicker.tsx
+
 import React, { useState } from 'react';
 import TextField from '@mui/material/TextField';
 import Popover from '@mui/material/Popover';
@@ -5,14 +7,25 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
+import { FieldError } from 'react-hook-form';
 
 interface YearPickerProps {
   label: string;
   value: number | null;
   onChange: (year: number) => void;
+  error?: FieldError;
+  minYear?: number;
+  maxYear?: number;
 }
 
-const YearPicker: React.FC<YearPickerProps> = ({ label, value, onChange }) => {
+const YearPicker: React.FC<YearPickerProps> = ({ 
+  label, 
+  value, 
+  onChange, 
+  error, 
+  minYear = 1900, 
+  maxYear = new Date().getFullYear() + 10 
+}) => {
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -31,8 +44,10 @@ const YearPicker: React.FC<YearPickerProps> = ({ label, value, onChange }) => {
   const open = Boolean(anchorEl);
   const id = open ? 'year-popover' : undefined;
 
-  const currentYear = new Date().getFullYear();
-  const years = Array.from({ length: 100 }, (_, i) => currentYear - i);
+  const years = Array.from(
+    { length: maxYear - minYear + 1 }, 
+    (_, i) => maxYear - i
+  );
 
   return (
     <div>
@@ -40,10 +55,11 @@ const YearPicker: React.FC<YearPickerProps> = ({ label, value, onChange }) => {
         label={label}
         value={value || ''}
         onClick={handleClick}
-        
         InputProps={{
           readOnly: true,
         }}
+        error={!!error}
+        helperText={error?.message}
       />
       <Popover
         id={id}
@@ -56,7 +72,7 @@ const YearPicker: React.FC<YearPickerProps> = ({ label, value, onChange }) => {
           horizontal: 'left',
         }}
       >
-        <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
+        <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper', maxHeight: 300, overflow: 'auto' }}>
           {years.map((year) => (
             <ListItem key={year} disablePadding>
               <ListItemButton onClick={() => handleYearSelect(year)}>

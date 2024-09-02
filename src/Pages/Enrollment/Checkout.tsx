@@ -159,7 +159,7 @@ export default function Checkout() {
       case 1:
         return <FamilyBackground onValidate={validateRef}/>;
       case 2:
-        return <AcademicBackground />;
+        return <AcademicBackground onValidate={validateRef}/>;
       case 3:
         return <AcademicHist />;
       case 4:
