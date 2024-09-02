@@ -3,6 +3,8 @@
 import * as yup from 'yup';
 import dayjs from 'dayjs';
 
+const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
 // Define validation schema based on the Personal interface
 export const personalDataSchema = yup.object().shape({
   studentId: yup.string(),
@@ -96,7 +98,7 @@ export const personalDataSchema = yup.object().shape({
   email: yup
     .string()
     .trim()
-    .email('Invalid email format')
+    .matches(emailRegex, 'Invalid email format')
     .required('Email is required'),
 
   citizenship: yup

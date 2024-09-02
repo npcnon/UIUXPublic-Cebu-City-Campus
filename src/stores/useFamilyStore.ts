@@ -23,15 +23,15 @@ export const useFamilyStore = create<FamilyStore>()(
             fatherContactNumber : '',
             fatherEmail : '',
             fatherOccupation : '',
-            fatherIncome : 0,
+            fatherIncome : null,
             fatherCompany : '',
             motherFname : '',
             motherMname : '',
             motherLname : '',
             motherContactNumber : '',
-            motherEmail : '',
+            motherEmail : '', 
             motherOccupation : '',
-            motherIncome : 0,
+            motherIncome : null,
             motherCompany : '',
             guardianFname : '',
             guardianMname : '',
@@ -68,6 +68,7 @@ export const useFamilyStore = create<FamilyStore>()(
 
 
         setFamilyBackground: (update) => {
+          console.log(`--set familybackground--`);
             set(state => {
               const newFamily = typeof update === 'function' ? update(state.familyBackground) : update;
               return {

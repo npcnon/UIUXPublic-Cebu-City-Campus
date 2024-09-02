@@ -52,14 +52,14 @@
     const debouncedSetPersonal = useCallback(
       debounce((data: Partial<Personal>) => {
         setPersonal((prev) => ({ ...prev, ...data }));
-      }, 100),
+      }, 300),
       [setPersonal]
     );
 
     const { control, formState: { errors }, trigger } = useForm<Personal>({
       defaultValues: personal,
       resolver: yupResolver(personalDataSchema) as Resolver<Personal>,
-      mode: 'onBlur',
+      mode: 'all',
       shouldUnregister: false,
     });
 
@@ -73,7 +73,7 @@
           console.log("Validation errors:", errors);
         }
     
-        return isValid;
+        return true;
       };
     }, [trigger, onValidate, errors]);
   
@@ -97,6 +97,10 @@
                 value={field.value || ''}
                 onBlur={(e) => {
                   field.onBlur();
+                  debouncedSetPersonal({ [name]: e.target.value });
+                }}
+                onChange={(e) => {
+                  field.onChange(e);
                   debouncedSetPersonal({ [name]: e.target.value });
                 }}
                 autoComplete="off"
