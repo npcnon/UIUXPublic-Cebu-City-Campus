@@ -153,7 +153,6 @@ import axios from "axios"; // Import Axios
 import bcCebu from "../../StaticFiles/benedicto_background.jpg";
 import { Container } from "@mui/material";
 
-
 function Copyright(props: any) {
   return (
     <Typography
@@ -210,7 +209,7 @@ export default function SignInSide() {
         id="hero"
         sx={() => ({
           width: "100%",
-          height: "607px",
+          minHeight: "100vh",
           backgroundImage: `linear-gradient(rgba(0, 0, 0, 0), rgba(0,0,0,1)), url(${bcCebu})`,
           backgroundSize: "cover", // Cover the entire box
           backgroundPosition: "center", // Center the image
