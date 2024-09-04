@@ -3,7 +3,7 @@
 export interface AcademicBackgroundAPIData {
   stdnt_id: string | undefined;
   department: string | undefined;
-  course: string;
+  course: string | number;
   major_in?: string;
   student_type: string;
   semester_entry: string;

@@ -52,7 +52,7 @@
     const debouncedSetPersonal = useCallback(
       debounce((data: Partial<Personal>) => {
         setPersonal((prev) => ({ ...prev, ...data }));
-      }, 300),
+      }, 100),
       [setPersonal]
     );
 
@@ -115,7 +115,6 @@
       <form>
       <StyledSection>
       <CustomSectionDivider title="Personal Information" />
-
         <StyledGrid container spacing={3}>
           {/* Name Fields */}
           <FormField item xs={12} md={4}>

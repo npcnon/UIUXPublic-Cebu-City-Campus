@@ -4,18 +4,17 @@
 
   const API_URL = 'http://127.0.0.1:8000/api'; // Adjust this URL based on your API's actual URL
 
-  export const fetchCourseId = async (courseName: string) => {
+  export const fetchDepartmentIdByCourse = async (courseName: string) => {
     try {
       const response = await axios.get(`${API_URL}/course/?filter=course=${courseName}`);
       
       if (response.status === 200) {
         // Assuming the response data contains a list of courses
         const courseData = response.data[0]; // Get the first course item
-        if (courseData && courseData.id) {
-
-          return parseInt(courseData.id, 10);
+        if (courseData && courseData.department_Id) {
+          return courseData.department_Id;
         } else {
-          throw new Error('Course ID not found'); 
+          throw new Error('Department ID not found'); 
         }
       } else {
         // Handle non-200 status codes

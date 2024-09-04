@@ -5,7 +5,7 @@ export interface AcademicBackgroundData {
   department: string | undefined;
   studentType: string;
   applicationType: string;
-  course: string;
+  course: string | number;
   majorIn: string;
   semesterEntry: string;
   yearEntry: number | null;

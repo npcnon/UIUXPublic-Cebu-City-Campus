@@ -11,7 +11,7 @@
   import { styled } from '@mui/material/styles';
   import { useForm, Controller, Resolver } from 'react-hook-form';
   import { TextField } from '@mui/material';
-  import { fetchDepartmentIdByCourse } from '../../services/courseService';
+  import { fetchDepartmentIdByCourse } from '../../services/departService';
   import { fetchLatestStudentId } from '../../services/studentIdService';
   import { useAcademicStore } from '../../stores/useAcademicStore';
   import { AcademicBackgroundData } from '../../Types/AcademicBackgroundTypes/AcademicBackgroundType';
@@ -20,9 +20,10 @@
   import { useAcHistStore } from '../../stores/useAcHistStore';
   import {debounce} from 'lodash';
   import YearPicker from './yearpicker'; 
-import { academicBgDataSchema } from '../../validations/academicbgDataValidation';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { useEffect } from 'react';
+  import { academicBgDataSchema } from '../../validations/academicbgDataValidation';
+  import { yupResolver } from '@hookform/resolvers/yup';
+  import { useEffect } from 'react';
+import { fetchCourseId } from '../../services/courseService';
 
   //TODO: switching of course will change regenerate the sudent id
   const FormGrid = styled(Grid)(() => ({
@@ -66,7 +67,7 @@ import { useEffect } from 'react';
           ...prev,
           ...data,
         }));
-      }, 300),
+      }, 100),
       [setAcademicBackground]
     );
 
@@ -77,23 +78,34 @@ import { useEffect } from 'react';
       shouldUnregister: false,
     });
 
-    
-
-
+  const [selectedCourse, setSelectedCourse] = React.useState<string | null>(null);
+  const [selectedYear, setSelectedYear] = React.useState<string | null>(null);
 
 
   React.useEffect(() => {
-    const selectedYear = useAcademicStore.getState().academicBackground.yearEntry;
-    const selectedCourse = useAcademicStore.getState().academicBackground.course;
     const fetchDepartment = async () => {
       if (selectedCourse) {
         try {
-          const departmentId = await fetchDepartmentIdByCourse(selectedCourse);
+          const departmentId = await fetchDepartmentIdByCourse(selectedCourse.toString());
           setAcademicBackground(prev => ({
             ...prev,
             department: departmentId,
           }));
           console.log(`Academic Background department: ${useAcademicStore.getState().academicBackground.department} while fetched : ${departmentId}`);
+        } catch (error) {
+          console.error('Failed to fetch department ID:', error);
+        }
+      }
+    }
+    const fetchCourse  = async () => {
+      if (selectedCourse) {
+        try {
+          const courseId = await fetchCourseId(selectedCourse.toString());
+          setAcademicBackground(prev => ({
+            ...prev,
+            course: courseId,
+          }));
+          console.log(`Academic Background course: ${useAcademicStore.getState().academicBackground.course} while fetched : ${courseId}`);
         } catch (error) {
           console.error('Failed to fetch department ID:', error);
         }
@@ -131,15 +143,17 @@ import { useEffect } from 'react';
     const fetchData = async () => {
       if (useAcademicStore.getState().academicBackground.course && useAcademicStore.getState().academicBackground.yearEntry) {
         await fetchDepartment();
+        await fetchCourse();
         await fetchStudentId();
       } else if (selectedCourse && !selectedYear) {
-         fetchDepartment();
+         await fetchDepartment();
+         await fetchCourse();
       }
     };
 
     fetchData(); 
     
-  }, [useAcademicStore.getState().academicBackground.yearEntry, useAcademicStore.getState().academicBackground.course]);
+  }, [selectedYear, selectedCourse]);
   
   
   useEffect(() => {
@@ -250,6 +264,8 @@ import { useEffect } from 'react';
                       MenuProps={{ disableScrollLock: true }}
                       onChange={(e) => {
                         field.onChange(e); // Update the internal form state
+                        const newCourse = e.target.value;
+                        setSelectedCourse(newCourse.toString());
                         setAcademicBackground((prev) => ({
                           ...prev,
                           course: e.target.value,
@@ -268,7 +284,6 @@ import { useEffect } from 'react';
                       <MenuItem value="Bachelor of Science in Civil Engineering (BSCE)">Bachelor of Science in Civil Engineering (BSCE)</MenuItem>
                       <MenuItem value="Bachelor of Science in Industrial Technology (BSIT)">Bachelor of Science in Industrial Technology (BSIT)</MenuItem>
                       <MenuItem value="Bachelor of Science in Electronics and Communications Engineering (BSECE)">Bachelor of Science in Electronics and Communications Engineering (BSECE)</MenuItem>
-                      <MenuItem value="Bachelor of Science in Tourism Management (BSTM)">Bachelor of Science in Tourism Management (BSTM)</MenuItem>
                     </Select>
                     {errors.course && (
                       <Typography color="error" variant="caption">
@@ -354,6 +369,7 @@ import { useEffect } from 'react';
                     value={field.value}
                     onChange={(year: number) => {
                       field.onChange(year);
+                      setSelectedYear(year.toString());
                       setAcademicBackground((prev) => ({
                         ...prev,
                         yearEntry: year,

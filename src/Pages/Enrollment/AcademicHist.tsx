@@ -43,7 +43,7 @@ export default function AcademicHist({ onValidate }: AcademicHistDataProps) {
         ...prev,
         ...data,
       }));
-    }, 300),
+    }, 100),
     [setAcHist]
   );
 
