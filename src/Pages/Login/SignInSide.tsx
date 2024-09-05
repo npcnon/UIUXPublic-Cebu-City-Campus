@@ -70,108 +70,122 @@ export default function SignInSide() {
           width: "100%",
           minHeight: "100vh",
           backgroundImage: `linear-gradient(rgba(0, 0, 0, 0), rgba(0,0,0,1)), url(${bcCebu})`,
-          backgroundSize: "cover", // Cover the entire box
-          backgroundPosition: "center", // Center the image
-          backgroundRepeat: "no-repeat", // Prevent repeating
-          backgroundAttachment: "fixed", // Optional: fixed background for parallax effect
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+          backgroundAttachment: "fixed",
         })}
       >
         <Container
           maxWidth={false} // Disable the default maxWidth
           sx={{
-            width: "100%", // Make the container take full width of its parent
-            mx: 2, // Add horizontal margin to ensure there's some padding from the edges
+            ml: "auto",
             py: { xs: 2, sm: 3 },
-            px: { xs: 2, sm: 3 }, // Added padding for extra spacing on mobile
+            px: { xs: 2, sm: 3 },
+            height: "100vh", // Make container take full height
           }}
         >
-          <Grid>
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                bgcolor: "#fff",
-                width: { xs: "90%", sm: "400px" }, // Responsive width
-                p: { xs: 2, sm: 3 }, // Adjust padding for different screen sizes
-                borderRadius: "8px", // Rounded corners
-                boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)", // Subtle shadow for depth
-                boxSizing: "border-box", // Ensure padding is included in width
-              }}
-            >
-              <img
-                src="/src/StaticFiles/Logo.jpg"
-                alt="BC Logo"
-                style={{
-                  width: "70px",
-                  height: "70px",
-                  borderRadius: "50%",
-                  objectFit: "cover",
-                  border: "2px solid #fff",
-                }}
-              />
-              <Typography
-                variant="h5"
-                sx={{ fontWeight: "bold", lineHeight: 3 }}
-              >
-                LOGIN
-              </Typography>
+          <Grid
+            container
+            sx={{
+              height: "100%",
+              display: "flex",
+              justifyContent: "flex-end", // Align content to the right
+              alignItems: "center", // Center vertically
+            }}
+          >
+            <Grid item xs={12} sm={8} md={5}>
+              {" "}
+              {/* Adjust the width as needed */}
               <Box
-                component="form"
-                noValidate
-                onSubmit={handleSubmit}
                 sx={{
-                  lineHeight: 2,
-                  width: "100%", // Ensure form takes up full width of parent container
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  bgcolor: "#fff",
+                  width: { xs: "90%", sm: "400px" }, // Responsive width
+                  p: { xs: 2, sm: 3 }, // Adjust padding for different screen sizes
+                  borderRadius: "8px",
+                  boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
+                  boxSizing: "border-box", // Ensure padding is included in width
+                  mx: 2, // Add horizontal margin
+                  ml: "auto",
                 }}
               >
-                <TextField
-                  margin="normal"
-                  required
-                  fullWidth
-                  id="email"
-                  label="Email Address"
-                  name="email"
-                  autoComplete="email"
-                  autoFocus
+                <img
+                  src="/src/StaticFiles/Logo.jpg"
+                  alt="BC Logo"
+                  style={{
+                    width: "70px",
+                    height: "70px",
+                    borderRadius: "50%",
+                    objectFit: "cover",
+                    border: "2px solid #fff",
+                  }}
                 />
-                <TextField
-                  margin="normal"
-                  required
-                  fullWidth
-                  name="password"
-                  label="Password"
-                  type="password"
-                  id="password"
-                  autoComplete="current-password"
-                />
-                <FormControlLabel
-                  control={<Checkbox value="remember" color="primary" />}
-                  label="Remember me"
-                />
-                <Button
-                  type="submit"
-                  fullWidth
-                  variant="contained"
-                  sx={{ mt: 1, mb: 1 }}
+                <Typography
+                  variant="h5"
+                  sx={{ fontWeight: "bold", lineHeight: 3 }}
                 >
-                  Sign In
-                </Button>
-                <Grid container>
-                  <Grid item xs>
-                    <Link href="#" variant="body2">
-                      Forgot password?
-                    </Link>
+                  LOGIN
+                </Typography>
+                <Box
+                  component="form"
+                  noValidate
+                  onSubmit={handleSubmit}
+                  sx={{
+                    lineHeight: 2,
+                    width: "100%", // Ensure form takes up full width of parent container
+                  }}
+                >
+                  <TextField
+                    margin="normal"
+                    required
+                    fullWidth
+                    id="email"
+                    label="Email Address"
+                    name="email"
+                    autoComplete="email"
+                    autoFocus
+                  />
+                  <TextField
+                    margin="normal"
+                    required
+                    fullWidth
+                    name="password"
+                    label="Password"
+                    type="password"
+                    id="password"
+                    autoComplete="current-password"
+                  />
+                  <FormControlLabel
+                    control={<Checkbox value="remember" color="primary" />}
+                    label="Remember me"
+                  />
+                  <Button
+                    type="submit"
+                    fullWidth
+                    variant="contained"
+                    sx={{ mt: 1, mb: 1 }}
+                  >
+                    Sign In
+                  </Button>
+                  <Grid container>
+                    <Grid item xs>
+                      <Link href="#" variant="body2">
+                        Forgot password?
+                      </Link>
+                    </Grid>
+                    <Grid item>
+                      <Link href="#" variant="body2">
+                        {"Don't have an account? Sign Up and Enroll now!"}
+                      </Link>
+                    </Grid>
                   </Grid>
-                  <Grid item>
-                    <Link href="#" variant="body2">
-                      {"Don't have an account? Sign Up and Enroll now!"}
-                    </Link>
-                  </Grid>
-                </Grid>
-                <Copyright sx={{ mt: 2 }} />
+                  <Copyright sx={{ mt: 2 }} />
+                </Box>
               </Box>
-            </Box>
+            </Grid>
           </Grid>
         </Container>
       </Box>
