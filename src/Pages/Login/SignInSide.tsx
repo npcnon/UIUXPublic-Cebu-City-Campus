@@ -1,144 +1,3 @@
-// import * as React from 'react';
-// import Avatar from '@mui/material/Avatar';
-// import Button from '@mui/material/Button';
-// import CssBaseline from '@mui/material/CssBaseline';
-// import TextField from '@mui/material/TextField';
-// import FormControlLabel from '@mui/material/FormControlLabel';
-// import Checkbox from '@mui/material/Checkbox';
-// import Link from '@mui/material/Link';
-// import Paper from '@mui/material/Paper';
-// import Box from '@mui/material/Box';
-// import Grid from '@mui/material/Grid';
-// import Typography from '@mui/material/Typography';
-// import { createTheme, ThemeProvider } from '@mui/material/styles';
-// import library_gif from '../../StaticFiles/library.gif';
-// import logo from '../../StaticFiles/logo.png'
-
-// const logoStyle = {
-//   width: '60px',
-//   height: 'auto',
-//   cursor: 'pointer',
-// };
-
-// function Copyright(props: any) {
-//   return (
-//     <Typography variant="body2" color="text.secondary" align="center" {...props}>
-//       {'Copyright © '}
-//       <Link color="inherit" href="http://localhost:5173/">
-//         Benedicto College
-//       </Link>{' '}
-//       {new Date().getFullYear()}
-//       {'.'}
-//     </Typography>
-//   );
-// }
-
-// // TODO remove, this demo shouldn't need to reset the theme.
-// const defaultTheme = createTheme();
-
-// export default function SignInSide() {
-//   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-//     event.preventDefault();
-//     const data = new FormData(event.currentTarget);
-//     console.log({
-//       email: data.get('email'),
-//       password: data.get('password'),
-//     });
-//   };
-
-//   return (
-//     <ThemeProvider theme={defaultTheme}>
-//       <Grid container component="main" sx={{ height: '100vh' }}>
-//         <CssBaseline />
-//         <Grid
-//           item
-//           xs={false}
-//           sm={4}
-//           md={7}
-//           sx={{
-//             backgroundImage: `url(${library_gif})`,
-//             backgroundColor:(t) =>
-//               t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
-//             backgroundSize: 'cover',
-//             backgroundPosition: 'left',
-//           }}
-//         />
-//         <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
-//           <Box
-//             sx={{
-//               my: 8,
-//               mx: 4,
-//               display: 'flex',
-//               flexDirection: 'column',
-//               alignItems: 'center',
-//             }}
-//           >
-//             <Avatar sx={{ m: 1 }}>
-//             <img
-//                 src={logo}
-//                 style={logoStyle}
-//                 alt="logo of sitemark"
-//               />
-//             </Avatar>
-//             <Typography component="h1" variant="h5">
-//               Sign in
-//             </Typography>
-//             <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
-//               <TextField
-//                 margin="normal"
-//                 required
-//                 fullWidth
-//                 id="stdnt_id"
-//                 label="Student ID"
-//                 name="student_id"
-//                 autoComplete="student_id"
-//                 autoFocus
-//               />
-//               <TextField
-//                 margin="normal"
-//                 required
-//                 fullWidth
-//                 name="password"
-//                 label="Password"
-//                 type="password"
-//                 id="password"
-//                 autoComplete="current-password"
-//               />
-//               <FormControlLabel
-//                 control={<Checkbox value="remember" color="primary" />}
-//                 label="Remember me"
-//               />
-//               <Button
-//                 type="submit"
-//                 fullWidth
-//                 variant="contained"
-//                 href="/Dashboard"
-//                 target="_self"
-//                 sx={{ mt: 3, mb: 2 }}
-//               >
-//                 Sign In
-//               </Button>
-//               <Grid container>
-//                 <Grid item xs>
-//                   <Link href="#" variant="body2">
-//                     Forgot password?
-//                   </Link>
-//                 </Grid>
-//                 <Grid item>
-//                   <Link href="#" variant="body2">
-//                     {"Don't have an account? Sign Up and Enroll now!"}
-//                   </Link>
-//                 </Grid>
-//               </Grid>
-//               <Copyright sx={{ mt: 5 }} />
-//             </Box>
-//           </Box>
-//         </Grid>
-//       </Grid>
-//     </ThemeProvider>
-//   );
-// }
-
 import * as React from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
@@ -218,13 +77,12 @@ export default function SignInSide() {
         })}
       >
         <Container
+          maxWidth={false} // Disable the default maxWidth
           sx={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center",
-            width: { xs: "100%", sm: "auto" }, // Responsive width adjustment
-            py: 3,
+            width: "100%", // Make the container take full width of its parent
+            mx: 2, // Add horizontal margin to ensure there's some padding from the edges
+            py: { xs: 2, sm: 3 },
+            px: { xs: 2, sm: 3 }, // Added padding for extra spacing on mobile
           }}
         >
           <Grid>
@@ -235,9 +93,10 @@ export default function SignInSide() {
                 alignItems: "center",
                 bgcolor: "#fff",
                 width: { xs: "90%", sm: "400px" }, // Responsive width
-                p: 3, // Padding
+                p: { xs: 2, sm: 3 }, // Adjust padding for different screen sizes
                 borderRadius: "8px", // Rounded corners
                 boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)", // Subtle shadow for depth
+                boxSizing: "border-box", // Ensure padding is included in width
               }}
             >
               <img
@@ -261,7 +120,10 @@ export default function SignInSide() {
                 component="form"
                 noValidate
                 onSubmit={handleSubmit}
-                sx={{ lineHeight: 2 }}
+                sx={{
+                  lineHeight: 2,
+                  width: "100%", // Ensure form takes up full width of parent container
+                }}
               >
                 <TextField
                   margin="normal"

@@ -45,9 +45,9 @@ export default function LandingPage() {
         <Route element={<LayoutWithAppBar />}>
           <Route path="/" element={<Hero />} />
           <Route path="/Enrollment" element={<Checkout />} />
-          <Route path="/Subjects" element={<Stepper />} />
         </Route>
         <Route element={<LayoutWithoutAppBar />}>
+          <Route path="/Subjects" element={<Stepper />} />
           <Route path="/EnrollmentPage" element={<EnrollmentPage />} />
           <Route path="/Sign-in" element={<SignInSide />} />
           <Route path="/Dashboard" element={<Dashboard />} />

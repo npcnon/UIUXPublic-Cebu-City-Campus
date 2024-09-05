@@ -1,15 +1,60 @@
 import * as React from "react";
-import Box from "@mui/material/Box";
-import Stepper from "@mui/material/Stepper";
-import Step from "@mui/material/Step";
-import StepLabel from "@mui/material/StepLabel";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import { Grid } from "@mui/material";
+import { useState } from "react";
+import {
+  Box,
+  Grid,
+  Typography,
+  Button,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Stepper,
+  Step,
+  StepLabel,
+} from "@mui/material";
+/*
+interface Enrollee {
+  id: number;
+  name: string;
+  department: string;
+  status: string;
+}
+*/
+const steps = ["Registration", "Enlistment", "Study Load"];
 
-const steps = ["Select Subjects", "Create an ad group", "Create an ad"];
+export default function AddingSubjects() {
+  /* const [enrollees, setEnrollees] = useState<Enrollee[]>([
+    {
+      id: 1,
+      name: "John Doe",
+      department: "Bachelor of Science in Computer Science",
+      status: "Pending",
+    },
+    {
+      id: 2,
+      name: "Jane Smith",
+      department: "Bachelor of Arts in English Literature",
+      status: "Pending",
+    },
+    {
+      id: 3,
+      name: "Alice Johnson",
+      department: "Bachelor of Science in Mechanical Engineering",
+      status: "Pending",
+    },
+    {
+      id: 4,
+      name: "Bob Brown",
+      department: "Bachelor of Business Administration",
+      status: "Pending",
+    },
+  ]);
+  */
 
-export default function HorizontalLinearStepper() {
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set<number>());
 
@@ -54,21 +99,39 @@ export default function HorizontalLinearStepper() {
   const handleReset = () => {
     setActiveStep(0);
   };
+  /* Adding subject
+  const handleAccept = (id: number) => {
+    // Simulate acceptance by updating status locally
+    const updatedEnrollees = enrollees.map((enrollee) =>
+      enrollee.id === id ? { ...enrollee, status: "Accepted" } : enrollee
+    );
+    setEnrollees(updatedEnrollees);
 
+    // In a real application, you would send a PUT request to update the enrollee status in the backend
+    console.log(`Accepted enrollee with ID: ${id}`);
+  };
+  */
   return (
     <Grid
       sx={{
-        display: "flex",
-        flexDirection: "column",
-        backgroundColor: { xs: "transparent", sm: "background.default" },
-        borderRadius: 2,
-        boxShadow: { xs: "none", sm: 3 },
+        minHeight: "100vh", // Ensure it covers the full height of the viewport
+        backgroundColor: "#03153e", // Set your desired background color
+        display: "flex", // Center the content horizontally and vertically
         justifyContent: "center",
-        padding: "90px 200px",
-        m: 11,
+        alignItems: "center",
       }}
     >
-      <Box>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          borderRadius: 2,
+          boxShadow: { xs: "none", sm: 3 },
+          justifyContent: "center",
+          backgroundColor: "#f5f5f5", // Add your desired background color here
+          padding: "50px", // Optional: Add some padding inside the Box
+        }}
+      >
         <Stepper activeStep={activeStep} alternativeLabel>
           {steps.map((label, index) => {
             const stepProps: { completed?: boolean } = {};
@@ -77,7 +140,7 @@ export default function HorizontalLinearStepper() {
             } = {};
             if (isStepOptional(index)) {
               labelProps.optional = (
-                <Typography variant="caption">Optional</Typography>
+                <Typography variant="caption">Optional</Typography> // example
               );
             }
             if (isStepSkipped(index)) {
@@ -90,7 +153,6 @@ export default function HorizontalLinearStepper() {
             );
           })}
         </Stepper>
-
         {activeStep === steps.length ? (
           <React.Fragment>
             <Typography sx={{ mt: 2, mb: 1 }}>
