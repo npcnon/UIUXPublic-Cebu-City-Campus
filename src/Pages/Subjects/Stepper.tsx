@@ -1,60 +1,20 @@
 import * as React from "react";
-import { useState } from "react";
+import Enlistment from "./Enlistment"; //rendered
+import Registration from "./Registration";
+import StudyLoad from "./Studyload";
 import {
   Box,
   Grid,
   Typography,
   Button,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
   Stepper,
   Step,
   StepLabel,
 } from "@mui/material";
-/*
-interface Enrollee {
-  id: number;
-  name: string;
-  department: string;
-  status: string;
-}
-*/
+
 const steps = ["Registration", "Enlistment", "Study Load"];
 
 export default function AddingSubjects() {
-  /* const [enrollees, setEnrollees] = useState<Enrollee[]>([
-    {
-      id: 1,
-      name: "John Doe",
-      department: "Bachelor of Science in Computer Science",
-      status: "Pending",
-    },
-    {
-      id: 2,
-      name: "Jane Smith",
-      department: "Bachelor of Arts in English Literature",
-      status: "Pending",
-    },
-    {
-      id: 3,
-      name: "Alice Johnson",
-      department: "Bachelor of Science in Mechanical Engineering",
-      status: "Pending",
-    },
-    {
-      id: 4,
-      name: "Bob Brown",
-      department: "Bachelor of Business Administration",
-      status: "Pending",
-    },
-  ]);
-  */
-
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set<number>());
 
@@ -99,50 +59,39 @@ export default function AddingSubjects() {
   const handleReset = () => {
     setActiveStep(0);
   };
-  /* Adding subject
-  const handleAccept = (id: number) => {
-    // Simulate acceptance by updating status locally
-    const updatedEnrollees = enrollees.map((enrollee) =>
-      enrollee.id === id ? { ...enrollee, status: "Accepted" } : enrollee
-    );
-    setEnrollees(updatedEnrollees);
+  // Function to render content based on active step
+  const renderStepContent = (step: number) => {
+    switch (step) {
+      case 0:
+        return <Registration />;
+      case 1:
+        return <Enlistment />;
+      case 2:
+        return <StudyLoad />;
 
-    // In a real application, you would send a PUT request to update the enrollee status in the backend
-    console.log(`Accepted enrollee with ID: ${id}`);
+      default:
+        return "Unknown step";
+    }
   };
-  */
+
   return (
     <Grid
       sx={{
         minHeight: "100vh", // Ensure it covers the full height of the viewport
-        backgroundColor: "#03153e", // Set your desired background color
+        backgroundColor: "#f5f5f5", // Set your desired background color
         display: "flex", // Center the content horizontally and vertically
         justifyContent: "center",
         alignItems: "center",
       }}
     >
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          borderRadius: 2,
-          boxShadow: { xs: "none", sm: 3 },
-          justifyContent: "center",
-          backgroundColor: "#f5f5f5", // Add your desired background color here
-          padding: "50px", // Optional: Add some padding inside the Box
-        }}
-      >
+      <Box>
         <Stepper activeStep={activeStep} alternativeLabel>
           {steps.map((label, index) => {
             const stepProps: { completed?: boolean } = {};
             const labelProps: {
               optional?: React.ReactNode;
             } = {};
-            if (isStepOptional(index)) {
-              labelProps.optional = (
-                <Typography variant="caption">Optional</Typography> // example
-              );
-            }
+
             if (isStepSkipped(index)) {
               stepProps.completed = false;
             }
@@ -165,7 +114,7 @@ export default function AddingSubjects() {
           </React.Fragment>
         ) : (
           <React.Fragment>
-            <Typography sx={{ mt: 2, mb: 1 }}>Step {activeStep + 1}</Typography>
+            <Box sx={{ mt: 2, mb: 1 }}>{renderStepContent(activeStep)}</Box>
             <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
               <Button
                 color="inherit"
@@ -182,7 +131,7 @@ export default function AddingSubjects() {
                 </Button>
               )}
               <Button onClick={handleNext}>
-                {activeStep === steps.length - 1 ? "Finish" : "Next"}
+                {activeStep === steps.length - 1 ? "Finish" : "Proceed"}
               </Button>
             </Box>
           </React.Fragment>
