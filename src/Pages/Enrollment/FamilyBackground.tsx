@@ -52,7 +52,7 @@ export default function FamilyBackground({ onValidate }: FamilyDataProps) {
         ...prev,
         ...data,
       }));
-    }, 300),
+    }, 100),
     [setFamilyBackground]
   );
 

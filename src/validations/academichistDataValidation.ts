@@ -4,7 +4,6 @@ import * as yup from 'yup';
 import { AcHistData } from '../Types/AcHistTypes/AcHistType';
 
 const currentYear = new Date().getFullYear();
-
 export const academichistDataSchema: yup.ObjectSchema<AcHistData> = yup.object().shape({
     stdntId: yup.string(),
     elementarySchool: yup.string().required('Elementary school name is required'),
