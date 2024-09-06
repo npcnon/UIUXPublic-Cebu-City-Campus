@@ -143,7 +143,7 @@ export default function SignInSide() {
                     required
                     fullWidth
                     id="email"
-                    label="Email Address"
+                    label="Student ID"
                     name="email"
                     autoComplete="email"
                     autoFocus
@@ -166,7 +166,18 @@ export default function SignInSide() {
                     type="submit"
                     fullWidth
                     variant="contained"
-                    sx={{ mt: 1, mb: 1 }}
+                    size="large"
+                    sx={{
+                      mt: 1,
+                      mb: 2,
+                      backgroundColor: "#f15800", // background color
+                      color: "#FFFFFF", // text color
+                      "&:hover": {
+                        backgroundColor: "#FFA500", // hover color
+                      },
+                      textShadow: "2px 2px 4px rgba(0, 0, 0, 0.5)",
+                      boxShadow: "3px 3px 6px rgba(0, 0, 0, 0.3)",
+                    }}
                   >
                     Sign In
                   </Button>
