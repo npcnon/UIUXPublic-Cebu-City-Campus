@@ -16,6 +16,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import bcCebu from "../../StaticFiles/benedicto_background.jpg";
+import logo from "../../StaticFiles/logo.jpg";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { useStudentBasicStore } from "../../stores/useStudentBasicStore";
 import { StudentBasicAPIData } from "../../Types/StudentBasicInfoTypes/StudentBasicDataAPITypes";
@@ -155,7 +156,7 @@ export default function StudentRegistration() {
                   }}
                 >
                   <img
-                    src="/src/StaticFiles/Logo.jpg"
+                    src={logo}
                     alt="BC Logo"
                     style={{
                       width: "70px",
