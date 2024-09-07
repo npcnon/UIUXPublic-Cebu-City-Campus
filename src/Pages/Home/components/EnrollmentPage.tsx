@@ -1,315 +1,191 @@
 import * as React from "react";
-import AppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
-import CssBaseline from "@mui/material/CssBaseline";
-import useScrollTrigger from "@mui/material/useScrollTrigger";
-import Slide from "@mui/material/Slide";
-import IconButton from "@mui/material/IconButton";
-import MenuIcon from "@mui/icons-material/Menu";
-import Drawer from "@mui/material/Drawer";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemText from "@mui/material/ListItemText";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import useMediaQuery from "@mui/material/useMediaQuery";
-import { useTheme } from "@mui/material/styles";
-//icon
-import HomeIcon from "@mui/icons-material/Home";
-import PersonAddIcon from "@mui/icons-material/PersonAdd";
-//grid imports
-import Grid from "@mui/material/Grid";
-import { Link } from "react-router-dom";
-//card
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
-import { CardActionArea, CardActions } from "@mui/material";
-//sample pic imports
+import {
+  Container,
+  Button,
+  TextField,
+  Box,
+  Grid,
+  Typography,
+  InputLabel,
+  MenuItem,
+  FormControl,
+} from "@mui/material";
+import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import bcCebu from "../../../StaticFiles/benedicto_background.jpg";
-import bcmain from "../../../StaticFiles/bcmain.jpg";
+import Select from "@mui/material/Select";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
 
-const navItems = [
-  { label: "home", icon: <HomeIcon /> }, //home icon
-];
-
-function HideOnScroll(props: any) {
-  const { children, window } = props;
-  const trigger = useScrollTrigger({
-    target: window ? window() : undefined,
-  });
-
+export default function StudentRegistration() {
   return (
-    <Slide appear={false} direction="down" in={!trigger}>
-      {children}
-    </Slide>
-  );
-}
-
-export default function EnrollmentPage(props: any) {
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-  const [mobileOpen, setMobileOpen] = React.useState(false);
-
-  const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
-  };
-
-  const drawer = (
-    <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
-      <Typography variant="h6" sx={{ my: 2 }}>
-        BC LOGO
-      </Typography>
-      <List>
-        {navItems.map((item) => (
-          <ListItem key={item.label} disablePadding>
-            {item.icon && (
-              <ListItemIcon sx={{ minWidth: 36 }}>{item.icon}</ListItemIcon>
-            )}
-            <ListItemText primary={item.label} sx={{ textAlign: "center" }} />
-          </ListItem>
-        ))}
-      </List>
-    </Box>
-  );
-
-  return (
-    <React.Fragment>
-      <CssBaseline />
-      <HideOnScroll {...props}>
-        <AppBar
-          sx={{
-            backgroundColor: "#0236ae", // Custom color
-          }}
-        >
-          <Toolbar>
-            {isMobile ? (
-              <IconButton
-                color="inherit"
-                aria-label="open drawer"
-                edge="start"
-                onClick={handleDrawerToggle}
-                sx={{ mr: 2 }}
-              >
-                <MenuIcon />
-              </IconButton>
-            ) : null}
-
-            {/*image logo*/}
-            <img
-              src="/src/StaticFiles/Logo.jpg" // Replace with the actual path to your logo
-              alt="BC Logo"
-              style={{
-                width: "50px",
-                height: "50px",
-                borderRadius: "50%",
-                objectFit: "cover",
-                border: "2px solid #fff",
-                marginRight: "8px", // Adjust the margin as needed
-              }}
-            />
-
-            <Typography
-              variant="h6"
-              component="div"
-              sx={{ flexGrow: 1, display: { xs: "block", sm: "block" } }}
-            >
-              Benedicto College
-            </Typography>
-            {!isMobile ? (
-              <Box sx={{ display: { xs: "none", sm: "block" } }}>
-                {navItems.map((item) => (
-                  <Button key={item.label} sx={{ color: "#fff" }}>
-                    {item.icon && (
-                      <ListItemIcon sx={{ minWidth: 36 }}>
-                        {item.icon}
-                      </ListItemIcon>
-                    )}
-                    {item.label}
-                  </Button>
-                ))}
-              </Box>
-            ) : null}
-          </Toolbar>
-        </AppBar>
-      </HideOnScroll>
-      <Toolbar />
-      <nav>
-        <Drawer
-          variant="temporary"
-          open={mobileOpen}
-          onClose={handleDrawerToggle}
-          ModalProps={{
-            keepMounted: true, // Better open performance on mobile.
-          }}
-          sx={{
-            display: { xs: "block", sm: "none" },
-            "& .MuiDrawer-paper": { boxSizing: "border-box", width: 240 },
-          }}
-        >
-          {drawer}
-        </Drawer>
-      </nav>
-
-      <Grid>
-        <Typography
-          variant="h4"
-          textAlign="center"
-          sx={{
-            flexGrow: 1,
-            mt: 5,
-            color: "#FF5c00",
-            fontWeight: "bold",
-            textShadow: "2px 2px 4px rgba(0, 0, 0, 0.2)",
-            display: { xs: "block", sm: "block" },
-          }}
-        >
-          Admission Requirements
-        </Typography>
-        <Typography
-          variant="body2"
-          textAlign="center"
-          color="text.secondary"
-          sx={{ flexGrow: 1, mb: 2, display: { xs: "block", sm: "block" } }}
-        >
-          We’ll run through a checklist of items you’ll need to complete in
-          order to <br /> apply at the University. Let’s get started!
-        </Typography>
-      </Grid>
-
-      <Grid
-        container
-        spacing={3}
-        justifyContent="center"
-        sx={{ mt: 1, mb: 3, backgroundColor: "#ffff" }}
+    <Grid>
+      <Box
+        id="hero"
+        sx={() => ({
+          width: "100%",
+          minHeight: "100vh",
+          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0), rgba(0,0,0,1)), url(${bcCebu})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+          backgroundAttachment: "fixed",
+        })}
       >
-        <Grid
-          item
-          xs={12}
-          md={6}
-          lg={4}
+        <Container
+          maxWidth={false} // Disable the default maxWidth
           sx={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
+            width: { xs: "90%", sm: "80%", md: "60%", lg: "50%" }, // Responsive width
+            maxWidth: "none", // Ensure container doesn't get restricted by the default maxWidth prop
+            py: { xs: 2, sm: 3 },
+            px: { xs: 2, sm: 3 },
+            height: "100vh", // Full height
           }}
         >
-          <Link to="/Enrollment" style={{ textDecoration: "none" }}>
-            <Card sx={{ maxWidth: 345, boxShadow: 8 }}>
-              <CardActionArea>
-                <CardMedia
-                  component="img"
-                  height="100"
-                  image={bcmain}
-                  alt="school"
+          <Grid
+            container
+            sx={{
+              height: "100%",
+              display: "flex",
+              justifyContent: "center", // Align content to the right
+              alignItems: "center", // Center vertically
+            }}
+          >
+            <Grid item xs={12} sm={8} md={5}>
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  bgcolor: "#fbfcf8", //pearl color
+                  width: { xs: "90%", sm: "400px" }, // Responsive width
+                  p: { xs: 2, sm: 3 }, // Adjust padding for different screen sizes
+                  borderRadius: "8px",
+                  boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
+                  boxSizing: "border-box", // Ensure padding is included in width
+                  mx: 2, // Add horizontal margin
+                  ml: "auto",
+                }}
+              >
+                <img
+                  src="/src/StaticFiles/Logo.jpg"
+                  alt="BC Logo"
+                  style={{
+                    width: "70px",
+                    height: "70px",
+                    borderRadius: "50%",
+                    objectFit: "cover",
+                    border: "2px solid #fff",
+                  }}
                 />
-                <CardContent>
-                  <Typography
-                    gutterBottom
-                    variant="h6"
-                    component="div"
-                    sx={{
-                      fontWeight: "bold",
-                      textShadow: "2px 2px 4px rgba(0, 0, 0, 0.2)",
-                    }}
-                  >
-                    New Student
-                  </Typography>
-                  <Typography gutterBottom variant="subtitle1" component="div">
-                    Requirements:
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    1. Certificate of Good Moral Conduct. <br />
-                    2. Senior High School Report Card (Form 138). <br />
-                    3. Original Copy of PSA (NSO) Birth Certificate. <br />
-                    4. Php 500.00 Enrollment fee.
-                  </Typography>
-                </CardContent>
-              </CardActionArea>
-              <CardActions>
-                <Button
-                  variant="contained"
-                  startIcon={<PersonAddIcon />}
+                <Typography
+                  variant="h5"
+                  sx={{ fontWeight: "bold", lineHeight: 3 }}
+                >
+                  Student Registration
+                </Typography>
+                <Box
+                  component="form"
+                  noValidate
                   sx={{
-                    backgroundColor: "#FF5c00", // Custom background color
-                    color: "#FFFFFF", // Custom text color
-                    "&:hover": {
-                      backgroundColor: "#FFA500", // Custom hover color
-                    },
-                    boxShadow: "3px 3px 6px rgba(0, 0, 0, 0.3)",
+                    lineHeight: 2,
+                    width: "100%", // Ensure form takes up full width of parent container
                   }}
                 >
-                  Enroll Now
-                </Button>
-              </CardActions>
-            </Card>
-          </Link>
-        </Grid>
-        <Grid
-          item
-          xs={12}
-          md={6}
-          lg={4}
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
-          <Link to="/Sign-in" style={{ textDecoration: "none" }}>
-            <Card sx={{ maxWidth: 345, boxShadow: 8 }}>
-              <CardActionArea>
-                <CardMedia
-                  component="img"
-                  height="100"
-                  image={bcCebu}
-                  alt="school"
-                />
-                <CardContent>
-                  <Typography
-                    gutterBottom
-                    variant="h6"
-                    component="div"
+                  <Grid container spacing={1}>
+                    <Grid item xs={6}>
+                      <TextField
+                        margin="normal"
+                        required
+                        fullWidth
+                        id="fname"
+                        label="First Name"
+                        variant="outlined"
+                      />
+                    </Grid>
+
+                    <Grid item xs={6}>
+                      <TextField
+                        margin="normal"
+                        required
+                        fullWidth
+                        id="lname"
+                        label="Last Name"
+                        variant="outlined"
+                      />
+                    </Grid>
+                    <Grid item xs={4}>
+                      <FormControl
+                        fullWidth
+                        variant="outlined"
+                        margin="normal"
+                        sx={{ mt: 3 }}
+                      >
+                        <InputLabel id="gender-label">Sex</InputLabel>
+                        <Select labelId="gender-label" label="Sex">
+                          <MenuItem value="Male">Male</MenuItem>
+                          <MenuItem value="Female">Female</MenuItem>
+                        </Select>
+                      </FormControl>
+                    </Grid>
+                    <Grid item xs={8}>
+                      <FormControl variant="outlined" margin="normal">
+                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                          <DemoContainer components={["DatePicker"]}>
+                            <DatePicker label="Birthdate" />
+                          </DemoContainer>
+                        </LocalizationProvider>
+                      </FormControl>
+                    </Grid>
+                    <Grid item xs={7}>
+                      <TextField
+                        margin="normal"
+                        required
+                        fullWidth
+                        id="Email"
+                        label="Email"
+                        variant="outlined"
+                      />
+                    </Grid>
+                    <Grid item xs={5}>
+                      <TextField
+                        margin="normal"
+                        required
+                        fullWidth
+                        id="contactno"
+                        label="Contact No."
+                        variant="outlined"
+                      />
+                    </Grid>
+                  </Grid>
+
+                  <Button
+                    type="submit"
+                    fullWidth
+                    variant="contained"
+                    size="large"
+                    startIcon={<AddCircleIcon />}
                     sx={{
-                      fontWeight: "bold",
-                      textShadow: "2px 2px 4px rgba(0, 0, 0, 0.2)",
+                      mt: 3,
+                      mb: 1,
+                      backgroundColor: "#f15800", // background color
+                      color: "#FFFFFF", // text color
+                      "&:hover": {
+                        backgroundColor: "#FFA500", // hover color
+                      },
+                      textShadow: "2px 2px 4px rgba(0, 0, 0, 0.5)",
+                      boxShadow: "3px 3px 6px rgba(0, 0, 0, 0.3)",
                     }}
                   >
-                    Old Student
-                  </Typography>
-                  <Typography gutterBottom variant="subtitle1" component="div">
-                    Requirements:
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    Continuing students are those who were enrolled in the
-                    previous semester or had a valid leave of absence and are
-                    now re-enrolling in the same course, and Php 500.00
-                    Enrollment fee.
-                  </Typography>
-                </CardContent>
-              </CardActionArea>
-              <CardActions>
-                <Button
-                  variant="contained"
-                  startIcon={<PersonAddIcon />}
-                  sx={{
-                    backgroundColor: "#FF5c00", // Custom background color
-                    color: "#FFFFFF", // Custom text color
-                    "&:hover": {
-                      backgroundColor: "#FFA500", // Custom hover color
-                    },
-                    boxShadow: "3px 3px 6px rgba(0, 0, 0, 0.3)",
-                  }}
-                >
-                  Enroll Now
-                </Button>
-              </CardActions>
-            </Card>
-          </Link>
-        </Grid>
-      </Grid>
-    </React.Fragment>
+                    Submit
+                  </Button>
+                </Box>
+              </Box>
+            </Grid>
+          </Grid>
+        </Container>
+      </Box>
+    </Grid>
   );
 }

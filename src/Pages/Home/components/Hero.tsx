@@ -24,7 +24,7 @@ export default function Hero() {
       id="hero"
       sx={() => ({
         width: "100%",
-        height: "607px",
+        minHeight: "100vh",
         backgroundImage: `linear-gradient(rgba(0, 0, 0, 0), rgba(26,50,129,255)), url(${bcCebu})`,
         backgroundSize: "cover", // Cover the entire box
         backgroundPosition: "center", // Center the image

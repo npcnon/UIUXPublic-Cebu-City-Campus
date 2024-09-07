@@ -4,6 +4,7 @@ import Hero from "./components/Hero";
 import Checkout from "../Enrollment/Checkout";
 import SignInSide from "../Login/SignInSide";
 import EnrollmentPage from "./components/EnrollmentPage";
+
 // import LogoCollection from './components/LogoCollection';
 // import Highlights from './components/Highlights';
 // import Pricing from './components/Pricing';
@@ -19,7 +20,7 @@ import {
   Outlet,
 } from "react-router-dom";
 import Dashboard from "../Dashboard/Dashboard";
-
+import Stepper from "../Subjects/Stepper";
 // Layout with AppAppBar
 const LayoutWithAppBar = () => (
   <>
@@ -46,6 +47,7 @@ export default function LandingPage() {
           <Route path="/Enrollment" element={<Checkout />} />
         </Route>
         <Route element={<LayoutWithoutAppBar />}>
+          <Route path="/Subjects" element={<Stepper />} />
           <Route path="/EnrollmentPage" element={<EnrollmentPage />} />
           <Route path="/Sign-in" element={<SignInSide />} />
           <Route path="/Dashboard" element={<Dashboard />} />
