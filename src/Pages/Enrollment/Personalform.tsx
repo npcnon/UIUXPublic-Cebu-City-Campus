@@ -52,7 +52,7 @@
     const debouncedSetPersonal = useCallback(
       debounce((data: Partial<Personal>) => {
         setPersonal((prev) => ({ ...prev, ...data }));
-      }, 100),
+      }, 300),
       [setPersonal]
     );
 
