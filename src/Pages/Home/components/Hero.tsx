@@ -13,12 +13,23 @@ import Grid from "@mui/material/Grid";
 import Divider from "@mui/material/Divider";
 import SendIcon from "@mui/icons-material/Send";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
+import { useStudentBasicStore } from "../../../stores/useStudentBasicStore";
+import { Link } from "react-router-dom";
 
 export default function Hero() {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const { setStudentBasicAPI } = useStudentBasicStore((state) => ({
+    setStudentBasicAPI: state.setStudentBasicAPI,
+  }));
 
+  const handleCampusSelection = (campus: string) => () => {
+    setStudentBasicAPI((prev) => ({
+      ...prev,
+      campus: campus
+    }));
+  };
   return (
     <Box
       id="hero"
@@ -83,9 +94,8 @@ export default function Hero() {
             >
               Enroll Now
             </Button>
-
+            <Link to="/Sign-in">
             <Button
-              href="/Sign-in"
               endIcon={<SendIcon />}
               sx={{
                 color: "#FFFFFF", // Custom text color
@@ -97,6 +107,7 @@ export default function Hero() {
             >
               Student Portal
             </Button>
+            </Link>
           </Stack>
         </Stack>
 
@@ -178,8 +189,9 @@ export default function Hero() {
                 mb: 1,
               }}
             >
+              <Link to="/EnrollmentPage">
               <Button
-                href="/Enrollment"
+                onClick={handleCampusSelection("Mandaue")}
                 variant="contained"
                 size="small"
                 sx={{
@@ -193,6 +205,7 @@ export default function Hero() {
               >
                 Mandaue Campus
               </Button>
+                </Link>
             </Grid>
 
             <Divider
@@ -212,8 +225,9 @@ export default function Hero() {
                 mb: 1,
               }}
             >
+              <Link to="/EnrollmentPage">
               <Button
-                href="/Enrollment"
+                onClick={handleCampusSelection("Cebu")}
                 variant="contained"
                 size="small"
                 sx={{
@@ -227,6 +241,7 @@ export default function Hero() {
               >
                 Cebu Campus
               </Button>
+              </Link>
             </Grid>
           </Grid>
         </Box>

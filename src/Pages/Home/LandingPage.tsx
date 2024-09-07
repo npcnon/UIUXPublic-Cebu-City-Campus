@@ -3,7 +3,7 @@ import AppAppBar from "./components/AppAppbar";
 import Hero from "./components/Hero";
 import Checkout from "../Enrollment/Checkout";
 import SignInSide from "../Login/SignInSide";
-import EnrollmentPage from "./components/EnrollmentPage";
+import EnrollmentPage from "../Enrollment/BasicEnrollmentPage";
 
 // import LogoCollection from './components/LogoCollection';
 // import Highlights from './components/Highlights';
@@ -42,16 +42,19 @@ export default function LandingPage() {
   const router = createBrowserRouter(
     createRoutesFromElements(
       <>
-        <Route element={<LayoutWithAppBar />}>
-          <Route path="/" element={<Hero />} />
-          <Route path="/Enrollment" element={<Checkout />} />
+        <Route path="/" >
+          <Route path="/" element={<LayoutWithAppBar />}>
+            <Route path="/" element={<Hero />} />
+            <Route path="/Enrollment" element={<Checkout />} />
+          </Route>
+          <Route path="/" element={<LayoutWithoutAppBar />}>
+            <Route path="/Subjects" element={<Stepper />} />
+            <Route path="/EnrollmentPage" element={<EnrollmentPage />} />
+            <Route path="/Sign-in" element={<SignInSide />} />
+            <Route path="/Dashboard" element={<Dashboard />} />
+          </Route>
         </Route>
-        <Route element={<LayoutWithoutAppBar />}>
-          <Route path="/Subjects" element={<Stepper />} />
-          <Route path="/EnrollmentPage" element={<EnrollmentPage />} />
-          <Route path="/Sign-in" element={<SignInSide />} />
-          <Route path="/Dashboard" element={<Dashboard />} />
-        </Route>
+        
       </>
     )
   );
