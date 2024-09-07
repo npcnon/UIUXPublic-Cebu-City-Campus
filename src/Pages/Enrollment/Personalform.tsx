@@ -116,91 +116,11 @@ export default function PersonalData({ onValidate }: PersonalDataProps) {
     />
   );
 
-<<<<<<< HEAD
   return (
     <form>
       <StyledSection>
         <CustomSectionDivider title="Personal Information" />
 
-=======
-  interface PersonalDataProps {
-    onValidate: React.MutableRefObject<() => Promise<boolean>>;
-  }
-
-  export default function PersonalData({ onValidate }: PersonalDataProps) {
-    const { personal, setPersonal } = usePersonalStore((state) => ({
-      personal: state.personal,
-      setPersonal: state.setPersonal
-    }));
-
-
-    const debouncedSetPersonal = useCallback(
-      debounce((data: Partial<Personal>) => {
-        setPersonal((prev) => ({ ...prev, ...data }));
-      }, 100),
-      [setPersonal]
-    );
-
-    const { control, formState: { errors }, trigger } = useForm<Personal>({
-      defaultValues: personal,
-      resolver: yupResolver(personalDataSchema) as Resolver<Personal>,
-      mode: 'all',
-      shouldUnregister: false,
-    });
-
-    useEffect(() => {
-      onValidate.current = async () => {
-        const isValid = await trigger(undefined, { shouldFocus: true });
-        console.log("validation is triggered");
-        console.log("Validation result:", isValid);
-    
-        if (!isValid) {
-          console.log("Validation errors:", errors);
-        }
-    
-        return isValid;
-      };
-    }, [trigger, onValidate, errors]);
-  
-
-
-
-
-
-
-      const renderTextField = (name: keyof Personal, label: string, optional: boolean = false) => (
-        <Controller
-          name={name}
-          control={control}
-          render={({ field }) => (
-            <FormControl fullWidth error={!!errors[name]}>
-              <TextField
-                {...field}
-                label={label}
-                helperText={errors[name] ? errors[name]?.message : optional ? 'Optional' : ''}
-                variant="outlined"
-                value={field.value || ''}
-                onBlur={(e) => {
-                  field.onBlur();
-                  debouncedSetPersonal({ [name]: e.target.value });
-                }}
-                onChange={(e) => {
-                  field.onChange(e);
-                  debouncedSetPersonal({ [name]: e.target.value });
-                }}
-                autoComplete="off"
-                error={!!errors[name]}
-              />
-            </FormControl>
-          )}
-        />
-      );
-
-    return (
-      <form>
-      <StyledSection>
-      <CustomSectionDivider title="Personal Information" />
->>>>>>> origin
         <StyledGrid container spacing={3}>
           {/* Name Fields */}
           <FormField item xs={12} md={4}>
