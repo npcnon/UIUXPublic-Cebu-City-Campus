@@ -27,10 +27,12 @@ import dayjs from "dayjs";
 import axios from "axios";
 
 export default function StudentRegistration() {
-  const { studentBasicAPI, setStudentBasicAPI } = useStudentBasicStore((state) => ({
-    studentBasicAPI: state.studentBasicAPI,
-    setStudentBasicAPI: state.setStudentBasicAPI,
-  }));
+  const { studentBasicAPI, setStudentBasicAPI } = useStudentBasicStore(
+    (state) => ({
+      studentBasicAPI: state.studentBasicAPI,
+      setStudentBasicAPI: state.setStudentBasicAPI,
+    })
+  );
 
   const {
     control,
@@ -39,23 +41,26 @@ export default function StudentRegistration() {
     formState: { errors },
   } = useForm<StudentBasicAPIData>({
     defaultValues: studentBasicAPI,
-    resolver: yupResolver(studentBasicAPIDataSchema) as Resolver<StudentBasicAPIData>,
+    resolver: yupResolver(
+      studentBasicAPIDataSchema
+    ) as Resolver<StudentBasicAPIData>,
     mode: "onSubmit",
     shouldUnregister: false,
   });
-  const onInvalid = (errors: any) => console.error(errors)
-
+  const onInvalid = (errors: any) => console.error(errors);
 
   const onSubmit = async (data: StudentBasicAPIData) => {
-    console.clear()
-    console.log(data)
-      if (data.birth_date instanceof Date) {
-    data.birth_date = data.birth_date.toISOString().split('T')[0]; // 'YYYY-MM-DD'
-  }
-    try{
-      await axios.post('https://afknon.pythonanywhere.com/api/stdntbasicinfo/', data);
+    console.clear();
+    console.log(data);
+    if (data.birth_date instanceof Date) {
+      data.birth_date = data.birth_date.toISOString().split("T")[0]; // 'YYYY-MM-DD'
     }
-    catch (error) {
+    try {
+      await axios.post(
+        "https://afknon.pythonanywhere.com/api/stdntbasicinfo/",
+        data
+      );
+    } catch (error) {
       if (axios.isAxiosError(error)) {
         console.error("Axios error:", error.message);
         if (error.response) {
@@ -68,17 +73,14 @@ export default function StudentRegistration() {
       } else {
         console.error("Error:", error);
       }
-      }
+    }
   };
 
   const handleButtonClick = () => {
     setValue("campus", studentBasicAPI.campus);
     handleSubmit(onSubmit, onInvalid)();
   };
-  const renderTextField = (
-    name: keyof StudentBasicAPIData,
-    label: string
-  ) => (
+  const renderTextField = (name: keyof StudentBasicAPIData, label: string) => (
     <Controller
       name={name}
       control={control}
@@ -94,7 +96,7 @@ export default function StudentRegistration() {
               field.onBlur();
               setStudentBasicAPI((prev) => ({
                 ...prev,
-                [name]: e.target.value
+                [name]: e.target.value,
               }));
             }}
             autoComplete="off"
@@ -173,7 +175,7 @@ export default function StudentRegistration() {
                     Student Registration
                   </Typography>
 
-                  <Grid container spacing={1}>
+                  <Grid container spacing={2}>
                     <Grid item xs={6}>
                       {renderTextField("first_name", "First Name")}
                     </Grid>
@@ -190,9 +192,7 @@ export default function StudentRegistration() {
                             error={!!errors.sex}
                             variant="outlined"
                           >
-                            <InputLabel id="sex">
-                              Sex
-                            </InputLabel>
+                            <InputLabel id="sex">Sex</InputLabel>
                             <Select
                               {...field}
                               labelId="sex"
@@ -230,7 +230,7 @@ export default function StudentRegistration() {
                                 field.onBlur();
                                 setStudentBasicAPI((prev) => ({
                                   ...prev,
-                                  birth_date: dateValue
+                                  birth_date: dateValue,
                                 }));
                               }}
                               slotProps={{
@@ -249,10 +249,10 @@ export default function StudentRegistration() {
                     <Grid item xs={12}>
                       {renderTextField("address", "Address")}
                     </Grid>
-                    <Grid item xs={12}>
-                      {renderTextField("contact_number", "Contact Number")}
+                    <Grid item xs={5}>
+                      {renderTextField("contact_number", "Contact No.")}
                     </Grid>
-                    <Grid item xs={12}>
+                    <Grid item xs={7}>
                       {renderTextField("email", "Email")}
                     </Grid>
                   </Grid>
