@@ -4,7 +4,8 @@ import Hero from "./components/Hero";
 import Checkout from "../Enrollment/Checkout";
 import SignInSide from "../Login/SignInSide";
 import EnrollmentPage from "../Enrollment/BasicEnrollmentPage";
-
+import Registration from "../Subjects/Registration";
+import Enlistment from "../Subjects/Enlistment";
 // import LogoCollection from './components/LogoCollection';
 // import Highlights from './components/Highlights';
 // import Pricing from './components/Pricing';
@@ -20,7 +21,9 @@ import {
   Outlet,
 } from "react-router-dom";
 import Dashboard from "../Dashboard/Dashboard";
-import Stepper from "../Subjects/Stepper";
+import Sidebar from "../Subjects/Sidebar";
+import Studyload from "../Subjects/Studyload";
+import StudentDashboard from "../Subjects/StudentDashboard";
 // Layout with AppAppBar
 const LayoutWithAppBar = () => (
   <>
@@ -42,19 +45,25 @@ export default function LandingPage() {
   const router = createBrowserRouter(
     createRoutesFromElements(
       <>
-        <Route path="/" >
+        <Route path="/">
           <Route path="/" element={<LayoutWithAppBar />}>
             <Route path="/" element={<Hero />} />
             <Route path="/Enrollment" element={<Checkout />} />
           </Route>
           <Route path="/" element={<LayoutWithoutAppBar />}>
-            <Route path="/Subjects" element={<Stepper />} />
             <Route path="/EnrollmentPage" element={<EnrollmentPage />} />
             <Route path="/Sign-in" element={<SignInSide />} />
             <Route path="/Dashboard" element={<Dashboard />} />
+            <Route path="/Subjects" element={<Sidebar />} />
+            <Route
+              path="/Subjects/StudentDashboard"
+              element={<StudentDashboard />}
+            />
+            <Route path="/Subjects/Registration" element={<Registration />} />
+            <Route path="/Subjects/Enlistment" element={<Enlistment />} />
+            <Route path="/Subjects/Studyload" element={<Studyload />} />
           </Route>
         </Route>
-        
       </>
     )
   );
