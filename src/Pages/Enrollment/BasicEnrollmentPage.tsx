@@ -389,7 +389,8 @@ export default function StudentRegistration() {
                       p: "2px 4px",
                       display: "flex",
                       alignItems: "center",
-                      width: 450,
+                      width: 450, //fixed with
+                      maxWidth: "100%", // Ensure it doesn't exceed the container's width
                       border: "1px solid",
                       borderColor: "#42a5f5",
                       mt: 1,
