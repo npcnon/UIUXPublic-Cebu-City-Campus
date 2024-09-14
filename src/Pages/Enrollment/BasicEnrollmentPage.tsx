@@ -11,6 +11,10 @@ import {
   MenuItem,
   FormControl,
   Select,
+  FormLabel,
+  FormControlLabel,
+  Radio,
+  RadioGroup,
 } from "@mui/material";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -25,6 +29,11 @@ import { Controller, Resolver, useForm } from "react-hook-form";
 import { studentBasicAPIDataSchema } from "../../validations/StudentBasicAPIDataValidation";
 import dayjs from "dayjs";
 import axios from "axios";
+
+//
+import Paper from "@mui/material/Paper";
+import InputBase from "@mui/material/InputBase";
+import Divider from "@mui/material/Divider";
 
 export default function StudentRegistration() {
   const { studentBasicAPI, setStudentBasicAPI } = useStudentBasicStore(
@@ -125,7 +134,7 @@ export default function StudentRegistration() {
           <Container
             maxWidth={false}
             sx={{
-              width: { xs: "90%", sm: "80%", md: "60%", lg: "50%" },
+              width: { xs: "100%", sm: "100%", md: "100%", lg: "50%" },
               maxWidth: "none",
               py: { xs: 2, sm: 3 },
               px: { xs: 2, sm: 3 },
@@ -148,7 +157,7 @@ export default function StudentRegistration() {
                     flexDirection: "column",
                     alignItems: "center",
                     bgcolor: "#fbfcf8",
-                    width: { xs: "90%", sm: "400px" },
+                    width: { xs: "90%", sm: "400px", md: "500px" },
                     p: { xs: 2, sm: 3 },
                     borderRadius: "8px",
                     boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
@@ -176,10 +185,14 @@ export default function StudentRegistration() {
                   </Typography>
 
                   <Grid container spacing={2}>
-                    <Grid item xs={6}>
+                    <Grid item xs={4}>
                       {renderTextField("first_name", "First Name")}
                     </Grid>
-                    <Grid item xs={6}>
+                    {/* butngi nig function*/}
+                    <Grid item xs={4}>
+                      {renderTextField("last_name", "Middle Name")}
+                    </Grid>
+                    <Grid item xs={4}>
                       {renderTextField("last_name", "Last Name")}
                     </Grid>
                     <Grid item xs={4}>
@@ -249,12 +262,147 @@ export default function StudentRegistration() {
                     <Grid item xs={12}>
                       {renderTextField("address", "Address")}
                     </Grid>
-                    <Grid item xs={5}>
+                    <Grid item xs={6}>
                       {renderTextField("contact_number", "Contact No.")}
                     </Grid>
-                    <Grid item xs={7}>
-                      {renderTextField("email", "Email")}
+                    {/* butngi nig function*/}
+                    <Grid item xs={6}>
+                      {renderTextField("email", "Suffix")}{" "}
                     </Grid>
+                    {/* butngi nig function*/}
+                    <Grid item xs={12}>
+                      <Controller
+                        name="sex"
+                        control={control}
+                        render={({ field }) => (
+                          <FormControl
+                            fullWidth
+                            error={!!errors.sex}
+                            variant="outlined"
+                          >
+                            <InputLabel id="sex">Preferred Course</InputLabel>
+                            <Select
+                              {...field}
+                              labelId="sex"
+                              label="Preferred Course"
+                              MenuProps={{ disableScrollLock: true }}
+                              onChange={(e) => {
+                                field.onChange(e);
+                              }}
+                            >
+                              <MenuItem>BSIT</MenuItem>
+                              <MenuItem>BSTM</MenuItem>
+                              <MenuItem>BMMA</MenuItem>
+                            </Select>
+                            {errors.sex && (
+                              <Typography color="error" variant="caption">
+                                {errors.sex.message}
+                              </Typography>
+                            )}
+                          </FormControl>
+                        )}
+                      />
+                    </Grid>
+                    <Grid item xs={8}>
+                      <Controller
+                        name="sex"
+                        control={control}
+                        render={({ field }) => (
+                          <FormControl
+                            fullWidth
+                            error={!!errors.sex}
+                            variant="outlined"
+                          >
+                            <InputLabel id="sex">Year Level</InputLabel>
+                            <Select
+                              {...field}
+                              labelId="sex"
+                              label="Year Level"
+                              MenuProps={{ disableScrollLock: true }}
+                              onChange={(e) => {
+                                field.onChange(e);
+                              }}
+                            >
+                              <MenuItem>First Year</MenuItem>
+                              <MenuItem>Second Year</MenuItem>
+                              <MenuItem>Third Year</MenuItem>
+                              <MenuItem>Fourth Year</MenuItem>
+                            </Select>
+                            {errors.sex && (
+                              <Typography color="error" variant="caption">
+                                {errors.sex.message}
+                              </Typography>
+                            )}
+                          </FormControl>
+                        )}
+                      />
+                    </Grid>
+                    {/* butngi nig function*/}
+                    <Grid item xs={4}>
+                      <TextField
+                        id="outlined-basic"
+                        label="Code"
+                        variant="outlined"
+                      />
+                    </Grid>
+                    <Grid item xs={6} sx={{ alignItems: "center" }}>
+                      <Typography variant="subtitle1" sx={{ fontSize: 20 }}>
+                        Are you a transferee?
+                      </Typography>
+                    </Grid>
+                    {/* butngi nig function*/}
+                    <Grid item xs={6}>
+                      <FormControl component="fieldset">
+                        <RadioGroup
+                          row
+                          aria-labelledby="demo-row-radio-buttons-group-label"
+                          name="row-radio-buttons-group"
+                        >
+                          <FormControlLabel
+                            value="yes"
+                            control={<Radio />}
+                            label="Yes"
+                          />
+                          <FormControlLabel
+                            value="no"
+                            control={<Radio />}
+                            label="No"
+                          />
+                        </RadioGroup>
+                      </FormControl>
+                    </Grid>
+                  </Grid>
+                  {/* butngi nig function*/}
+                  <Grid item xs={12}>
+                    <Paper
+                      component="form"
+                      sx={{
+                        p: "2px 4px",
+                        display: "flex",
+                        alignItems: "center",
+                        width: 450,
+                        border: "1px solid",
+                        borderColor: "#42a5f5",
+                      }}
+                    >
+                      <InputBase
+                        sx={{ ml: 1, flex: 1 }}
+                        placeholder="Email"
+                        inputProps={{ "aria-label": "Email" }}
+                      />
+
+                      <Divider
+                        sx={{ height: 28, m: 0.5 }}
+                        orientation="vertical"
+                      />
+                      <Button
+                        color="primary"
+                        sx={{ p: "10px" }}
+                        aria-label="verify"
+                      >
+                        Verify
+                      </Button>
+                    </Paper>
                   </Grid>
 
                   <Button
