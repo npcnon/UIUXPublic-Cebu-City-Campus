@@ -1,7 +1,6 @@
 //filename: EnrollmentPage.tsx
 
 import {
-  Container,
   Button,
   TextField,
   Box,
@@ -11,7 +10,6 @@ import {
   MenuItem,
   FormControl,
   Select,
-  FormLabel,
   FormControlLabel,
   Radio,
   RadioGroup,
