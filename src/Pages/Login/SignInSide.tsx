@@ -8,7 +8,6 @@
   import Grid from "@mui/material/Grid";
   import Typography from "@mui/material/Typography";
   import apiClient from "../../services/interceptors";
-  import axios from 'axios';
   import bcCebu from "../../StaticFiles/benedicto_background.jpg";
   import { Container } from "@mui/material";
 
