@@ -192,7 +192,7 @@ export default function StudentRegistration() {
                   <Grid item xs={4}>
                     {renderTextField("first_name", "First Name")}
                   </Grid>
-                  {/* butngi nig function*/}
+                  {/* render & function*/}
                   <Grid item xs={4}>
                     {renderTextField("last_name", "Middle Name")}
                   </Grid>
@@ -269,7 +269,7 @@ export default function StudentRegistration() {
                   <Grid item xs={6}>
                     {renderTextField("contact_number", "Contact No.")}
                   </Grid>
-                  {/* butngi nig function*/}
+                  {/* render & function*/}
                   <Grid item xs={6}>
                     {renderTextField("email", "Suffix")}{" "}
                   </Grid>
