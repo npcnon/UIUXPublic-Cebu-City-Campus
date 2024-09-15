@@ -34,19 +34,13 @@ export default function StudentRegistration() {
     })
   );
 
-  const {
-    control,
-    handleSubmit,
-    setValue,
-    formState: { errors },
-  } = useForm<StudentBasicAPIData>({
+  const { control, handleSubmit, setValue,formState: { errors },} = useForm<StudentBasicAPIData>({
     defaultValues: studentBasicAPI,
-    resolver: yupResolver(
-      studentBasicAPIDataSchema
-    ) as Resolver<StudentBasicAPIData>,
+    resolver: yupResolver(studentBasicAPIDataSchema) as Resolver<StudentBasicAPIData>,
     mode: "onSubmit",
     shouldUnregister: false,
   });
+  
   const onInvalid = (errors: any) => console.error(errors);
 
   const onSubmit = async (data: StudentBasicAPIData) => {
@@ -57,7 +51,7 @@ export default function StudentRegistration() {
     }
     try {
       await axios.post(
-        "https://afknon.pythonanywhere.com/api/stdntbasicinfo/",
+        "https://afknon.pythonanywhere.com/api/stdntbasicinfoapplication/",
         data
       );
     } catch (error) {
