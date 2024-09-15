@@ -4,13 +4,13 @@ import axios from 'axios';
 
 // Create an instance of Axios
 const apiClient = axios.create({
-  baseURL: 'http://localhost:8000/api/',
+  baseURL: 'https://afknon.pythonanywhere.com/api/',
   headers: {
     'Content-Type': 'application/json',
   },
 });
 
-// Request interceptor
+
 apiClient.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('access_token');
@@ -50,7 +50,6 @@ apiClient.interceptors.response.use(
         console.error('Refresh token error:', refreshError);
         localStorage.removeItem('access_token');
         localStorage.removeItem('refresh_token');
-        window.location.href = '/login';
         return Promise.reject(refreshError);
       }
     }

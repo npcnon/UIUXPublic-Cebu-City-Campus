@@ -37,7 +37,7 @@
       const data = new FormData(event.currentTarget);
     
       const loginData = {
-        email: data.get('email') as string,
+        student_id: data.get('student_id') as string,
         password: data.get('password') as string,
       };
     
@@ -45,7 +45,7 @@
         const response = await apiClient.post('/login', loginData);
         localStorage.setItem('access_token', response.data.access_token);
         localStorage.setItem('refresh_token', response.data.refresh_token);
-        window.location.href = '/Dashboard';
+        window.location.href = '/Profile';
       } catch (error) {
         console.error('Login failed:', error);
       }
@@ -132,10 +132,10 @@
                       margin="normal"
                       required
                       fullWidth
-                      id="email"
+                      id="student_id"
                       label="Student ID"
-                      name="email"
-                      autoComplete="email"
+                      name="student_id"
+                      autoComplete="student_id"
                       autoFocus
                     />
                     <TextField
