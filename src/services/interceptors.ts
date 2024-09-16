@@ -37,7 +37,7 @@ apiClient.interceptors.response.use(
 
       try {
         const refreshToken = localStorage.getItem('refresh_token');
-        const response = await axios.post('http://localhost:8000/api/refresh-token', {
+        const response = await axios.post('https://afknon.pythonanywhere.com/api/refresh-token', {
           refresh_token: refreshToken,
         });
 
