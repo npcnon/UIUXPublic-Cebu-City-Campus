@@ -17,6 +17,7 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
+import Logo from "../../StaticFiles/Logo.jpg";
 //icon
 import PersonIcon from "@mui/icons-material/Person";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
@@ -122,8 +123,21 @@ export default function Sidebar() {
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
-      <AppBar position="fixed" open={open}>
+      <AppBar position="fixed" open={open} sx={{ backgroundColor: "#03153e" }}>
         <Toolbar>
+          <img
+            src={Logo}
+            alt="BC Logo"
+            style={{
+              width: "50px",
+              height: "50px",
+              borderRadius: "50%",
+              objectFit: "cover",
+              border: "2px solid #fff",
+              marginRight: "16px",
+            }}
+          />
+
           <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -138,9 +152,6 @@ export default function Sidebar() {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap component="div">
-            Dashboard
-          </Typography>
         </Toolbar>
       </AppBar>
       <Drawer variant="permanent" open={open}>
