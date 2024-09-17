@@ -11,24 +11,30 @@ export default function Registration() {
         <Grid container spacing={1}>
           <Grid item xs={12}>
             <Grid container spacing={1} direction="row">
-              <Grid item xs={6}>
+              <Grid item xs={12}>
                 <Typography
                   variant="h6"
                   color="#2e2e2e"
-                  sx={{ fontWeight: "bold", lineHeight: 3 }}
+                  sx={{
+                    fontWeight: "bold",
+                    lineHeight: 3,
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
                 >
-                  HEADING
+                  Enrollment Status for School Year 2024 - 2025
                 </Typography>
               </Grid>
             </Grid>
-            <Box>
+            <Box sx={{ m: 3 }}>
               <Paper
                 component="form"
                 sx={{
                   p: 2,
                   display: "flex",
                   flexDirection: "column",
-                  height: 570,
+                  height: 400,
 
                   bgcolor: "#fbfcf8",
                   borderRadius: "8px",
@@ -62,6 +68,7 @@ export default function Registration() {
                   </Grid>
                 </Grid>
                 <Divider sx={{ m: 1 }} />
+                {/*Grid */}
                 <Grid container spacing={1} direction="row">
                   <Grid item xs={2}>
                     <Typography
@@ -71,10 +78,24 @@ export default function Registration() {
                       Registration Number :
                     </Typography>
                   </Grid>
-                  <Grid item xs={2}>
+                  <Grid item xs={3}>
                     <Typography sx={{ lineHeight: 3 }}>R00817-2024</Typography>
                   </Grid>
+                  <Grid item xs={1}>
+                    <Typography
+                      color="#2e2e2e"
+                      sx={{ fontWeight: "bold", lineHeight: 3 }}
+                    >
+                      Course :
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={5}>
+                    <Typography sx={{ lineHeight: 3 }}>
+                      Bachelor of Science in Information Technology
+                    </Typography>
+                  </Grid>
                 </Grid>
+
                 <Grid container spacing={1} direction="row">
                   <Grid item xs={2}>
                     <Typography
@@ -84,25 +105,21 @@ export default function Registration() {
                       Student Name :
                     </Typography>
                   </Grid>
-                  <Grid item xs={2}>
+                  <Grid item xs={3}>
                     <Typography sx={{ lineHeight: 3 }}>
                       Aballe , Ulymar L.
                     </Typography>
                   </Grid>
-                </Grid>
-                <Grid container spacing={1} direction="row">
-                  <Grid item xs={2}>
+                  <Grid item xs={1}>
                     <Typography
                       color="#2e2e2e"
                       sx={{ fontWeight: "bold", lineHeight: 3 }}
                     >
-                      Course :
+                      Year Level :
                     </Typography>
                   </Grid>
-                  <Grid item xs={4}>
-                    <Typography sx={{ lineHeight: 3 }}>
-                      Bachelor of Science in Information Technology
-                    </Typography>
+                  <Grid item xs={2}>
+                    <Typography sx={{ lineHeight: 3 }}>Fourth Year</Typography>
                   </Grid>
                 </Grid>
                 <Grid container spacing={1} direction="row">
@@ -114,40 +131,12 @@ export default function Registration() {
                       Email Address :
                     </Typography>
                   </Grid>
-                  <Grid item xs={2}>
+                  <Grid item xs={3}>
                     <Typography sx={{ lineHeight: 3 }}>
                       ulymaraballe@gmail.com
                     </Typography>
                   </Grid>
-                </Grid>
-                <Grid container spacing={1} direction="row">
-                  <Grid item xs={2}>
-                    <Typography
-                      color="#2e2e2e"
-                      sx={{ fontWeight: "bold", lineHeight: 3 }}
-                    >
-                      Phone Number :
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={2}>
-                    <Typography sx={{ lineHeight: 3 }}>09082568916</Typography>
-                  </Grid>
-                </Grid>
-                <Grid container spacing={1} direction="row">
-                  <Grid item xs={2}>
-                    <Typography
-                      color="#2e2e2e"
-                      sx={{ fontWeight: "bold", lineHeight: 3 }}
-                    >
-                      Year Level :
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={2}>
-                    <Typography sx={{ lineHeight: 3 }}>First Year</Typography>
-                  </Grid>
-                </Grid>
-                <Grid container spacing={1} direction="row">
-                  <Grid item xs={2}>
+                  <Grid item xs={1}>
                     <Typography
                       color="#2e2e2e"
                       sx={{ fontWeight: "bold", lineHeight: 3 }}
@@ -161,6 +150,17 @@ export default function Registration() {
                 </Grid>
                 <Grid container spacing={1} direction="row">
                   <Grid item xs={2}>
+                    <Typography
+                      color="#2e2e2e"
+                      sx={{ fontWeight: "bold", lineHeight: 3 }}
+                    >
+                      Phone Number :
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={3}>
+                    <Typography sx={{ lineHeight: 3 }}>09082568916</Typography>
+                  </Grid>
+                  <Grid item xs={1}>
                     <Typography
                       color="#2e2e2e"
                       sx={{ fontWeight: "bold", lineHeight: 3 }}
@@ -181,13 +181,11 @@ export default function Registration() {
                       Registration Submitted :
                     </Typography>
                   </Grid>
-                  <Grid item xs={2}>
+                  <Grid item xs={3}>
                     <Typography sx={{ lineHeight: 3 }}>
                       August 29, 2024
                     </Typography>
                   </Grid>
-                </Grid>
-                <Grid container spacing={1} direction="row">
                   <Grid item xs={2}>
                     <Typography
                       color="#2e2e2e"

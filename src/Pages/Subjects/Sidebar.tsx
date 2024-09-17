@@ -125,19 +125,6 @@ export default function Sidebar() {
       <CssBaseline />
       <AppBar position="fixed" open={open} sx={{ backgroundColor: "#03153e" }}>
         <Toolbar>
-          <img
-            src={Logo}
-            alt="BC Logo"
-            style={{
-              width: "50px",
-              height: "50px",
-              borderRadius: "50%",
-              objectFit: "cover",
-              border: "2px solid #fff",
-              marginRight: "16px",
-            }}
-          />
-
           <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -152,6 +139,18 @@ export default function Sidebar() {
           >
             <MenuIcon />
           </IconButton>
+          <img
+            src={Logo}
+            alt="BC Logo"
+            style={{
+              width: "50px",
+              height: "50px",
+              borderRadius: "50%",
+              objectFit: "cover",
+              border: "2px solid #fff",
+              marginRight: "8px",
+            }}
+          />
         </Toolbar>
       </AppBar>
       <Drawer variant="permanent" open={open}>
