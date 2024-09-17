@@ -1,5 +1,3 @@
-import * as React from "react";
-
 import Typography from "@mui/material/Typography";
 import Sidebar from "./Sidebar";
 import { Grid, Box, Paper, Divider } from "@mui/material";
