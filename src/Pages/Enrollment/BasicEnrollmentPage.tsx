@@ -21,7 +21,7 @@ import bcCebu from "../../StaticFiles/benedicto_background.jpg";
 import logo from "../../StaticFiles/Logo.jpg";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { useStudentBasicStore } from "../../stores/useStudentBasicStore";
-import { StudentBasicAPIData } from "../../Types/StudentBasicInfoTypes/StudentBasicDataAPITypes";
+import { StudentBasicAPIData } from "../../Types/StudentBasicDataAPITypes";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Controller, Resolver, useForm } from "react-hook-form";
 import { studentBasicAPIDataSchema } from "../../validations/StudentBasicAPIDataValidation";
@@ -183,14 +183,17 @@ export default function StudentRegistration() {
                 </Typography>
 
                 <Grid container spacing={2}>
-                  <Grid item xs={4}>
+                  <Grid item xs={12}>
                     {renderTextField("first_name", "First Name")}
                   </Grid>
                   {/* render & function*/}
-                  <Grid item xs={4}>
-                    {renderTextField("last_name", "Middle Name")}
+                  <Grid item xs={6}>
+                    {renderTextField("middle_name", "Middle Name")}
                   </Grid>
-                  <Grid item xs={4}>
+                  <Grid item xs={6}>
+                    {renderTextField("middle_name", "Suffix")}
+                  </Grid>
+                  <Grid item xs={12}>
                     {renderTextField("last_name", "Last Name")}
                   </Grid>
                   <Grid item xs={4}>

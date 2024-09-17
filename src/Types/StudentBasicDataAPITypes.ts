@@ -2,6 +2,7 @@
 
 export interface StudentBasicAPIData{
     first_name: string;
+    middle_name: string;
     last_name: string;
     contact_number: string;
     address: string;

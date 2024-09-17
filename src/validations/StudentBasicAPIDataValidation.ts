@@ -14,7 +14,10 @@ export const studentBasicAPIDataSchema = yup.object().shape({
     .trim()
     .max(100, 'First name exceeds the maximum allowed length of 100 characters')
     .required('First Name is required'),
-
+  middle_name: yup
+    .string()
+    .trim()
+    .max(100, 'Last name exceeds the maximum allowed length of 100 characters'),
   last_name: yup
     .string()
     .trim()

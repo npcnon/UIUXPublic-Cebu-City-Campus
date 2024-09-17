@@ -3,7 +3,7 @@
 
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
-import { StudentBasicAPIData } from '../Types/StudentBasicInfoTypes/StudentBasicDataAPITypes';
+import { StudentBasicAPIData } from '../Types/StudentBasicDataAPITypes';
 
 
 interface StudentBasicStore{
