@@ -6,7 +6,6 @@ import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import List from "@mui/material/List";
 import CssBaseline from "@mui/material/CssBaseline";
-import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -23,7 +22,15 @@ import PersonIcon from "@mui/icons-material/Person";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import { Link } from "react-router-dom";
-
+import {
+  Avatar,
+  Badge,
+  InputBase,
+  Menu,
+  MenuItem,
+  Typography,
+} from "@mui/material";
+import { Mail, Notifications } from "@mui/icons-material";
 const drawerWidth = 240;
 
 const openedMixin = (theme: Theme): CSSObject => ({
@@ -110,35 +117,60 @@ const Drawer = styled(MuiDrawer, {
 
 export default function Sidebar() {
   const theme = useTheme();
-  const [open, setOpen] = React.useState(true);
+  const [openDrawer, setOpenDrawer] = React.useState(true);
+  const [openMenu, setOpenMenu] = React.useState(false);
 
   const handleDrawerOpen = () => {
-    setOpen(true);
+    setOpenDrawer(true);
   };
 
   const handleDrawerClose = () => {
-    setOpen(false);
+    setOpenDrawer(false);
   };
+
+  const handleMenuOpen = () => {
+    setOpenMenu(true);
+  };
+
+  const handleMenuClose = () => {
+    setOpenMenu(false);
+  };
+
+  //search bar
+  const Search = styled("div")(({ theme }) => ({
+    backgroundColor: "white",
+    padding: "0 10px",
+    borderRadius: theme.shape.borderRadius,
+    width: "40%",
+  }));
+  //icon style
+  const Icons = styled(Box)(({ theme }) => ({
+    display: "none",
+    alignItems: "center",
+    gap: "20px",
+    [theme.breakpoints.up("sm")]: {
+      display: "flex",
+    },
+  }));
+  //user
+  const UserBox = styled(Box)(({ theme }) => ({
+    display: "flex",
+    alignItems: "center",
+    gap: "10px",
+    [theme.breakpoints.up("sm")]: {
+      display: "none",
+    },
+  }));
 
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
-      <AppBar position="fixed" open={open} sx={{ backgroundColor: "#03153e" }}>
-        <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            sx={[
-              {
-                marginRight: 5,
-              },
-              open && { display: "none" },
-            ]}
-          >
-            <MenuIcon />
-          </IconButton>
+      <AppBar
+        position="fixed"
+        open={openDrawer}
+        sx={{ backgroundColor: "#03153e" }}
+      >
+        <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
           <img
             src={Logo}
             alt="BC Logo"
@@ -151,9 +183,50 @@ export default function Sidebar() {
               marginRight: "8px",
             }}
           />
+          <Search>
+            <InputBase placeholder="search..." />
+          </Search>
+          <Icons>
+            <Badge badgeContent={4} color="error">
+              <Mail />
+            </Badge>
+            <Badge badgeContent={2} color="error">
+              <Notifications />
+            </Badge>
+            <Avatar
+              sx={{ width: 30, height: 30 }}
+              src="https://images.pexels.com/photos/846741/pexels-photo-846741.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+              onClick={handleMenuOpen}
+            />
+          </Icons>
+          <UserBox onClick={handleMenuOpen}>
+            <Avatar
+              sx={{ width: 30, height: 30 }}
+              src="https://images.pexels.com/photos/846741/pexels-photo-846741.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+            />
+            <Typography>John</Typography>
+          </UserBox>
         </Toolbar>
+        <Menu
+          id="menu"
+          aria-labelledby="positioned-button"
+          open={openMenu}
+          onClose={handleMenuClose}
+          anchorOrigin={{
+            vertical: "top",
+            horizontal: "right",
+          }}
+          transformOrigin={{
+            vertical: "top",
+            horizontal: "right",
+          }}
+        >
+          <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+          <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+          <MenuItem onClick={handleMenuClose}>Logout</MenuItem>
+        </Menu>
       </AppBar>
-      <Drawer variant="permanent" open={open}>
+      <Drawer variant="permanent" open={openDrawer}>
         <DrawerHeader>
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === "rtl" ? (
