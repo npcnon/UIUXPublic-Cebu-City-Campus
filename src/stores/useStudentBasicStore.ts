@@ -18,6 +18,11 @@ export const useStudentBasicStore = create<StudentBasicStore>()(
 
         studentBasicAPI:{
             first_name: '',
+            middle_name:'',
+            suffix:'',
+            program:'',
+            year_level:'',
+            is_transferee: null,
             last_name: '',
             contact_number: '',
             address: '',
@@ -25,6 +30,7 @@ export const useStudentBasicStore = create<StudentBasicStore>()(
             birth_date: '',
             sex: '',
             email: '',
+
         },
         setStudentBasicAPI:(update) => {
             console.log("setstudentbasic is triggered")

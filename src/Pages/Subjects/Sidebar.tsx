@@ -4,24 +4,24 @@ import Box from "@mui/material/Box";
 import MuiDrawer from "@mui/material/Drawer";
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
-import List from "@mui/material/List";
+// import List from "@mui/material/List";
 import CssBaseline from "@mui/material/CssBaseline";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
-import MenuIcon from "@mui/icons-material/Menu";
+// import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
+// import ListItem from "@mui/material/ListItem";
+// import ListItemButton from "@mui/material/ListItemButton";
+// import ListItemIcon from "@mui/material/ListItemIcon";
+// import ListItemText from "@mui/material/ListItemText";
+// import InboxIcon from "@mui/icons-material/MoveToInbox";
 import Logo from "../../StaticFiles/Logo.jpg";
 //icon
-import PersonIcon from "@mui/icons-material/Person";
-import AddCircleIcon from "@mui/icons-material/AddCircle";
-import DashboardIcon from "@mui/icons-material/Dashboard";
-import { Link } from "react-router-dom";
+// import PersonIcon from "@mui/icons-material/Person";
+// import AddCircleIcon from "@mui/icons-material/AddCircle";
+// import DashboardIcon from "@mui/icons-material/Dashboard";
+// import { Link } from "react-router-dom";
 import {
   Avatar,
   Badge,
@@ -120,9 +120,9 @@ export default function Sidebar() {
   const [openDrawer, setOpenDrawer] = React.useState(true);
   const [openMenu, setOpenMenu] = React.useState(false);
 
-  const handleDrawerOpen = () => {
-    setOpenDrawer(true);
-  };
+  // const handleDrawerOpen = () => {
+  //   setOpenDrawer(true);
+  // };
 
   const handleDrawerClose = () => {
     setOpenDrawer(false);
@@ -237,7 +237,7 @@ export default function Sidebar() {
           </IconButton>
         </DrawerHeader>
         <Divider />
-        <List>
+        {/* <List>
           <ListItem disablePadding sx={{ display: "block" }}>
             <ListItemButton
               component={Link}
@@ -346,7 +346,7 @@ export default function Sidebar() {
               />
             </ListItemButton>
           </ListItem>
-        </List>
+        </List> */}
       </Drawer>
     </Box>
   );

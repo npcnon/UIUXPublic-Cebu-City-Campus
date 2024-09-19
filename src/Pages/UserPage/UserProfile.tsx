@@ -1,3 +1,5 @@
+//UserProfile.tsx
+
 import React, { useEffect, useState } from "react";
 import apiClient from "../../services/interceptors";
 import { Box, Typography, CircularProgress } from "@mui/material";

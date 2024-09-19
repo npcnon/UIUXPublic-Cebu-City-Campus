@@ -1,5 +1,6 @@
 //filename: EnrollmentPage.tsx
 
+import  { useState } from 'react';
 import {
   Button,
   TextField,
@@ -13,6 +14,8 @@ import {
   FormControlLabel,
   Radio,
   RadioGroup,
+  CircularProgress,
+  Modal,
 } from "@mui/material";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -20,6 +23,7 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import bcCebu from "../../StaticFiles/benedicto_background.jpg";
 import logo from "../../StaticFiles/Logo.jpg";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { useStudentBasicStore } from "../../stores/useStudentBasicStore";
 import { StudentBasicAPIData } from "../../Types/StudentBasicDataAPITypes";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -28,11 +32,9 @@ import { studentBasicAPIDataSchema } from "../../validations/StudentBasicAPIData
 import dayjs from "dayjs";
 import axios from "axios";
 
-//
 import Paper from "@mui/material/Paper";
 import InputBase from "@mui/material/InputBase";
 import Divider from "@mui/material/Divider";
-import { useState } from "react";
 
 export default function StudentRegistration() {
   const { studentBasicAPI, setStudentBasicAPI } = useStudentBasicStore(
@@ -42,45 +44,73 @@ export default function StudentRegistration() {
     })
   );
 
-  const { control, handleSubmit, setValue,formState: { errors },} = useForm<StudentBasicAPIData>({
+  const { control, handleSubmit, setValue, formState: { errors } } = useForm<StudentBasicAPIData>({
     defaultValues: studentBasicAPI,
     resolver: yupResolver(studentBasicAPIDataSchema) as Resolver<StudentBasicAPIData>,
     mode: "onSubmit",
     shouldUnregister: false,
   });
   
-  
   const [email, setEmail] = useState('');
   const [isVerificationSent, setIsVerificationSent] = useState(false);
   const [verificationCode, setVerificationCode] = useState('');
+  const [isVerifying, setIsVerifying] = useState(false);
+  const [isVerified, setIsVerified] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
 
-  const handleVerifyClick = async() => {
-    await axios.post('http://127.0.0.1:8000/api/emailapi', {"email":email});
-    setIsVerificationSent(true);
-
+  const handleVerifyClick = async () => {
+    setIsVerifying(true);
+    try {
+      const response = await axios.post('http://127.0.0.1:8000/api/emailapi', { "email": email });
+      if (response.data.message === "Verification code sent") {
+        setIsVerificationSent(true);
+      }
+    } catch (error) {
+      console.error('Error sending verification code:', error);
+    } finally {
+      setIsVerifying(false);
+    }
   };
 
-  const handleVerificationSubmit = () => {
-    // Here you would typically verify the code with your backend
-    // For this example, we'll just log the code
-    console.log('Verification code submitted:', verificationCode);
-    // Add your verification logic here
+  const handleVerificationSubmit = async () => {
+    setIsVerifying(true);
+    try {
+      const response = await axios.put('http://127.0.0.1:8000/api/emailapi', { "email": email, "verification_code": verificationCode });
+      if (response.status === 200) {
+        setIsVerified(true);
+      }
+    } catch (error) {
+      console.error('Error verifying code:', error);
+    } finally {
+      setIsVerifying(false);
+    }
   };
-
   
   const onInvalid = (errors: any) => console.error(errors);
 
   const onSubmit = async (data: StudentBasicAPIData) => {
+    setIsSubmitting(true);
     console.clear();
     console.log(data);
+    if (email){
+      console.log(`email is set: ${email}`);
+      data.email = email
+    }
+    else{
+      console.log("no email is set");
+    }
     if (data.birth_date instanceof Date) {
-      data.birth_date = data.birth_date.toISOString().split("T")[0]; // 'YYYY-MM-DD'
+      data.birth_date = data.birth_date.toISOString().split("T")[0];
     }
     try {
-      await axios.post(
-        "https://afknon.pythonanywhere.com/api/stdntbasicinfoapplication/",
+      const response = await axios.post(
+        "http://127.0.0.1:8000/api/stdntbasicinfoapplication/",
         data
       );
+      if (response.status === 200 || response.status === 201) {
+        setShowSuccessModal(true);
+      }
     } catch (error) {
       if (axios.isAxiosError(error)) {
         console.error("Axios error:", error.message);
@@ -94,6 +124,8 @@ export default function StudentRegistration() {
       } else {
         console.error("Error:", error);
       }
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -101,6 +133,7 @@ export default function StudentRegistration() {
     setValue("campus", studentBasicAPI.campus);
     handleSubmit(onSubmit, onInvalid)();
   };
+
   const renderTextField = (name: keyof StudentBasicAPIData, label: string) => (
     <Controller
       name={name}
@@ -129,7 +162,7 @@ export default function StudentRegistration() {
   );
 
   return (
-    <form>
+    <>
       <Grid container>
         <Box
           id="hero"
@@ -141,10 +174,9 @@ export default function StudentRegistration() {
             backgroundPosition: "center",
             backgroundRepeat: "no-repeat",
             backgroundAttachment: "fixed",
-            //
-            display: "flex", // Flexbox for centering
-            justifyContent: "center", // Center horizontally
-            alignItems: "center", // Center vertically
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
           }}
         >
           <Grid
@@ -163,11 +195,11 @@ export default function StudentRegistration() {
               item
               xs={12}
               sm={8}
-              md={6} // Adjust for medium screens
-              lg={4} // Add a new breakpoint for larger screens
+              md={6}
+              lg={4}
               sx={{
                 display: "flex",
-                justifyContent: "center", // Center the content horizontally
+                justifyContent: "center",
               }}
             >
               <Box
@@ -297,10 +329,10 @@ export default function StudentRegistration() {
                           error={!!errors.program}
                           variant="outlined"
                         >
-                          <InputLabel id="program">Preferred Course</InputLabel>
+                          <InputLabel id="program-label">Preferred Course</InputLabel>
                           <Select
                             {...field}
-                            labelId="program"
+                            labelId="program-label"
                             label="Preferred Course"
                             MenuProps={{ disableScrollLock: true }}
                             onChange={(e) => {
@@ -345,10 +377,10 @@ export default function StudentRegistration() {
                               field.onChange(e);
                             }}
                           >
-                            <MenuItem value="First Year">First Year</MenuItem>
-                            <MenuItem value="Second Year">Second Year</MenuItem>
-                            <MenuItem value="Third Year">Third Year</MenuItem>
-                            <MenuItem value="Fourth Year">Fourth Year</MenuItem>
+                            <MenuItem value="1st Year">First Year</MenuItem>
+                            <MenuItem value="2nd Year">Second Year</MenuItem>
+                            <MenuItem value="3rd Year">Third Year</MenuItem>
+                            <MenuItem value="4th Year">Fourth Year</MenuItem>
                           </Select>
                           {errors.year_level && (
                             <Typography color="error" variant="caption">
@@ -404,40 +436,58 @@ export default function StudentRegistration() {
         
                 </Grid>
 
-                <Grid item xs={12}>
-                  <Paper
-                    component="form"
-                    sx={{
-                      p: "2px 4px",
-                      display: "flex",
-                      alignItems: "center",
-                      width: 450,
-                      maxWidth: "100%",
-                      border: "1px solid",
-                      borderColor: "#42a5f5",
-                      mt: 1,
-                    }}
-                  >
-                    <InputBase
-                      sx={{ ml: 1, flex: 1 }}
-                      placeholder="Email"
-                      inputProps={{ "aria-label": "Email" }}
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
+                
+                  {/* Email Field Inside Controller */}
+                  <Grid item xs={12}>
+                    <Controller
+                      name="email"
+                      control={control}
+                      render={({ field }) => (
+                        <Paper
+                          component="form"
+                          sx={{
+                            p: "2px 4px",
+                            display: "flex",
+                            alignItems: "center",
+                            width: 450,
+                            maxWidth: "100%",
+                            border: "1px solid",
+                            borderColor: "#42a5f5",
+                            mt: 1,
+                          }}
+                        >
+                          <InputBase
+                            {...field}
+                            sx={{ ml: 1, flex: 1 }}
+                            placeholder="Email"
+                            inputProps={{ "aria-label": "Email" }}
+                            onChange={(e) => {
+                              field.onChange(e);
+                              setEmail(e.target.value); // Sync state with field
+                            }}
+                          />
+                          <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
+                          <Button
+                            color="primary"
+                            sx={{ p: "10px" }}
+                            aria-label="verify"
+                            onClick={() => handleVerifyClick()}
+                            disabled={isVerifying || isVerified}
+                          >
+                            {isVerifying ? (
+                              <CircularProgress size={24} />
+                            ) : isVerified ? (
+                              <CheckCircleIcon color="success" />
+                            ) : (
+                              "Verify"
+                            )}
+                          </Button>
+                        </Paper>
+                      )}
                     />
-                    <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
-                    <Button
-                      color="primary"
-                      sx={{ p: "10px" }}
-                      aria-label="verify"
-                      onClick={handleVerifyClick}
-                    >
-                      Verify
-                    </Button>
-                  </Paper>
-                </Grid>
+                  </Grid>
 
-                {isVerificationSent && (
+                {isVerificationSent && !isVerified && (
                   <Grid item xs={12}>
                     <Paper
                       component="form"
@@ -465,20 +515,22 @@ export default function StudentRegistration() {
                         sx={{ p: "10px" }}
                         aria-label="submit verification"
                         onClick={handleVerificationSubmit}
+                        disabled={isVerifying}
                       >
-                        Submit
+                        {isVerifying ? <CircularProgress size={24} /> : "Submit"}
                       </Button>
                     </Paper>
                   </Grid>
                 )}
 
                 <Button
-                  type="button" // Change this to "button"
-                  onClick={handleButtonClick} // Call the handleButtonClick function
+                  type="button"
+                  onClick={handleButtonClick}
                   fullWidth
                   variant="contained"
                   size="large"
-                  startIcon={<AddCircleIcon />}
+                  startIcon={isSubmitting ? <CircularProgress size={24} color="inherit" /> : <AddCircleIcon />}
+                  disabled={isSubmitting || !isVerified}
                   sx={{
                     mt: 3,
                     mb: 1,
@@ -491,13 +543,39 @@ export default function StudentRegistration() {
                     boxShadow: "3px 3px 6px rgba(0, 0, 0, 0.3)",
                   }}
                 >
-                  Submit
+                  {isSubmitting ? "Submitting..." : "Submit"}
                 </Button>
               </Box>
             </Grid>
           </Grid>
         </Box>
       </Grid>
-    </form>
+
+      <Modal
+        open={showSuccessModal}
+        onClose={() => setShowSuccessModal(false)}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={{
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          width: 400,
+          bgcolor: 'background.paper',
+          border: '2px solid #000',
+          boxShadow: 24,
+          p: 4,
+        }}>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            Enrollment Submitted Successfully
+          </Typography>
+          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+            Your enrollment has been successfully submitted. Please check your email for further updates.
+          </Typography>
+        </Box>
+      </Modal>
+    </>
   );
 }

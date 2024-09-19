@@ -5,7 +5,7 @@ export interface StudentBasicAPIData{
     middle_name: string;
     last_name: string;
     suffix:string;
-    is_transferee: boolean;
+    is_transferee: boolean | null;
     year_level: string;
     contact_number: string;
     address: string;

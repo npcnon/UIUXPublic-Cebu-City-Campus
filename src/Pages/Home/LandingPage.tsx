@@ -12,12 +12,11 @@ import SignInSide from "../Login/SignInSide";
 import EnrollmentPage from "../Enrollment/BasicEnrollmentPage";
 import Registration from "../Subjects/Registration";
 import Enlistment from "../Subjects/Enlistment";
-import Dashboard from "../Dashboard/Dashboard";
 import Sidebar from "../Subjects/Sidebar";
 import Studyload from "../Subjects/Studyload";
 import StudentDashboard from "../Subjects/StudentDashboard";
-import UserProfile from "../UserPage/UserProfile";
-
+import UserAppbar from "../UserPage/UserAppbar";
+import BugReportComponent from "../Bugs/BugReportComponent";
 // Check if user is authenticated
 const isAuthenticated = () => {
   const token = localStorage.getItem("access_token");
@@ -38,14 +37,15 @@ const LayoutWithAppBar = () => (
     <CssBaseline />
     <AppAppBar />
     <Outlet />
+    <BugReportComponent /> {/* Add the BugReportComponent here */}
   </>
 );
 
-// Layout without AppAppBar
 const LayoutWithoutAppBar = () => (
   <>
     <CssBaseline />
     <Outlet />
+    <BugReportComponent /> {/* Add the BugReportComponent here as well */}
   </>
 );
 
@@ -71,8 +71,9 @@ const router = createBrowserRouter(
 
         {/* Protected routes */}
         <Route element={<ProtectedRoute />}>
-          <Route path="Profile" element={<UserProfile />} />
-          <Route path="Dashboard" element={<Dashboard />} />
+        {<Route path="Profile" element={<UserAppbar />} />}
+          {/* {<Route path="Profile" element={<UserProfile />} />} */}
+
         </Route>
       </Route>
     </>
