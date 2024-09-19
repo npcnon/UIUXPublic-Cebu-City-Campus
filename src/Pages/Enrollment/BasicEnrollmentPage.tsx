@@ -32,6 +32,7 @@ import axios from "axios";
 import Paper from "@mui/material/Paper";
 import InputBase from "@mui/material/InputBase";
 import Divider from "@mui/material/Divider";
+import { useState } from "react";
 
 export default function StudentRegistration() {
   const { studentBasicAPI, setStudentBasicAPI } = useStudentBasicStore(
@@ -47,6 +48,25 @@ export default function StudentRegistration() {
     mode: "onSubmit",
     shouldUnregister: false,
   });
+  
+  
+  const [email, setEmail] = useState('');
+  const [isVerificationSent, setIsVerificationSent] = useState(false);
+  const [verificationCode, setVerificationCode] = useState('');
+
+  const handleVerifyClick = async() => {
+    await axios.post('http://127.0.0.1:8000/api/emailapi', {"email":email});
+    setIsVerificationSent(true);
+
+  };
+
+  const handleVerificationSubmit = () => {
+    // Here you would typically verify the code with your backend
+    // For this example, we'll just log the code
+    console.log('Verification code submitted:', verificationCode);
+    // Add your verification logic here
+  };
+
   
   const onInvalid = (errors: any) => console.error(errors);
 
@@ -191,7 +211,7 @@ export default function StudentRegistration() {
                     {renderTextField("middle_name", "Middle Name")}
                   </Grid>
                   <Grid item xs={6}>
-                    {renderTextField("middle_name", "Suffix")}
+                    {renderTextField("suffix", "Suffix")}
                   </Grid>
                   <Grid item xs={12}>
                     {renderTextField("last_name", "Last Name")}
@@ -263,90 +283,83 @@ export default function StudentRegistration() {
                   <Grid item xs={12}>
                     {renderTextField("address", "Address")}
                   </Grid>
-                  <Grid item xs={6}>
+                  <Grid item xs={12}>
                     {renderTextField("contact_number", "Contact No.")}
                   </Grid>
-                  {/* render & function*/}
-                  <Grid item xs={6}>
-                    {renderTextField("email", "Suffix")}{" "}
-                  </Grid>
-                  {/* butngi nig function*/}
+
                   <Grid item xs={12}>
                     <Controller
-                      name="sex"
+                      name="program"
                       control={control}
                       render={({ field }) => (
                         <FormControl
                           fullWidth
-                          error={!!errors.sex}
+                          error={!!errors.program}
                           variant="outlined"
                         >
-                          <InputLabel id="sex">Preferred Course</InputLabel>
+                          <InputLabel id="program">Preferred Course</InputLabel>
                           <Select
                             {...field}
-                            labelId="sex"
+                            labelId="program"
                             label="Preferred Course"
                             MenuProps={{ disableScrollLock: true }}
                             onChange={(e) => {
                               field.onChange(e);
                             }}
                           >
-                            <MenuItem>BSIT</MenuItem>
-                            <MenuItem>BSTM</MenuItem>
-                            <MenuItem>BMMA</MenuItem>
+                            <MenuItem value="BSIT">BSIT</MenuItem>
+                            <MenuItem value="BSTM">BSTM</MenuItem>
+                            <MenuItem value="BMMA">BMMA</MenuItem>
                           </Select>
-                          {errors.sex && (
+                          {errors.program && (
                             <Typography color="error" variant="caption">
-                              {errors.sex.message}
+                              {errors.program.message}
                             </Typography>
                           )}
                         </FormControl>
                       )}
                     />
                   </Grid>
+
+
+
+
                   {/* butngi nig function*/}
-                  <Grid item xs={8}>
+                  <Grid item xs={12}>
                     <Controller
-                      name="sex"
+                      name="year_level"
                       control={control}
                       render={({ field }) => (
                         <FormControl
                           fullWidth
-                          error={!!errors.sex}
+                          error={!!errors.year_level}
                           variant="outlined"
                         >
-                          <InputLabel id="sex">Year Level</InputLabel>
+                          <InputLabel id="year_label">Year Level</InputLabel>
                           <Select
                             {...field}
-                            labelId="sex"
+                            labelId="year_label"
                             label="Year Level"
                             MenuProps={{ disableScrollLock: true }}
                             onChange={(e) => {
                               field.onChange(e);
                             }}
                           >
-                            <MenuItem>First Year</MenuItem>
-                            <MenuItem>Second Year</MenuItem>
-                            <MenuItem>Third Year</MenuItem>
-                            <MenuItem>Fourth Year</MenuItem>
+                            <MenuItem value="First Year">First Year</MenuItem>
+                            <MenuItem value="Second Year">Second Year</MenuItem>
+                            <MenuItem value="Third Year">Third Year</MenuItem>
+                            <MenuItem value="Fourth Year">Fourth Year</MenuItem>
                           </Select>
-                          {errors.sex && (
+                          {errors.year_level && (
                             <Typography color="error" variant="caption">
-                              {errors.sex.message}
+                              {errors.year_level.message}
                             </Typography>
                           )}
                         </FormControl>
                       )}
                     />
                   </Grid>
-                  {/* butngi nig function*/}
-                  <Grid item xs={4}>
-                    <TextField
-                      id="outlined-basic"
-                      label="Code"
-                      variant="outlined"
-                    />
-                  </Grid>
+ 
                   <Grid item xs={6} sx={{ alignItems: "center" }}>
                     <Typography
                       variant="subtitle1"
@@ -356,29 +369,41 @@ export default function StudentRegistration() {
                       Are you a transferee?
                     </Typography>
                   </Grid>
-                  {/* butngi nig function*/}
+
                   <Grid item xs={6}>
-                    <FormControl component="fieldset">
-                      <RadioGroup
-                        row
-                        aria-labelledby="demo-row-radio-buttons-group-label"
-                        name="row-radio-buttons-group"
-                      >
-                        <FormControlLabel
-                          value="yes"
-                          control={<Radio />}
-                          label="Yes"
-                        />
-                        <FormControlLabel
-                          value="no"
-                          control={<Radio />}
-                          label="No"
-                        />
-                      </RadioGroup>
-                    </FormControl>
+                    <Controller
+                      name="is_transferee"
+                      control={control}
+                      render={({ field }) => (
+                        <FormControl component="fieldset">
+                          <RadioGroup
+                            {...field}  
+                            row
+                            aria-labelledby="demo-row-radio-buttons-group-label"
+                            name="transferee"
+                            onChange={(e) => {
+                              field.onChange(e.target.value); 
+                            }}
+                          >
+                            <FormControlLabel
+                              value= {true}
+                              control={<Radio />}
+                              label="Yes"
+                            />
+                            <FormControlLabel
+                              value= {false}
+                              control={<Radio />}
+                              label="No"
+                            />
+                          </RadioGroup>
+                        </FormControl>
+                      )}
+                    />
                   </Grid>
+
+        
                 </Grid>
-                {/* butngi nig function*/}
+
                 <Grid item xs={12}>
                   <Paper
                     component="form"
@@ -386,8 +411,8 @@ export default function StudentRegistration() {
                       p: "2px 4px",
                       display: "flex",
                       alignItems: "center",
-                      width: 450, //fixed with
-                      maxWidth: "100%", // Ensure it doesn't exceed the container's width
+                      width: 450,
+                      maxWidth: "100%",
                       border: "1px solid",
                       borderColor: "#42a5f5",
                       mt: 1,
@@ -397,21 +422,55 @@ export default function StudentRegistration() {
                       sx={{ ml: 1, flex: 1 }}
                       placeholder="Email"
                       inputProps={{ "aria-label": "Email" }}
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
                     />
-
-                    <Divider
-                      sx={{ height: 28, m: 0.5 }}
-                      orientation="vertical"
-                    />
+                    <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
                     <Button
                       color="primary"
                       sx={{ p: "10px" }}
                       aria-label="verify"
+                      onClick={handleVerifyClick}
                     >
                       Verify
                     </Button>
                   </Paper>
                 </Grid>
+
+                {isVerificationSent && (
+                  <Grid item xs={12}>
+                    <Paper
+                      component="form"
+                      sx={{
+                        p: "2px 4px",
+                        display: "flex",
+                        alignItems: "center",
+                        width: 450,
+                        maxWidth: "100%",
+                        border: "1px solid",
+                        borderColor: "#42a5f5",
+                        mt: 1,
+                      }}
+                    >
+                      <InputBase
+                        sx={{ ml: 1, flex: 1 }}
+                        placeholder="Verification Code"
+                        inputProps={{ "aria-label": "Verification Code" }}
+                        value={verificationCode}
+                        onChange={(e) => setVerificationCode(e.target.value)}
+                      />
+                      <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
+                      <Button
+                        color="primary"
+                        sx={{ p: "10px" }}
+                        aria-label="submit verification"
+                        onClick={handleVerificationSubmit}
+                      >
+                        Submit
+                      </Button>
+                    </Paper>
+                  </Grid>
+                )}
 
                 <Button
                   type="button" // Change this to "button"

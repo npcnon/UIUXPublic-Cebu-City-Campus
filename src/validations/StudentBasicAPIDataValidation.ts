@@ -12,34 +12,53 @@ export const studentBasicAPIDataSchema = yup.object().shape({
   first_name: yup
     .string()
     .trim()
-    .max(100, 'First name exceeds the maximum allowed length of 100 characters')
+    .max(100, 'Input exceeds the maximum allowed length')
     .required('First Name is required'),
+
   middle_name: yup
     .string()
     .trim()
-    .max(100, 'Last name exceeds the maximum allowed length of 100 characters'),
+    .max(100, 'Input exceeds the maximum allowed length'),
+
   last_name: yup
     .string()
     .trim()
-    .max(100, 'Last name exceeds the maximum allowed length of 100 characters')
+    .max(100, 'Input exceeds the maximum allowed length')
     .required('Last Name is required'),
 
+  suffix: yup
+    .string()
+    .trim()
+    .max(100, 'Input exceeds the maximum allowed length'),
+
+  is_transferee: yup
+    .boolean()
+    .required('this field is required'),
+  year_level: yup
+    .string()
+    .trim()
+    .max(100, 'Input exceeds the maximum allowed length')
+    .required('Year Level is required'),
   contact_number: yup
     .string()
     .trim()
-    .max(15, 'Contact number exceeds the maximum allowed length of 15 characters')
+    .max(15, 'Input exceeds the maximum allowed length')
     .required('Contact Number is required'),
 
   address: yup
     .string()
     .trim()
-    .max(200, 'Address exceeds the maximum allowed length of 200 characters')
     .required('Address is required'),
 
   campus: yup
     .string()
     .trim()
     .required('Campus is required'),
+  
+  program: yup
+    .string()
+    .trim()
+    .required('Course is Required'),
 
   birth_date: yup
     .date()

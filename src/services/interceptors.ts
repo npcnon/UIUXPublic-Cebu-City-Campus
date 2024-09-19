@@ -4,7 +4,7 @@ import axios from 'axios';
 
 // Create an instance of Axios
 const apiClient = axios.create({
-  baseURL: 'https://afknon.pythonanywhere.com/api/',
+  baseURL: 'http://127.0.0.1:8000/api/',
   headers: {
     'Content-Type': 'application/json',
   },
@@ -30,14 +30,16 @@ apiClient.interceptors.response.use(
     return response;
   },
   async (error) => {
+    console.log(`Error details: ${error.response?.data?.detail}`);
     const originalRequest = error.config;
 
-    if (error.response.status === 401 && !originalRequest._retry) {
+    // Skip token refresh for login endpoint
+    if (error.response?.status === 401 && !originalRequest._retry && !originalRequest.url?.includes('/login')) {
       originalRequest._retry = true;
 
       try {
         const refreshToken = localStorage.getItem('refresh_token');
-        const response = await axios.post('https://afknon.pythonanywhere.com/api/refresh-token', {
+        const response = await axios.post('http://127.0.0.1:8000/api/api/refresh-token', {
           refresh_token: refreshToken,
         });
 
@@ -46,7 +48,6 @@ apiClient.interceptors.response.use(
         
         return apiClient(originalRequest);
       } catch (refreshError) {
-        // Handle refresh token errors (e.g., redirect to login)
         console.error('Refresh token error:', refreshError);
         localStorage.removeItem('access_token');
         localStorage.removeItem('refresh_token');
